@@ -17,18 +17,7 @@ function ScreenMyArticles(props) {
     });
   };
 
-  var delArticle = async (articleTitle) => {
-    var response = await fetch(`/del-article`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `token=${props.token}&title=${articleTitle}`
-    })
-    var data = await response.json();
-    if(data){
-      props.deleteArticle(articleTitle);
-      success();
-    }
-  }
+
 
   var articles = props.wishList.map((article, i) => {
     return (
