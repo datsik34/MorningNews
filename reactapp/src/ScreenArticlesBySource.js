@@ -10,13 +10,11 @@ const { Meta } = Card;
 
 const API = '8d52780b5b85441cb744880fdd40412d';
 
-
 function ArticleCard(props) {
   const [buttonHover, setButtonHover] = useState(false)
   const [visible, setVisible] = useState(false)
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
-
 
   var showModal = (title, content) => {
     setVisible(true)
@@ -41,9 +39,6 @@ function ArticleCard(props) {
   } else if(buttonHover) {
     buttonHovered = <DeleteOutlined style={{ fontSize: '16px', color: '#d22300' }} onMouseLeave={()=> onHoverOut()} onClick={() => props.delArticle(props.article.title)} />
   }
-
-  console.log(props.article);
-  
 
   var articleCover
   if(props.article.urlToImage){

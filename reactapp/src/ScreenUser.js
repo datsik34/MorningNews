@@ -50,7 +50,7 @@ function ScreenUser(props) {
         if(data){
             props.addAPI(data.APIkey)
             setCurrentAPIkey(data.APIkey)
-            success('API key successfully deleted')
+            success('API key successfully removed')
         }
     }
 
