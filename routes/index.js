@@ -25,7 +25,7 @@ router.post('/sign-up', async function(req, res, next) {
       email: req.body.email,
       password: hash,
       token: uid2(32),
-      prefLang: 'fr',
+      prefLang: 'us',
       wishlist: [],
       APIkey: ''
     })
