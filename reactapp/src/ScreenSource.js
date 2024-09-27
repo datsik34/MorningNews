@@ -39,13 +39,10 @@ function ScreenSource(props) {
 
       const data = await fetch(`https://newsapi.org/v2/sources?language=${langSelected.lang}&country=${langSelected.coun}&apiKey=${API}`)
       const body = await data.json()
-      console.log(body);
-      
+
       if(body.code === 'rateLimited'){
         setErrorAPI(true)
       } else if(body.code === 'apiKeyInvalid'){
-        console.log(API);
-        
         setErrorAPI(true)
       } else {
         setErrorAPI(false);

@@ -42,11 +42,21 @@ function ArticleCard(props) {
     buttonHovered = <DeleteOutlined style={{ fontSize: '16px', color: '#d22300' }} onMouseLeave={()=> onHoverOut()} onClick={() => props.delArticle(props.article.title)} />
   }
 
+  console.log(props.article);
+  
+
+  var articleCover
+  if(props.article.urlToImage){
+    articleCover = props.article.urlToImage
+  } else{
+    articleCover = process.env.PUBLIC_URL + '/images/generic.jpg'
+  }
+
   return (
     <div style={styles.article}>
       <Card
         style={styles.card}
-        cover={ <img alt="example" src={props.article.urlToImage}/> }
+        cover={ <img alt="example" src={articleCover}/> }
         actions={[
           <ReadOutlined key="ellipsis2" onClick={() => showModal(props.article.title, props.article.content)} />,
           checkLike
