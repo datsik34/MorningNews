@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 var articleSchema = mongoose.Schema({
   title: String,
   description: String,
-  urlToImage: String
+  urlToImage: String,
+  url: String
 })
 
 var userSchema = mongoose.Schema({

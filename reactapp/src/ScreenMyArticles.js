@@ -23,7 +23,7 @@ function ArticleCard(props) {
           style={styles}
           cover={<img alt="example" src={articleCover} />}
           actions={[
-            <ReadOutlined key="ellipsis2" />,
+            <Link to={{pathname: props.article.url}} target="_blank"><ReadOutlined key="ellipsis2" /></Link>,
             <DeleteOutlined key="ellipsis" onClick={() => props.delArticle(props.article.title)} />
           ]}
         >

@@ -74,10 +74,16 @@ router.post('/add-article', async function (req, res, next){
     token: req.body.token
   })
   if(findUser){
+    console.log(req.body.articleTitle);
+    
+    console.log(req.body.articleUrl);
+
+    
     var article = {
       title: req.body.articleTitle,
       description: req.body.articleDescr,
-      urlToImage: req.body.articleImg
+      urlToImage: req.body.articleImg,
+      url: req.body.articleUrl
     }
     findUser.wishlist.push(article)
     var user = await findUser.save()

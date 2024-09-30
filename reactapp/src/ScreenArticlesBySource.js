@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import {connect} from 'react-redux';
 import Nav from './Nav';
 import { Card, Modal } from 'antd';
@@ -8,7 +8,7 @@ import { LikeOutlined, ReadOutlined, CheckOutlined, DeleteOutlined } from '@ant-
 import {  message } from 'antd';
 const { Meta } = Card;
 
-const API = '8d52780b5b85441cb744880fdd40412d';
+var API = '8d52780b5b85441cb744880fdd40412d';
 
 function ArticleCard(props) {
   const [buttonHover, setButtonHover] = useState(false)
@@ -53,7 +53,7 @@ function ArticleCard(props) {
         style={styles.card}
         cover={ <img alt="example" src={articleCover}/> }
         actions={[
-          <ReadOutlined key="ellipsis2" onClick={() => showModal(props.article.title, props.article.content)} />,
+          <Link to={{pathname: props.article.url}} target="_blank"><ReadOutlined key="ellipsis2"  /></Link>,
           checkLike
           ? buttonHovered
           : <LikeOutlined key="ellipsis" onClick={() => props.likedArticle(props.article)} />
@@ -96,7 +96,7 @@ function ScreenArticlesBySource(props) {
     var response = await fetch('/add-article', {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body: `token=${props.token}&articleTitle=${article.title}&articleDescr=${article.description}&articleImg=${article.urlToImage}`
+      body: `token=${props.token}&articleTitle=${article.title}&articleDescr=${article.description}&articleImg=${article.urlToImage}&articleUrl=${article.url}`
     })
     var data = await response.json()
     if(data){
