@@ -8,6 +8,35 @@ import {Link} from 'react-router-dom'
 
 const { Meta } = Card;
 
+function ArticleCard(props) {
+  var articleCover
+  if(props.article.urlToImage){
+    articleCover = props.article.urlToImage
+  } else{
+    articleCover = process.env.PUBLIC_URL + '/images/generic.jpg'
+  }
+
+  
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <Card
+          style={styles}
+          cover={<img alt="example" src={articleCover} />}
+          actions={[
+            <ReadOutlined key="ellipsis2" />,
+            <DeleteOutlined key="ellipsis" onClick={() => props.delArticle(props.article.title)} />
+          ]}
+        >
+          <Meta
+            title={props.article.title}
+            description={props.article.description}
+          />
+        </Card>
+      </div>
+  )
+}
+
+
 function ScreenMyArticles(props) {
   const [messageApi, contextHolder] = message.useMessage();
   const success = () => {
@@ -33,21 +62,7 @@ function ScreenMyArticles(props) {
 
   var articles = props.wishList.map((article, i) => {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center' }} key={i}>
-        <Card
-          style={styles}
-          cover={<img alt="example" src={article.urlToImage} />}
-          actions={[
-            <ReadOutlined key="ellipsis2" />,
-            <DeleteOutlined key="ellipsis" onClick={() => delArticle(article.title)} />
-          ]}
-        >
-          <Meta
-            title={article.title}
-            description={article.description}
-          />
-        </Card>
-      </div>
+      <ArticleCard key={i} article={article} delArticle={delArticle} />
       )
   })
 
@@ -68,6 +83,7 @@ function ScreenMyArticles(props) {
     </div>
   )
 }
+
 
 function mapStateToProps(state) {
   return { 

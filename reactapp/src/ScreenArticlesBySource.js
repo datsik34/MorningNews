@@ -2,9 +2,9 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {connect} from 'react-redux';
+import Nav from './Nav';
 import { Card, Modal } from 'antd';
 import { LikeOutlined, ReadOutlined, CheckOutlined, DeleteOutlined } from '@ant-design/icons';
-import Nav from './Nav';
 import {  message } from 'antd';
 const { Meta } = Card;
 
