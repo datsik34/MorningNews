@@ -5,14 +5,19 @@ import './App.css';
 import { List, Avatar } from 'antd';
 import Nav from './Nav'
 
-
 function Flag(props) {
+
+  var styleFlag = styles.flags
+  if(props.langs === props.langSelected){
+    styleFlag = styles.flagSelected
+  }
+  
   return (
     <img
-      style={styles.flags}
-      alt={props.lang}
-      src={`images/${props.lang}.png`}
-      onClick={() => props.updateLanguage(props.lang)}/>
+      style={styleFlag}
+      alt={props.langs}
+      src={`images/${props.langs}.png`}
+      onClick={() => props.updateLanguage(props.langs)}/>
   )
 }
 
@@ -75,7 +80,7 @@ function ScreenSource(props) {
   
 
   var flagLang = Object.keys(languages).map((flag, i)=> {
-    return (<Flag key={i} lang={flag} updateLanguage={(e) => updateLanguage(e)} ></Flag>)
+    return (<Flag key={i} langs={flag} langSelected={props.lang} updateLanguage={(e) => updateLanguage(e)} ></Flag>)
   })
 
 
@@ -130,5 +135,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(ScreenSource)
 const styles = {
   flags: {
     width: 50, opacity: 1, margin: 10, cursor: 'pointer'
+  },
+  flagSelected: {
+    width: 50, opacity: 1, margin: 10, cursor: 'pointer',
+    border: 'solid 3px', borderRadius: '50%', borderColor: 'green'
   }
 }
