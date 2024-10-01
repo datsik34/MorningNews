@@ -56,7 +56,6 @@ function ScreenHome(props) {
     }
   }
 
-
   if (userExists) { return <Redirect to='/screensource' /> }
 
   return (
@@ -67,26 +66,27 @@ function ScreenHome(props) {
       <div className="square4"/>
       
       <div className="Login-page" >
-      
         {/* SIGN-IN */}
-        <div className="Sign">
+        <form className="Sign">
           <Input 
             className="Login-input"
             placeholder="arthur@lacapsule.com"
+            autoComplete="username"
             onChange={(e) => setSignInEmail(e.target.value)}
             value={signInEmail}/>
 
           <Input.Password
             className="Login-input"
             placeholder="password"
+            autoComplete="current-password"
             onChange={(e) => setSignInPassword(e.target.value)}
             value={signInPassword}/>
             <p style={{margin: 0, padding: 10}}>{errorSignIn}</p>
-          <Button type="primary" onClick={() => signIn() }>Sign-in</Button>
-        </div>
+          <Button type="primary" onClick={() => signIn()} >Sign-in</Button>
+        </form>
 
         {/* SIGN-UP */}
-        <div className="Sign">
+        <form className="Sign">
           <Input
             className="Login-input"
             placeholder="John Doe" 
@@ -96,17 +96,19 @@ function ScreenHome(props) {
           <Input
             className="Login-input"
             placeholder="email@email.com" 
+            autoComplete="username"
             onChange={(e) => setSignUpEmail(e.target.value)}
             value={signUpEmail}/>
 
           <Input.Password
             className="Login-input"
             placeholder="password"
+            autoComplete="current-password"
             onChange={(e) => setSignUpPassword(e.target.value)}
             value={signUpPassword}/>
             <p style={{margin: 0, padding: 10}}>{errorSignUp}</p>
           <Button type="primary" onClick={() => signUp()}>Sign-up</Button>
-        </div>
+        </form>
       </div>
     </div>
   );
