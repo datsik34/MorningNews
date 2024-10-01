@@ -36,9 +36,10 @@ function ArticleCard(props) {
       checkLike = true
     }
   })
-  var buttonHovered = <CheckOutlined style={{ fontSize: '16px', color: '#16d200' }} onMouseEnter={()=> onHoverIn()} onMouseLeave={()=> onHoverOut()} />
+  var checkStyle = <CheckOutlined style={{ fontSize: '16px', color: '#16d200' }} onMouseEnter={()=> onHoverIn()} onMouseLeave={()=> onHoverOut()} />
+  var buttonHovered = checkStyle
   if(!buttonHover){
-    buttonHovered = <CheckOutlined style={{ fontSize: '16px', color: '#16d200' }} onMouseEnter={()=> onHoverIn()} onMouseLeave={()=> onHoverOut()} />
+    buttonHovered = checkStyle
   } else if(buttonHover) {
     buttonHovered = <DeleteOutlined style={{ fontSize: '16px', color: '#d22300' }} onMouseLeave={()=> onHoverOut()} onClick={() => props.delArticle(props.article.title)} />
   }
