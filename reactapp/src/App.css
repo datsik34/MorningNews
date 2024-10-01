@@ -21,10 +21,9 @@ h4 {
   justify-content: center;
   height: 100vh;
   background-color: rgba(0, 21, 41, 0.3);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(22px);
   z-index: 9;
   filter: grayscale(15%);
-
 }
 .Login-page-background {
   height: 100vh;
@@ -32,7 +31,7 @@ h4 {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  z-index: 8
+  z-index: 8;
 }
 
 
@@ -93,7 +92,7 @@ h4 {
   animation-duration: 7s;
   animation-delay: -0.1;
   animation-iteration-count: infinite;
-
+  border: solid 1px black;
 }
 
 @keyframes square1 {
@@ -110,7 +109,7 @@ h4 {
   animation-duration: 200s;
   animation-delay: -0.1;
   animation-iteration-count: infinite;
-
+  border: solid 1px black;
 }
 
 @keyframes square2 {
@@ -127,6 +126,7 @@ h4 {
   animation-duration: 35s;
   animation-delay: -0.1;
   animation-iteration-count: infinite;
+  border: solid 1px black;
 }
 
 @keyframes square3 {
@@ -135,18 +135,18 @@ h4 {
 }
 
 .square4 {
-  width: 130px;
-  height: 130px;
+  width: 250px;
+  height: 250px;
   background-color: yellow;
   position: absolute;
   animation-name: square4;
   animation-duration: 18s;
   animation-delay: -3;
   animation-iteration-count: infinite;
-
+  border: solid 1px black;
 }
 
 @keyframes square4 {
   0%   {background-color:yellow; left:-300px; top:800px;}
-  100% {background-color:yellow; left:2400px; top:110px;}
+  100% {background-color:yellow; left:1600px; top:110px; width:0px; height:0px;}
 }
