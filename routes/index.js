@@ -12,8 +12,7 @@ router.post('/sign-up', async function(req, res, next) {
   var findUser = await userModel.findOne({
     email: req.body.email
   })
-  console.log(findUser);
-  
+
   if(findUser != null){
     result = null
     res.json({result})
@@ -74,11 +73,6 @@ router.post('/add-article', async function (req, res, next){
     token: req.body.token
   })
   if(findUser){
-    console.log(req.body.articleTitle);
-    
-    console.log(req.body.articleUrl);
-
-    
     var article = {
       title: req.body.articleTitle,
       description: req.body.articleDescr,
@@ -111,8 +105,6 @@ router.post('/addAPIkey', async function (req, res, next) {
   if(findUser){
     findUser.APIkey = req.body.apikey
     var user = await findUser.save()
-    console.log(user);
-    
   }
 
   res.json({APIkey: user.APIkey})

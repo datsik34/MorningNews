@@ -16,7 +16,10 @@ function ArticleCard(props) {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
 
-  var showModal = (title, content) => {
+  var showModal = (title, content, description) => {
+    if(content === null){
+      content = description
+    }
     setVisible(true)
     setTitle(title)
     setContent(content)  
@@ -53,7 +56,7 @@ function ArticleCard(props) {
         style={styles.card}
         cover={ <img alt="example" src={articleCover}/> }
         actions={[
-          <ReadOutlined key="ellipsis2" onClick={() => showModal(props.article.title, props.article.content)} />,
+          <ReadOutlined key="ellipsis2" onClick={() => showModal(props.article.title, props.article.content, props.article.description)} />,
           checkLike
           ? buttonHovered
           : <LikeOutlined key="ellipsis" onClick={() => props.likedArticle(props.article)} />

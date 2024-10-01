@@ -12,7 +12,11 @@ function ArticleCard(props) {
   const [visible, setVisible] = useState(false)
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
-  var showModal = (title, content) => {
+
+  var showModal = (title, content, description) => {
+    if(content === null || content === 'null'){
+      content = description
+    }
     setVisible(true)
     setTitle(title)
     setContent(content)  
@@ -20,16 +24,11 @@ function ArticleCard(props) {
   var handleOk = (url) => {window.open(url, '_blank')}
   var handleCancel = e => {setVisible(false)}
 
-  var articleCover
-  if(props.article.urlToImage){
-    articleCover = props.article.urlToImage
-  } else{
+  var articleCover = props.article.urlToImage
+  if(props.article.urlToImage === null || props.article.urlToImage === 'null'){
     articleCover = process.env.PUBLIC_URL + '/images/generic.jpg'
   }
-
-  console.log(props.article.content);
   
-
   
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -37,7 +36,7 @@ function ArticleCard(props) {
           style={styles}
           cover={<img alt="example" src={articleCover} />}
           actions={[
-            <ReadOutlined key="ellipsis2" onClick={() => showModal(props.article.title, props.article.content)} />,
+            <ReadOutlined key="ellipsis2" onClick={() => showModal(props.article.title, props.article.content, props.article.description)} />,
             <DeleteOutlined key="ellipsis" onClick={() => props.delArticle(props.article.title)} />
           ]}
         >
