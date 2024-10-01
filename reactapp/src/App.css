@@ -22,7 +22,9 @@ h4 {
   height: 100vh;
   background-color: rgba(0, 21, 41, 0.3);
   backdrop-filter: blur(20px);
-  z-index: 9
+  z-index: 9;
+  filter: grayscale(15%);
+
 }
 .Login-page-background {
   height: 100vh;
@@ -113,7 +115,7 @@ h4 {
 
 @keyframes square2 {
   0%   {background-color:rgb(126, 37, 126); left:1300px; top:100px;}
-  100% {background-color:rgb(126, 37, 126); left:-400px; top:100px;}
+  100% {background-color:rgb(126, 37, 126); left:-700px; top:100px;}
 }
 
 .square3 {

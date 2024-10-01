@@ -58,8 +58,8 @@ function ScreenHome(props) {
 
   return (
     <div className='Login-page-background'>
-      <div className="square1"/>
       <div className="square2"/> 
+      <div className="square1"/>
       <div className="square3"/> 
       <div className="square4"/>
       
