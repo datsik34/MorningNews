@@ -4,6 +4,7 @@ var articleSchema = mongoose.Schema({
   title: String,
   description: String,
   urlToImage: String,
+  content: String,
   url: String
 })
 

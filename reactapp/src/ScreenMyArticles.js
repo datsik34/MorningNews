@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { connect } from 'react-redux';
 import './App.css';
-import { Card, message } from 'antd';
+import { Card, message, Modal } from 'antd';
 import { ReadOutlined, DeleteOutlined } from '@ant-design/icons';
 import Nav from './Nav'
 import {Link} from 'react-router-dom'
@@ -9,12 +9,26 @@ import {Link} from 'react-router-dom'
 const { Meta } = Card;
 
 function ArticleCard(props) {
+  const [visible, setVisible] = useState(false)
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+  var showModal = (title, content) => {
+    setVisible(true)
+    setTitle(title)
+    setContent(content)  
+  }
+  var handleOk = (url) => {window.open(url, '_blank')}
+  var handleCancel = e => {setVisible(false)}
+
   var articleCover
   if(props.article.urlToImage){
     articleCover = props.article.urlToImage
   } else{
     articleCover = process.env.PUBLIC_URL + '/images/generic.jpg'
   }
+
+  console.log(props.article.content);
+  
 
   
   return (
@@ -23,7 +37,7 @@ function ArticleCard(props) {
           style={styles}
           cover={<img alt="example" src={articleCover} />}
           actions={[
-            <Link to={{pathname: props.article.url}} target="_blank"><ReadOutlined key="ellipsis2" /></Link>,
+            <ReadOutlined key="ellipsis2" onClick={() => showModal(props.article.title, props.article.content)} />,
             <DeleteOutlined key="ellipsis" onClick={() => props.delArticle(props.article.title)} />
           ]}
         >
@@ -32,6 +46,9 @@ function ArticleCard(props) {
             description={props.article.description}
           />
         </Card>
+        <Modal title={title} open={visible} onOk={() => handleOk(props.article.url)} onCancel={handleCancel} >
+        <p>{content}</p>
+      </Modal>
       </div>
   )
 }

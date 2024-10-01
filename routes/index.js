@@ -83,6 +83,7 @@ router.post('/add-article', async function (req, res, next){
       title: req.body.articleTitle,
       description: req.body.articleDescr,
       urlToImage: req.body.articleImg,
+      content: req.body.articleContent,
       url: req.body.articleUrl
     }
     findUser.wishlist.push(article)

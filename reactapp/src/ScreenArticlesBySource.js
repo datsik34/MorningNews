@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 import {connect} from 'react-redux';
 import Nav from './Nav';
 import { Card, Modal } from 'antd';
@@ -21,7 +21,7 @@ function ArticleCard(props) {
     setTitle(title)
     setContent(content)  
   }
-  var handleOk = e => {setVisible(false)}
+  var handleOk = (url) => {window.open(url, '_blank')}
   var handleCancel = e => {setVisible(false)}
   var onHoverIn = () => {setButtonHover(true)}
   var onHoverOut = () => {setButtonHover(false)}
@@ -53,7 +53,7 @@ function ArticleCard(props) {
         style={styles.card}
         cover={ <img alt="example" src={articleCover}/> }
         actions={[
-          <Link to={{pathname: props.article.url}} target="_blank"><ReadOutlined key="ellipsis2"  /></Link>,
+          <ReadOutlined key="ellipsis2" onClick={() => showModal(props.article.title, props.article.content)} />,
           checkLike
           ? buttonHovered
           : <LikeOutlined key="ellipsis" onClick={() => props.likedArticle(props.article)} />
@@ -61,7 +61,7 @@ function ArticleCard(props) {
         ]}>
         <Meta title={props.article.title} description={props.article.description}/>
       </Card>
-      <Modal title={title} open={visible} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title={title} open={visible} onOk={() => handleOk(props.article.url)} onCancel={handleCancel} >
         <p>{content}</p>
       </Modal>
     </div>
@@ -96,7 +96,7 @@ function ScreenArticlesBySource(props) {
     var response = await fetch('/add-article', {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body: `token=${props.token}&articleTitle=${article.title}&articleDescr=${article.description}&articleImg=${article.urlToImage}&articleUrl=${article.url}`
+      body: `token=${props.token}&articleTitle=${article.title}&articleDescr=${article.description}&articleImg=${article.urlToImage}&articleContent=${article.content}&articleUrl=${article.url}`
     })
     var data = await response.json()
     if(data){
