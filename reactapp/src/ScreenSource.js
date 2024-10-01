@@ -6,12 +6,8 @@ import { List, Avatar } from 'antd';
 import Nav from './Nav'
 
 function Flag(props) {
-
   var styleFlag = styles.flags
-  if(props.langs === props.langSelected){
-    styleFlag = styles.flagSelected
-  }
-  
+  if(props.langs === props.langSelected){styleFlag = styles.flagSelected}
   return (
     <img
       style={styleFlag}
@@ -25,6 +21,7 @@ function ScreenSource(props) {
   var [sourceList, setSourceList] = useState([])
   var [errorAPI, setErrorAPI] = useState(false)
   var [API, setAPI] = useState('8d52780b5b85441cb744880fdd40412d')
+  var [isTransitioning, setIsTransitioning] = useState(false)
 
   const languages = {
     fr:{lang: 'fr', coun: 'fr'},
@@ -49,6 +46,7 @@ function ScreenSource(props) {
         setErrorAPI(true)
       } else {
         setErrorAPI(false);
+        setIsTransitioning(false);
         setSourceList(body.sources);
       }
     }
@@ -57,7 +55,8 @@ function ScreenSource(props) {
 
 
   var updateLanguage = async (changeLang) => {
-    setErrorAPI(false)
+    setErrorAPI(false);
+    setIsTransitioning(true);
     var response = await fetch('/update-lang', {
       method: 'PUT',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
@@ -81,6 +80,13 @@ function ScreenSource(props) {
     return (<Flag key={i} langs={flag} langSelected={props.lang} updateLanguage={(e) => updateLanguage(e)} ></Flag>)
   })
 
+  var styleSources = "HomeThemes"
+  if(isTransitioning){
+    styleSources = "HomeThemesAnim"
+  } else {
+    styleSources = "HomeThemes"
+  }
+  
 
   return (
     <div>
@@ -88,7 +94,7 @@ function ScreenSource(props) {
       <div className="Banner">
           {flagLang}
       </div>
-      <div className="HomeThemes">
+      <div className={styleSources}>
         {errorAPI
         ? errorApiScreen
         : <List
@@ -98,7 +104,7 @@ function ScreenSource(props) {
             <List.Item>
               <List.Item.Meta
                 avatar={<Avatar src={`/images/${source.category}.png`} />}
-                title={<Link to={`/screenarticlesbysource/${source.id}`}>{source.name}</Link>}
+                title={<Link to={`/screenarticlesbysource/${source.id}`} >{source.name}</Link>}
                 description={source.description}
               />
             </List.Item>
@@ -109,7 +115,6 @@ function ScreenSource(props) {
     </div>
   );
 }
-
 
 function mapStateToProps(state) { 
   return {

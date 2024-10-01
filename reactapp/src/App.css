@@ -61,6 +61,22 @@ h4 {
   margin-left: 50px;
   margin-right: 50px;
   margin-top: 20px;
+  position: relative;
+}
+
+.HomeThemesAnim {
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-top: 20px;
+  position: relative;
+  animation-name: square10;
+  animation-duration: 1s;
+  animation-delay: -0.1;
+  animation-iteration-count: infinite;
+}
+@keyframes square10 {
+  0%   {left:0px; top:0px;}
+  100% {left:-10000px; top:0px;}
 }
 
 .Banner {
