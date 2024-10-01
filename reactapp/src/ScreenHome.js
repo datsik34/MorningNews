@@ -17,7 +17,7 @@ function ScreenHome(props) {
 
   var signUp = async () => {
     if(signUpEmail.length === 0 || signUpPassword.length === 0 || signUpUsername.length === 0){
-      setErrorSignUp('champ(s) vide(s)');
+      setErrorSignUp('empty field(s)');
     } else {
       var response = await fetch('/sign-up', {
         method: 'POST',
@@ -34,25 +34,28 @@ function ScreenHome(props) {
     }
   }
 
-
   var signIn = async () => {
-    var response = await fetch('/sign-in', {
-      method: 'POST',
-      headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body: `email=${signInEmail}&password=${signInPassword}`
-    });
-    const data = await response.json()
-    if(data.user) {
-      setUserExists(true)
-      props.addToken(data.user.userToken);
-      props.changeLang(data.user.prefLang);
-      props.getWishlist(data.user.userWishlist);
-      props.addUser(data.user.userName);
-      props.addAPI(data.user.APIkey)
+    if(signInEmail.length === 0 || signInPassword.length === 0){
+      setErrorSignIn('empty field(s)');
+    } else {
+      var response = await fetch('/sign-in', {
+        method: 'POST',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: `email=${signInEmail}&password=${signInPassword}`
+      });
+      const data = await response.json()
+      if(data.user) {
+        setUserExists(true)
+        props.addToken(data.user.userToken);
+        props.changeLang(data.user.prefLang);
+        props.getWishlist(data.user.userWishlist);
+        props.addUser(data.user.userName);
+        props.addAPI(data.user.APIkey)
+      }
+      else { setErrorSignIn('email or password invalid')}
     }
-    else { setErrorSignIn('email or password invalid')}
-    
   }
+
 
   if (userExists) { return <Redirect to='/screensource' /> }
 
@@ -65,49 +68,47 @@ function ScreenHome(props) {
       
       <div className="Login-page" >
       
-
         {/* SIGN-IN */}
-      <div className="Sign">
-        <Input 
-          className="Login-input"
-          placeholder="arthur@lacapsule.com"
-          onChange={(e) => setSignInEmail(e.target.value)}
-          value={signInEmail}/>
+        <div className="Sign">
+          <Input 
+            className="Login-input"
+            placeholder="arthur@lacapsule.com"
+            onChange={(e) => setSignInEmail(e.target.value)}
+            value={signInEmail}/>
 
-        <Input.Password
-          className="Login-input"
-          placeholder="password"
-          onChange={(e) => setSignInPassword(e.target.value)}
-          value={signInPassword}/>
-          {errorSignIn}
-        <Button type="primary" onClick={() => signIn() }>Sign-in</Button>
-      </div>
+          <Input.Password
+            className="Login-input"
+            placeholder="password"
+            onChange={(e) => setSignInPassword(e.target.value)}
+            value={signInPassword}/>
+            <p style={{margin: 0, padding: 10}}>{errorSignIn}</p>
+          <Button type="primary" onClick={() => signIn() }>Sign-in</Button>
+        </div>
 
-      {/* SIGN-UP */}
-      <div className="Sign">
-        <Input
-          className="Login-input"
-          placeholder="John Doe" 
-          onChange={(e) => setSignUpUsername(e.target.value)}
-          value={signUpUsername}/>
+        {/* SIGN-UP */}
+        <div className="Sign">
+          <Input
+            className="Login-input"
+            placeholder="John Doe" 
+            onChange={(e) => setSignUpUsername(e.target.value)}
+            value={signUpUsername}/>
 
-        <Input
-          className="Login-input"
-          placeholder="email@email.com" 
-          onChange={(e) => setSignUpEmail(e.target.value)}
-          value={signUpEmail}/>
+          <Input
+            className="Login-input"
+            placeholder="email@email.com" 
+            onChange={(e) => setSignUpEmail(e.target.value)}
+            value={signUpEmail}/>
 
-        <Input.Password
-          className="Login-input"
-          placeholder="password"
-          onChange={(e) => setSignUpPassword(e.target.value)}
-          value={signUpPassword}/>
-          {errorSignUp}
-        <Button type="primary" onClick={() => signUp() } >Sign-up</Button>
+          <Input.Password
+            className="Login-input"
+            placeholder="password"
+            onChange={(e) => setSignUpPassword(e.target.value)}
+            value={signUpPassword}/>
+            <p style={{margin: 0, padding: 10}}>{errorSignUp}</p>
+          <Button type="primary" onClick={() => signUp()}>Sign-up</Button>
+        </div>
       </div>
     </div>
-    </div>
-    
   );
 }
 
