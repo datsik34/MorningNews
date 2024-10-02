@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {connect} from 'react-redux';
 import Nav from './Nav';
-import { Card, Modal, Button } from 'antd';
+import { Card, Modal, Button, Image } from 'antd';
 import { LikeOutlined, ReadOutlined, CheckOutlined, DeleteOutlined } from '@ant-design/icons';
 import {  message } from 'antd';
 const { Meta } = Card;
@@ -55,7 +55,7 @@ function ArticleCard(props) {
     <div style={styles.article}>
       <Card
         style={styles.card}
-        cover={ <img alt="example" src={articleCover}/> }
+        cover={<Image alt={props.article.title} src={articleCover} />}
         actions={[
           <ReadOutlined key="ellipsis2" onClick={() => showModal(props.article.title, props.article.content, props.article.description)} />,
           checkLike

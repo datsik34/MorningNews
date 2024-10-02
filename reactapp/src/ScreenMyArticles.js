@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { connect } from 'react-redux';
 import './App.css';
-import { Card, message, Modal, Button } from 'antd';
+import { Card, message, Modal, Button, Image } from 'antd';
 import { ReadOutlined, DeleteOutlined } from '@ant-design/icons';
 import Nav from './Nav'
 import {Link} from 'react-router-dom'
@@ -34,7 +34,7 @@ function ArticleCard(props) {
     <div style={{ display: 'flex', justifyContent: 'center' }}>
         <Card
           style={styles}
-          cover={<img alt="example" src={articleCover} />}
+          cover={<Image alt={props.article.title} src={articleCover} />}
           actions={[
             <ReadOutlined key="ellipsis2" onClick={() => showModal(props.article.title, props.article.content, props.article.description)} />,
             <DeleteOutlined key="ellipsis" onClick={() => props.delArticle(props.article.title)} />
