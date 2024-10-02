@@ -7,7 +7,6 @@ import { Card, Modal, Button, Image } from 'antd';
 import { LikeOutlined, ReadOutlined, CheckOutlined, DeleteOutlined } from '@ant-design/icons';
 import {  message } from 'antd';
 const { Meta } = Card;
-
 var API = '8d52780b5b85441cb744880fdd40412d';
 
 function ArticleCard(props) {
