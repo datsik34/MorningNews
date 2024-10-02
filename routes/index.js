@@ -112,7 +112,6 @@ router.post('/addAPIkey', async function (req, res, next) {
 })
 
 router.put('/user-settings', async function (req, res, next) {
-  console.log(req.body);
   var findUser = await userModel.findOne({
     token: req.body.token
   })
@@ -126,13 +125,9 @@ router.put('/user-settings', async function (req, res, next) {
       findUser.email = req.body.email
       var user = await findUser.save()
       var output = user.email
-      console.log(output);
-      
     }
     else if (req.body.password) {
-
     }
-    
   }
   
   res.json({success: true, output})
