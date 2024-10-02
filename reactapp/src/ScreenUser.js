@@ -72,36 +72,46 @@ function ScreenUser(props) {
         }
     }
 
-    var changingUserSettings = async (type) => {
-        var input
-        if(type === 'Username'){input = `username=${username}`}
-        else if(type === 'Email'){input = `email=${email}`}
-        else if(type === 'Password'){
-            input = `currentPassword=${currentPassword}&newPassword=${newPassword}`
-        }
-
+    var changeUsername = async () => {
         var response = await fetch('/user-settings', {
             method: 'PUT',
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
-            body: `token=${props.token}&${input}`
+            body: `token=${props.token}&username=${username}`
         })
         const data = await response.json();
         if(data.success){
-            if(type === 'Username'){
-                props.changeUsername(data.output)
-                formUsername.resetFields();
-            }
-            else if(type === 'Email'){
-                props.changeEmail(data.output)
-                formEmail.resetFields();
-            }
-            else if (type === 'Password'){
-                props.addToken(data.output)
-            }
-            popUp('success', `${type} successfully changed`)
+            props.changeUsername(data.output)
+            popUp('success', 'Username successfully changed')
+            formUsername.resetFields();
+        }
+    }
+
+    var changeEmail = async () => {
+        var response = await fetch('/user-settings', {
+            method: 'PUT',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: `token=${props.token}&email=${email}`
+        })
+        const data = await response.json();
+        if(data.success){
+            props.changeEmail(data.output)
+            formEmail.resetFields();
+            popUp('success', 'Email successfully changed')
+        }
+    }
+    var changePassword = async () => {
+        var response = await fetch('/user-settings', {
+            method: 'PUT',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: `token=${props.token}&currentPassword=${currentPassword}&newPassword=${newPassword}`
+        })
+        const data = await response.json();
+        if(data.success){
+            props.addToken(data.output)
+            popUp('success', 'Password successfully changed')
             setIsModalOpen(false)
         } else {
-            popUp('error', `${type} is not correct. Try again providing correct current password`)
+            popUp('error', 'Password is not correct. Try again providing correct current password')
             formPassword.resetFields();
         }
     }
@@ -136,7 +146,7 @@ function ScreenUser(props) {
 
                         {/* C H A N G E    U S E R N A M E   &   E M A I L */}
                         {/* U S E R N A M E*/}
-                        <Form form={formUsername} layout="vertical" onFinish={() => changingUserSettings('Username')} onFinishFailed={onFinishFailed} autoComplete="off" >
+                        <Form form={formUsername} layout="vertical" onFinish={() => changeUsername()} onFinishFailed={onFinishFailed} autoComplete="off" >
                             <Form.Item name="Username" rules={[{required: true},{type: 'string',min: 3}]}>
                                 <Space.Compact style={{ width: '80%'}} >
                                     <Input 
@@ -153,7 +163,7 @@ function ScreenUser(props) {
                         </Form>
 
                         {/* E M A I L */}
-                        <Form form={formEmail} layout="vertical" onFinish={() => changingUserSettings('Email')} onFinishFailed={onFinishFailed} autoComplete="off" >
+                        <Form form={formEmail} layout="vertical" onFinish={() => changeEmail()} onFinishFailed={onFinishFailed} autoComplete="off" >
                             <Form.Item name="Username" rules={[{required: true},{type: 'email'}]}>
                                 <Space.Compact style={{ width: '80%'}} >
                                     <Input 
@@ -180,7 +190,7 @@ function ScreenUser(props) {
                             footer={(_, { CancelBtn }) => (<><CancelBtn /></>)}
                         >
                             <Alert style={styles.alert} message={text.changePassword} type="info"/>
-                            <Form form={formPassword} layout="vertical" onFinish={() => changingUserSettings('Password')} style={{marginTop: 30}} >
+                            <Form form={formPassword} layout="vertical" onFinish={() => changePassword()} style={{marginTop: 30}} >
                                 <input hidden type='text' name='username' autoComplete='username' />
                                 <Form.Item name="Current password" label="Current password" rules={[{required: true},{type: 'string',min: 8}]} style={{ width: '70%'}} >
                                     <Input
