@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { connect } from 'react-redux';
 import './App.css';
-import { Card, message, Modal } from 'antd';
+import { Card, message, Modal, Button } from 'antd';
 import { ReadOutlined, DeleteOutlined } from '@ant-design/icons';
 import Nav from './Nav'
 import {Link} from 'react-router-dom'
@@ -45,9 +45,15 @@ function ArticleCard(props) {
             description={props.article.description}
           />
         </Card>
-        <Modal title={title} open={visible} onOk={() => handleOk(props.article.url)} onCancel={handleCancel} >
-        <p>{content}</p>
-      </Modal>
+        <Modal title={title} open={visible} onCancel={handleCancel} footer={(_, { CancelBtn }) => (
+          <>
+            <CancelBtn />
+            <Button type="primary" onClick={() => handleOk(props.article.url)} >Visit</Button>
+          </>
+        )} 
+        >
+          <p>{content}</p>
+        </Modal>
       </div>
   )
 }

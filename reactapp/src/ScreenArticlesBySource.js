@@ -1,9 +1,9 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import { useParams, Redirect } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {connect} from 'react-redux';
 import Nav from './Nav';
-import { Card, Modal } from 'antd';
+import { Card, Modal, Button } from 'antd';
 import { LikeOutlined, ReadOutlined, CheckOutlined, DeleteOutlined } from '@ant-design/icons';
 import {  message } from 'antd';
 const { Meta } = Card;
@@ -65,7 +65,13 @@ function ArticleCard(props) {
         ]}>
         <Meta title={props.article.title} description={props.article.description}/>
       </Card>
-      <Modal title={title} open={visible} onOk={() => handleOk(props.article.url)} onCancel={handleCancel} >
+      <Modal title={title} open={visible} onCancel={handleCancel} footer={(_, { CancelBtn }) => (
+          <>
+            <CancelBtn />
+            <Button type="primary" onClick={() => handleOk(props.article.url)} >Visit</Button>
+          </>
+        )} 
+      >
         <p>{content}</p>
       </Modal>
     </div>
