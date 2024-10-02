@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import Nav from './Nav'
-import { Input, Space, Button, Alert, message } from 'antd';
+import { Input, Space, Button, Alert, message, Form } from 'antd';
 import { connect } from 'react-redux';
 import { CloseOutlined } from '@ant-design/icons';
 
@@ -9,7 +9,7 @@ function ScreenUser(props) {
     const [messageApi, contextHolder] = message.useMessage();
     var [APIkey, setAPIkey] = useState('');
     var [currentAPIkey, setCurrentAPIkey] = useState('');
-
+    const [form] = Form.useForm();          
     var inputOption = 'outlined';
     var inputValue;
 
@@ -19,12 +19,16 @@ function ScreenUser(props) {
         }
     },[])
 
-    const success = (message) => {
+    const popUp = (type, message) => {
         messageApi.open({
-          type: 'success',
+          type: type,
           content: message,
         });
       };
+
+    const onFinishFailed = () => {          
+        popUp('error', 'Submit failed')    
+    };         
 
     var  addingAPIkey =  async () => {
         var response = await fetch('/addAPIkey', {
@@ -36,7 +40,8 @@ function ScreenUser(props) {
         if(data){
             props.addAPI(data.APIkey)
             setCurrentAPIkey(data.APIkey)
-            success('API key successfully added')
+            form.resetFields();    
+            popUp('success', 'API key successfully added')
         }
     }
 
@@ -50,19 +55,19 @@ function ScreenUser(props) {
         if(data){
             props.addAPI(data.APIkey)
             setCurrentAPIkey(data.APIkey)
-            success('API key successfully removed')
+            popUp('success', 'API key successfully removed')
         }
     }
 
-
     var buttonDeleteAPI = <Button ghost disabled><CloseOutlined /></Button>
+    var textConfirmAPI
 
     if(props.APIkey.length !== 0){
         inputValue = currentAPIkey
         inputOption = 'filled';
+        textConfirmAPI = 'Your custom API is set'
         buttonDeleteAPI = <Button danger onClick={() => deleteAPIkey()} ><CloseOutlined /></Button>
     }
-
 
     return (
         <div>
@@ -80,8 +85,11 @@ function ScreenUser(props) {
                     <div style={styles.userCont} >
                         <h2>User</h2>
                         <div style={styles.subCount} >
+                            <Alert style={styles.alert} message={text.alertUser} type="info"/>
+                        </div>
+                        <div style={styles.subCount} >
                             <Space.Compact style={{ width: '80%'}} >
-                                <Input addonBefore="Change Name" variant="filled" placeholder='UserName' />
+                                <Input addonBefore="Change Username" variant="filled" placeholder={props.username} />
                                 <Button type="primary">Submit</Button>
                             </Space.Compact>
                         </div>
@@ -101,7 +109,7 @@ function ScreenUser(props) {
                     <div style={styles.userCont} >
                         <h2>API</h2>
                         <div style={styles.subCount} >
-                            <Alert style={styles.alert} message={text.alert} type="info" action={
+                            <Alert style={styles.alert} message={text.alertAPI} type="info" action={
                                     <Space>
                                       <Button type="text" size="small">
                                       <Link to={{pathname: "https://newsapi.org/register"}} target="_blank">Get API</Link>
@@ -109,6 +117,7 @@ function ScreenUser(props) {
                                     </Space>
                                 }/>
                         </div>
+                        <p style={styles.APIset}>{textConfirmAPI}</p>
                         <div style={styles.subCount} >
                             <Space.Compact style={{ width: '80%'}} >
                                 <Input
@@ -120,18 +129,20 @@ function ScreenUser(props) {
                                 {buttonDeleteAPI}
                             </Space.Compact>
                         </div>
-                        <div style={styles.subCount} >
-                            <Space.Compact style={{ width: '80%'}} >
-                                <Input
-                                    addonBefore="Set new API" 
-                                    placeholder='Add your API here'
-                                    onChange={(e) => setAPIkey(e.target.value)}
-                                    allowClear={true}
-                                    maxLength={33}
+                        <Form form={form} layout="vertical" onFinish={addingAPIkey} onFinishFailed={onFinishFailed} autoComplete="off" >
+                            <Form.Item name="API" rules={[{required: true},{type: 'string',min: 32,}]}>
+                                <Space.Compact style={{ width: '80%'}} >
+                                    <Input
+                                        addonBefore="Set new API"
+                                        placeholder='Add your API here'
+                                        allowClear={true}
+                                        maxLength={32}
+                                        onChange={(e) => setAPIkey(e.target.value)}
                                     />
-                                <Button type="primary" onClick={() => addingAPIkey()} >Submit</Button>
-                            </Space.Compact>
-                        </div>
+                                    <Button type="primary" htmlType="submit"> Submit </Button>
+                                </Space.Compact>
+                            </Form.Item>
+                        </Form>
                     </div>
                 </div>
             </div>
@@ -205,9 +216,18 @@ const styles = {
         marginTop: 30,
         marginRight: 30
     },
-    alert: { width: '90%'}
+    alert: {
+        width: '90%',
+        whiteSpace: 'pre-line'
+        },
+    APIset: {
+        marginTop: 0,
+        color: 'green',
+        fontSize: '13px'
+    }
 }
 
 const text = {
-    alert: 'You will need to visit NewsAPI to get yourself a free API key in case my personnal free API key has reached its limited number of requests.'
+    alertAPI: 'You will need to visit NewsAPI to get yourself a free API key in case my personnal free API key has reached its limited number of requests.',
+    alertUser: 'You can change your username, email or password only once a day (24 hours).\nDouble check your choice(s) before submitting.'
 }
