@@ -45,11 +45,14 @@ function ScreenHome(props) {
       });
       const data = await response.json()
       if(data.user) {
+        console.log(data.user);
+        
         setUserExists(true)
         props.addToken(data.user.userToken);
         props.changeLang(data.user.prefLang);
         props.getWishlist(data.user.userWishlist);
-        props.addUser(data.user.userName);
+        props.addUsername(data.user.userName);
+        props.addEmail(data.user.email);
         props.addAPI(data.user.APIkey)
       }
       else { setErrorSignIn('email or password invalid')}
@@ -129,8 +132,11 @@ function mapDispatchToProps(dispatch){
     getWishlist: function(articles){
       dispatch({type: 'getArticles', articles: articles})
     },
-    addUser: function(userName){
-      dispatch({type: 'addUser', userAdded: userName})
+    addUsername: function(userName){
+      dispatch({type: 'addUsername', usernameAdded: userName})
+    },
+    addEmail: function(email){
+      dispatch({type: 'addEmail', emailAdded: email})
     },
     addAPI: function(API){
       dispatch({type: 'addAPI', APIadded: API})

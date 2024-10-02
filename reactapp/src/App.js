@@ -9,7 +9,8 @@ import wishList from './reducers/articles';
 import userToken from './reducers/token';
 import language from './reducers/language';
 import userName from './reducers/username';
-import apiKey from './reducers/apikey'
+import email from './reducers/email';
+import apiKey from './reducers/apikey';
 
 //Screens
 import ScreenHome from './ScreenHome';
@@ -18,7 +19,9 @@ import ScreenMyArticles from './ScreenMyArticles';
 import ScreenSource from './ScreenSource';
 import ScreenUser from './ScreenUser';
 
-const store = createStore(combineReducers({wishList, userToken, language, userName, apiKey}));
+const store = createStore(combineReducers({
+  wishList, userToken, language, userName, email, apiKey
+}));
 
 export default function App() {
   return (

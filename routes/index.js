@@ -48,6 +48,7 @@ router.post('/sign-in', async function(req, res, next){
         userWishlist: findUser.wishlist,
         prefLang: findUser.prefLang,
         userName: findUser.username,
+        email: findUser.email,
         APIkey: findUser.APIkey
       }
     } 
@@ -108,6 +109,33 @@ router.post('/addAPIkey', async function (req, res, next) {
   }
 
   res.json({APIkey: user.APIkey})
+})
+
+router.put('/user-settings', async function (req, res, next) {
+  console.log(req.body);
+  var findUser = await userModel.findOne({
+    token: req.body.token
+  })
+  if(findUser){
+    if(req.body.username){
+      findUser.username = req.body.username
+      var user = await findUser.save()
+      var output = user.username
+    } 
+    else if (req.body.email) {
+      findUser.email = req.body.email
+      var user = await findUser.save()
+      var output = user.email
+      console.log(output);
+      
+    }
+    else if (req.body.password) {
+
+    }
+    
+  }
+  
+  res.json({success: true, output})
 })
 
 console.log('L O C K E D  &  L O A D E D');

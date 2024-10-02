@@ -8,9 +8,15 @@ import { CloseOutlined } from '@ant-design/icons';
 function ScreenUser(props) {
     const [messageApi, contextHolder] = message.useMessage();
     var [APIkey, setAPIkey] = useState('');
+    var [username, setUsername] = useState('');
+    var [email, setEmail] = useState('');
+    var [password, setPassword] = useState('');
     var [currentAPIkey, setCurrentAPIkey] = useState('');
-    const [form] = Form.useForm();          
-    var inputOption = 'outlined';
+
+    const [formAPI] = Form.useForm();
+    const [formUsername] = Form.useForm();
+    const [formEmail] = Form.useForm();
+
     var inputValue;
 
     useEffect(() => {
@@ -26,8 +32,8 @@ function ScreenUser(props) {
         });
       };
 
-    const onFinishFailed = () => {          
-        popUp('error', 'Submit failed')    
+    const onFinishFailed = () => {
+        popUp('error', 'Submit failed')
     };         
 
     var  addingAPIkey =  async () => {
@@ -40,7 +46,7 @@ function ScreenUser(props) {
         if(data){
             props.addAPI(data.APIkey)
             setCurrentAPIkey(data.APIkey)
-            form.resetFields();    
+            formAPI.resetFields();
             popUp('success', 'API key successfully added')
         }
     }
@@ -59,12 +65,36 @@ function ScreenUser(props) {
         }
     }
 
+    var changingUserSettings = async (type) => {
+        var input
+        if(type === 'Username'){input = `username=${username}`}
+        else if(type === 'Email'){input = `email=${email}`}
+        else if(type === 'Password'){input = `password=${password}`}
+
+        var response = await fetch('/user-settings', {
+            method: 'PUT',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: `token=${props.token}&${input}`
+        })
+        const data = await response.json();
+        if(data.success){
+            if(type === 'Username'){
+                props.changeUsername(data.output)
+                formUsername.resetFields();
+            }
+            if(type === 'Email'){
+                props.changeEmail(data.output)
+                formEmail.resetFields();
+            }
+            popUp('success', `${type} successfully changed`)
+        }
+    }
+
     var buttonDeleteAPI = <Button ghost disabled><CloseOutlined /></Button>
     var textConfirmAPI
 
     if(props.APIkey.length !== 0){
         inputValue = currentAPIkey
-        inputOption = 'filled';
         textConfirmAPI = 'Your custom API is set'
         buttonDeleteAPI = <Button danger onClick={() => deleteAPIkey()} ><CloseOutlined /></Button>
     }
@@ -87,21 +117,46 @@ function ScreenUser(props) {
                         <div style={styles.subCount} >
                             <Alert style={styles.alert} message={text.alertUser} type="info"/>
                         </div>
+
+                        <Form form={formUsername} layout="vertical" onFinish={() => changingUserSettings('Username')} onFinishFailed={onFinishFailed} autoComplete="off" >
+                            <Form.Item name="Username" rules={[{required: true},{type: 'string',min: 3}]}>
+                                <Space.Compact style={{ width: '80%'}} >
+                                    <Input 
+                                        addonBefore="Change Username"
+                                        variant="filled"
+                                        placeholder={props.username}
+                                        allowClear={true}
+                                        maxLength={20}
+                                        onChange={(e) => setUsername(e.target.value)}
+                                    />
+                                    <Button type="primary"  htmlType="submit">Submit</Button>
+                                </Space.Compact>
+                            </Form.Item>
+                        </Form>
+
+                        <Form form={formEmail} layout="vertical" onFinish={() => changingUserSettings('Email')} onFinishFailed={onFinishFailed} autoComplete="off" >
+                            <Form.Item name="Username" rules={[{required: true},{type: 'email'}]}>
+                                <Space.Compact style={{ width: '80%'}} >
+                                    <Input 
+                                        addonBefore="Change Email"
+                                        variant="filled"
+                                        placeholder={props.email}
+                                        allowClear={true}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                    />
+                                    <Button type="primary"  htmlType="submit">Submit</Button>
+                                </Space.Compact>
+                            </Form.Item>
+                        </Form>
+
                         <div style={styles.subCount} >
-                            <Space.Compact style={{ width: '80%'}} >
-                                <Input addonBefore="Change Username" variant="filled" placeholder={props.username} />
-                                <Button type="primary">Submit</Button>
-                            </Space.Compact>
+                            <Button danger>Change password</Button>
                         </div>
                         <div style={styles.subCount} >
-                            <Space.Compact style={{ width: '80%'}} >
-                                <Input addonBefore="Change Email" variant="filled" placeholder='User@Email.com' />
-                                <Button type="primary">Submit</Button>
-                            </Space.Compact>
+                            <Button type="primary" danger>Delete Account</Button>
                         </div>
-                        <div style={styles.subCount} >
-                            Language preferences: 
-                        </div>
+                        
+
                     </div>
 
                     <div style={styles.Vspacer} />
@@ -121,7 +176,7 @@ function ScreenUser(props) {
                         <div style={styles.subCount} >
                             <Space.Compact style={{ width: '80%'}} >
                                 <Input
-                                    addonBefore="Current API" 
+                                    addonBefore="Current API"
                                     variant='filled'
                                     value={inputValue}
                                     disabled
@@ -129,8 +184,8 @@ function ScreenUser(props) {
                                 {buttonDeleteAPI}
                             </Space.Compact>
                         </div>
-                        <Form form={form} layout="vertical" onFinish={addingAPIkey} onFinishFailed={onFinishFailed} autoComplete="off" >
-                            <Form.Item name="API" rules={[{required: true},{type: 'string',min: 32,}]}>
+                        <Form form={formAPI} layout="vertical" onFinish={addingAPIkey} onFinishFailed={onFinishFailed} autoComplete="off" >
+                            <Form.Item name="API" rules={[{required: true},{type: 'string',min: 32}]}>
                                 <Space.Compact style={{ width: '80%'}} >
                                     <Input
                                         addonBefore="Set new API"
@@ -154,20 +209,24 @@ function mapStateToProps(state){
     return {
         token: state.userToken,
         APIkey: state.apiKey,
-        username: state.userName
+        username: state.userName,
+        email: state.email
     }
   }
-
-  
 
 function mapDispatchToProps(dispatch){
     return {
       addAPI: function(API){
         dispatch({type: 'addAPI', APIadded: API})
-      }
+      },
+      changeUsername: function(userName){
+        dispatch({type: 'changeUsername', usernameAdded: userName})
+      },
+      changeEmail: function(email){
+        dispatch({type: 'changeEmail', emailAdded: email})
+      },
     }
   }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(ScreenUser)
 
