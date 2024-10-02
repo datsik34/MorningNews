@@ -51,7 +51,7 @@ router.post('/sign-in', async function(req, res, next){
         email: findUser.email,
         APIkey: findUser.APIkey
       }
-    } 
+    }
   }
   res.json({ user });
 })
@@ -112,6 +112,8 @@ router.post('/addAPIkey', async function (req, res, next) {
 })
 
 router.put('/user-settings', async function (req, res, next) {
+  var success
+  var output
   var findUser = await userModel.findOne({
     token: req.body.token
   })
@@ -119,18 +121,34 @@ router.put('/user-settings', async function (req, res, next) {
     if(req.body.username){
       findUser.username = req.body.username
       var user = await findUser.save()
-      var output = user.username
+
+      output = user.username
+      success = true
     } 
     else if (req.body.email) {
       findUser.email = req.body.email
       var user = await findUser.save()
-      var output = user.email
+
+      success = true
+      output = user.email
     }
-    else if (req.body.password) {
+    else if (req.body.currentPassword) {
+      var currentPassword = req.body.currentPassword;
+
+      if(bcrypt.compareSync(currentPassword, findUser.password)){
+        const newPassword = req.body.newPassword;
+        const hash = bcrypt.hashSync(newPassword, cost);
+        findUser.password = hash;
+        findUser.token = uid2(32);
+        var user = await findUser.save();
+        output = user.token;
+        success = true
+      } else {
+        success = false;
+      }
     }
   }
-  
-  res.json({success: true, output})
+  res.json({success, output})
 })
 
 console.log('L O C K E D  &  L O A D E D');

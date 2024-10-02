@@ -45,8 +45,6 @@ function ScreenHome(props) {
       });
       const data = await response.json()
       if(data.user) {
-        console.log(data.user);
-        
         setUserExists(true)
         props.addToken(data.user.userToken);
         props.changeLang(data.user.prefLang);
