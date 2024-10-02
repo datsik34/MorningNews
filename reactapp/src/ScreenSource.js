@@ -81,7 +81,7 @@ function ScreenSource(props) {
   })
 
   var styleSources = "HomeThemes"
-  if(isTransitioning){
+  if(isTransitioning && !errorAPI){
     styleSources = "HomeThemesAnim"
   } else {
     styleSources = "HomeThemes"
