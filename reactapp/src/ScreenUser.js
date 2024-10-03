@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Nav from './Nav'
 import { Input, Space, Button, Alert, message, Form, Modal } from 'antd';
 import { connect } from 'react-redux';
@@ -13,7 +13,19 @@ function ScreenUser(props) {
     var [currentPassword, setCurrentPassword] = useState('');
     var [newPassword, setNewPassword] = useState('');
     var [currentAPIkey, setCurrentAPIkey] = useState('');
-    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    var [accountDeleted, setAccountDeleted] = useState(false);
+
+    const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+    const [isDelAccModalOpen1, setIsDelAccModalOpen1] = useState(false);
+    const [isDelAccModalOpen2, setIsDelAccModalOpen2] = useState(false);
+
+    const showPasswordModal = () => {setIsPasswordModalOpen(true)};
+    const passwordModalCancel = () => {setIsPasswordModalOpen(false)};
+    const showDelAccModal1 = () => { setIsDelAccModalOpen1(true) };
+    const delAccCancel1 = () => { setIsDelAccModalOpen1(false) };
+    const showDelAccModal2 = () => { setIsDelAccModalOpen2(true) };
+    const delAccCancel2 = () => { setIsDelAccModalOpen2(false); setIsDelAccModalOpen1(false) };
 
     const [formAPI] = Form.useForm();
     const [formUsername] = Form.useForm();
@@ -41,9 +53,6 @@ function ScreenUser(props) {
           content: message,
         });
       };
-
-    const showModal = () => {setIsModalOpen(true)};
-    const handleCancel = () => {setIsModalOpen(false)};
 
     const onFinishFailed = () => {
         popUp('error', 'Submit failed');
@@ -125,7 +134,7 @@ function ScreenUser(props) {
         if(data.result){
             props.addToken(data.output)
             popUp('success', 'Password successfully changed')
-            setIsModalOpen(false)
+            setIsPasswordModalOpen(false)
         } 
         else if(data.timing) {
             var time = convertMillisecondsToDaysHours(data.timing)
@@ -136,6 +145,16 @@ function ScreenUser(props) {
         }
     }
 
+    var deleteAccount = async () => {
+        var response = await fetch('/delete-account', {
+            method: 'DELETE',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: `token=${props.token}`
+        })
+        const data = await response.json();
+        if(data.response.acknowledged){ setAccountDeleted(true)}
+    }
+
     var buttonDeleteAPI = <Button ghost disabled><CloseOutlined /></Button>
     var textConfirmAPI
     var inputValue;
@@ -144,6 +163,8 @@ function ScreenUser(props) {
         textConfirmAPI = 'Your custom API is set'
         buttonDeleteAPI = <Button danger onClick={() => deleteAPIkey()} ><CloseOutlined /></Button>
     }
+
+    if (accountDeleted) { return <Redirect to='/accountdeleted' /> }
 
     return (
         <div>
@@ -200,13 +221,12 @@ function ScreenUser(props) {
 
                         {/* P A S S W O R D    M O D A L */}
                         <div style={styles.subCount} >
-                            <Button danger onClick={showModal}>Change password</Button>
+                            <Button danger onClick={showPasswordModal}>Change password</Button>
                         </div>
-
                         <Modal
                             title="Change your password"
-                            centered open={isModalOpen}
-                            onCancel={handleCancel}
+                            centered open={isPasswordModalOpen}
+                            onCancel={passwordModalCancel}
                             footer={(_, { CancelBtn }) => (<><CancelBtn /></>)}
                         >
                             <Alert style={styles.alert} message={text.changePassword} type="info"/>
@@ -236,10 +256,40 @@ function ScreenUser(props) {
 
                         {/* D E L E T E  A C C O U N T    M O D A L */}
                         <div style={styles.subCount} >
-                            <Button type="primary" danger>Delete Account</Button>
+                            <Button type="primary" danger onClick={showDelAccModal1}>Delete Account</Button>
                         </div>
+                        <Modal
+                            title="Warning!"
+                            centered open={isDelAccModalOpen1}
+                            onCancel={delAccCancel1}
+                            footer={[]}
+                        >
+                            <Alert
+                                style={styles.alert} description={text.deleteAccount} type="error"
+                                action={
+                                  <Space direction="vertical">
+                                    <Button size="small" type="primary" danger onClick={showDelAccModal2}>
+                                      Accept
+                                    </Button>
+                                    <Button size="small" danger ghost onClick={delAccCancel1}>Decline</Button>
+                                  </Space>
+                                }
+                            />
+                        </Modal>
+                        <Modal
+                            title="Delete account"
+                            centered open={isDelAccModalOpen2}
+                            footer={[
+                                <Button key="0" size="large" type="primary" danger onClick={() => deleteAccount()}>
+                                    Delete account permanently
+                                </Button>,
+                                <Button key="back" onClick={delAccCancel2}>
+                                  Cancel
+                                </Button>
+                            ]}
+                        >
+                        </Modal>
                     </div>
-
                     <div style={styles.Vspacer} />
 
                     {/* A P I    S E T T I N G S  */}
@@ -374,5 +424,6 @@ const styles = {
 const text = {
     alertAPI: 'You will need to visit NewsAPI to get yourself a free API key in case my personnal free API key has reached its limited number of requests.',
     alertUser: 'You can change your username, email or password only once a week.\nDouble check your choice(s) before submitting.',
-    changePassword: 'Your password should be composed of at least 8 characters'
+    changePassword: 'Your password should be composed of at least 8 characters',
+    deleteAccount: "You are about to delete your account definitely.\nYou cannot undo this action."
 }

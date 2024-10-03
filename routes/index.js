@@ -211,5 +211,15 @@ router.put('/user-settings', async function (req, res, next) {
   res.json({result, output, timing})
 })
 
+router.delete('/delete-account', async function(req, res, next){
+  var findUser = await userModel.findOne({
+    token: req.body.token
+  })
+  if(findUser){
+     var response = await userModel.deleteOne({ token: req.body.token });
+     res.json({response})
+  }
+})
+
 console.log('L O C K E D  &  L O A D E D');
 module.exports = router;
