@@ -15,7 +15,12 @@ var userSchema = mongoose.Schema({
     token: String,
     prefLang: String,
     wishlist: [articleSchema],
-    APIkey: String
+    APIkey: String,
+    dateSettingsChanged:{
+      username: Date,
+      email: Date,
+      password: Date
+    }
   });
 
 var userModel = mongoose.model('users', userSchema);

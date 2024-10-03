@@ -22,6 +22,15 @@ function ScreenUser(props) {
 
     var inputValue;
 
+    function convertMillisecondsToDaysHours(ms) {
+        const DAY_MS = 24 * 60 * 60 * 1000; // 1 day in milliseconds
+        const hours = Math.floor(ms / DAY_MS);
+        const remainingMs = ms % DAY_MS;
+        const hoursRemaining = Math.floor(remainingMs / (60 * 60 * 1000)); // convert remaining milliseconds to hours
+        const minutesRemaining = Math.floor((remainingMs % (60 * 60 * 1000)) / (60 * 1000)); // convert remaining milliseconds to minutes
+        return `${hours} days ${hoursRemaining} hours ${minutesRemaining} minutes`;
+      }
+
     useEffect(() => {
         if(props.APIkey.length !== 0) {
             setCurrentAPIkey(props.APIkey)
@@ -41,7 +50,7 @@ function ScreenUser(props) {
     const onFinishFailed = () => {
         popUp('error', 'Submit failed');
         formPassword.resetFields();
-    };         
+    };
 
     var  addingAPIkey =  async () => {
         var response = await fetch('/addAPIkey', {
@@ -73,46 +82,59 @@ function ScreenUser(props) {
     }
 
     var changeUsername = async () => {
+        formUsername.resetFields();
         var response = await fetch('/user-settings', {
             method: 'PUT',
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
             body: `token=${props.token}&username=${username}`
         })
         const data = await response.json();
-        if(data.success){
+        if(data.result){
             props.changeUsername(data.output)
             popUp('success', 'Username successfully changed')
-            formUsername.resetFields();
+        } else {
+            var time = convertMillisecondsToDaysHours(data.timing)
+            popUp('error', `Can't change Email now. Wait ${time} and try again`)
         }
     }
 
     var changeEmail = async () => {
+        formEmail.resetFields();
         var response = await fetch('/user-settings', {
             method: 'PUT',
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
             body: `token=${props.token}&email=${email}`
         })
         const data = await response.json();
-        if(data.success){
+        if(data.result){
             props.changeEmail(data.output)
-            formEmail.resetFields();
             popUp('success', 'Email successfully changed')
         }
+        else {
+            var time = convertMillisecondsToDaysHours(data.timing)
+            popUp('error', `Can't change Username now. Wait ${time} and try again`)
+        }
     }
+
     var changePassword = async () => {
+        formPassword.resetFields();
         var response = await fetch('/user-settings', {
             method: 'PUT',
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
             body: `token=${props.token}&currentPassword=${currentPassword}&newPassword=${newPassword}`
         })
         const data = await response.json();
-        if(data.success){
+        if(data.result){
             props.addToken(data.output)
             popUp('success', 'Password successfully changed')
             setIsModalOpen(false)
-        } else {
+        } 
+        else if(data.timing) {
+            var time = convertMillisecondsToDaysHours(data.timing)
+            popUp('error', `Can't change Password now. Wait ${time} and try again`)
+        }
+        else {
             popUp('error', 'Password is not correct. Try again providing correct current password')
-            formPassword.resetFields();
         }
     }
 
@@ -164,7 +186,7 @@ function ScreenUser(props) {
 
                         {/* E M A I L */}
                         <Form form={formEmail} layout="vertical" onFinish={() => changeEmail()} onFinishFailed={onFinishFailed} autoComplete="off" >
-                            <Form.Item name="Username" rules={[{required: true},{type: 'email'}]}>
+                            <Form.Item name="Email" rules={[{required: true},{type: 'email'}]}>
                                 <Space.Compact style={{ width: '80%'}} >
                                     <Input 
                                         addonBefore="Change Email"
@@ -353,6 +375,6 @@ const styles = {
 
 const text = {
     alertAPI: 'You will need to visit NewsAPI to get yourself a free API key in case my personnal free API key has reached its limited number of requests.',
-    alertUser: 'You can change your username, email or password only once a day (24 hours).\nDouble check your choice(s) before submitting.',
+    alertUser: 'You can change your username, email or password only once a week.\nDouble check your choice(s) before submitting.',
     changePassword: 'Your password should be composed of at least 8 characters'
 }

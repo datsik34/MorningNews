@@ -25,7 +25,6 @@ function ScreenHome(props) {
         body: `username=${signUpUsername}&email=${signUpEmail}&password=${signUpPassword}`
       });
       const data = await response.json();
-      console.log(data);
       if(data.result !== null) {
         setErrorSignUp('all gud m8, registered')
       } else {

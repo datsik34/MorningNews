@@ -26,7 +26,12 @@ router.post('/sign-up', async function(req, res, next) {
       token: uid2(32),
       prefLang: 'us',
       wishlist: [],
-      APIkey: ''
+      APIkey: '',
+      dateSettingsChanged:{
+        username: null,
+        email: null,
+        password: null
+      }
     })
     var user = await newUser.save();
     user = user.email;
@@ -112,43 +117,98 @@ router.post('/addAPIkey', async function (req, res, next) {
 })
 
 router.put('/user-settings', async function (req, res, next) {
-  var success
-  var output
   var findUser = await userModel.findOne({
     token: req.body.token
   })
   if(findUser){
+    var result, output, timing, check
+    var date = new Date();
+    var oneWeek = 604800000;
+    var oneHour = 3600000
+
+    var checkDates = (currentTime, lastTime, compareTime) => {
+      var timePassed = currentTime - lastTime
+      if(timePassed > compareTime){
+        return true;
+      } else {
+        var timeRemaining = compareTime - timePassed
+        return timeRemaining;
+      }
+  }
+
     if(req.body.username){
-      findUser.username = req.body.username
-      var user = await findUser.save()
+      if(findUser.dateSettingsChanged.username !== null ){
+        var lastChanged = findUser.dateSettingsChanged.username.getTime()
+        check = checkDates(date.getTime(), lastChanged, oneWeek)
+      } else {
+        check = true
+      }
 
-      output = user.username
-      success = true
+      if(check === true){
+        findUser.username = req.body.username
+        findUser.dateSettingsChanged.username = date
+        var user = await findUser.save()
+        output = user.username
+        result = true
+      } else {
+        timing = check
+        result = false
+      }
     } 
-    else if (req.body.email) {
-      findUser.email = req.body.email
-      var user = await findUser.save()
 
-      success = true
-      output = user.email
+    else if (req.body.email) {
+      if(findUser.dateSettingsChanged.email !== null ){
+        var lastChanged = findUser.dateSettingsChanged.email.getTime()
+        check = checkDates(date.getTime(), lastChanged, oneWeek)
+      } else {
+        check = true
+      }
+
+      if(check === true){
+        findUser.email = req.body.email
+        findUser.dateSettingsChanged.email = date
+        var user = await findUser.save()
+        result = true
+        output = user.email
+      } else {
+        timing = check
+        result = false
+      }
+      
     }
+
     else if (req.body.currentPassword) {
       var currentPassword = req.body.currentPassword;
-
       if(bcrypt.compareSync(currentPassword, findUser.password)){
-        const newPassword = req.body.newPassword;
-        const hash = bcrypt.hashSync(newPassword, cost);
-        findUser.password = hash;
-        findUser.token = uid2(32);
-        var user = await findUser.save();
-        output = user.token;
-        success = true
+
+
+        if(findUser.dateSettingsChanged.password !== null ){
+          var lastChanged = findUser.dateSettingsChanged.password.getTime()
+          check = checkDates(date.getTime(), lastChanged, oneWeek)
+        } else {
+          check = true
+        }
+
+        if(check === true){
+          const newPassword = req.body.newPassword;
+          const hash = bcrypt.hashSync(newPassword, cost);
+          findUser.password = hash;
+          findUser.token = uid2(32);
+          findUser.dateSettingsChanged.password = date
+          var user = await findUser.save();
+          output = user.token;
+          result = true
+        } else {
+          result = false;
+          timing = check
+        }
+
       } else {
-        success = false;
+        result = false;
       }
     }
   }
-  res.json({success, output})
+  res.json({result, output, timing})
 })
 
 console.log('L O C K E D  &  L O A D E D');
