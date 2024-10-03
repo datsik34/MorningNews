@@ -20,15 +20,13 @@ function ScreenUser(props) {
     const [formEmail] = Form.useForm();
     const [formPassword] = Form.useForm();
 
-    var inputValue;
-
     function convertMillisecondsToDaysHours(ms) {
-        const DAY_MS = 24 * 60 * 60 * 1000; // 1 day in milliseconds
-        const hours = Math.floor(ms / DAY_MS);
+        const DAY_MS = 24 * 60 * 60 * 1000;
+        const daysRemaining = Math.floor(ms / DAY_MS);
         const remainingMs = ms % DAY_MS;
-        const hoursRemaining = Math.floor(remainingMs / (60 * 60 * 1000)); // convert remaining milliseconds to hours
-        const minutesRemaining = Math.floor((remainingMs % (60 * 60 * 1000)) / (60 * 1000)); // convert remaining milliseconds to minutes
-        return `${hours} days ${hoursRemaining} hours ${minutesRemaining} minutes`;
+        const hoursRemaining = Math.floor(remainingMs / (60 * 60 * 1000));
+        const minutesRemaining = Math.floor((remainingMs % (60 * 60 * 1000)) / (60 * 1000));
+        return `${daysRemaining} days ${hoursRemaining} hours ${minutesRemaining} minutes`;
       }
 
     useEffect(() => {
@@ -140,7 +138,7 @@ function ScreenUser(props) {
 
     var buttonDeleteAPI = <Button ghost disabled><CloseOutlined /></Button>
     var textConfirmAPI
-
+    var inputValue;
     if(props.APIkey.length !== 0){
         inputValue = currentAPIkey
         textConfirmAPI = 'Your custom API is set'
