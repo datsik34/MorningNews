@@ -7,13 +7,13 @@ const ScreenAccDeleted = () => (
             <Result
                 status="success"
                 title="Successfully deleted your account"
-                extra={[
+                extra={
                     <Link to={"/"}>
                         <Button type="primary" key="console">
                             Go to SignIn/SignUp
                         </Button>
                     </Link>
-                ]}
+                }
             />
     </div>
 );
