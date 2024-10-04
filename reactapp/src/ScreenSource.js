@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './App.css';
-import { List, Avatar } from 'antd';
+import { List, Avatar, Flex, Tag } from 'antd';
 import Nav from './Nav'
 var API = '8d52780b5b85441cb744880fdd40412d';
 
@@ -20,8 +20,10 @@ function Flag(props) {
 
 function ScreenSource(props) {
   var [sourceList, setSourceList] = useState([])
+  var [categories, setCategories] = useState([])
   var [errorAPI, setErrorAPI] = useState(false)
   var [isTransitioning, setIsTransitioning] = useState(false)
+  const [selectedTags, setSelectedTags] = React.useState(['']);
 
   const languages = {
     fr:{lang: 'fr', coun: 'fr'},
@@ -47,6 +49,12 @@ function ScreenSource(props) {
         setErrorAPI(false);
         setIsTransitioning(false);
         setSourceList(body.sources);
+        
+        let getCategories
+        getCategories = body.sources.map((item) => { return item.category }) 
+        let uniqueCategories = [...new Set(getCategories)];
+
+        setCategories(uniqueCategories)
       }
     }
     APIResultsLoading()
@@ -86,6 +94,13 @@ function ScreenSource(props) {
     styleSources = "HomeThemes"
   }
   
+  const handleChange = (tag, checked) => {
+    const nextSelectedTags = checked
+      ? [...selectedTags, tag]
+      : selectedTags.filter((t) => t !== tag);
+    console.log('You are interested in: ', nextSelectedTags);
+    setSelectedTags(nextSelectedTags);
+  };
 
   return (
     <div>
@@ -96,19 +111,34 @@ function ScreenSource(props) {
       <div className={styleSources}>
         {errorAPI
         ? errorApiScreen
-        : <List
-          itemLayout="horizontal"
-          dataSource={sourceList}
-          renderItem={source => (
-            <List.Item>
-              <List.Item.Meta
-                avatar={<Avatar src={`/images/${source.category}.png`} />}
-                title={<Link to={`/screenarticlesbysource/${source.id}`} >{source.name}</Link>}
-                description={source.description}
-              />
-            </List.Item>
-          )}
-        />
+        : <div>
+            <Flex gap={4} wrap align="center" style={{marginBottom: 20}}>
+              <span>Categories:</span>
+              {categories.map((tag) => (
+                <Tag.CheckableTag
+                  key={tag}
+                  checked={selectedTags.includes(tag)}
+                  onChange={(checked) => handleChange(tag, checked)}
+                >
+                  {tag}
+                </Tag.CheckableTag>
+              ))}
+            </Flex>
+
+            <List
+              itemLayout="horizontal"
+              dataSource={sourceList}
+              renderItem={source => (
+                <List.Item>
+                  <List.Item.Meta
+                    avatar={<Avatar src={`/images/${source.category}.png`} />}
+                    title={<Link to={`/screenarticlesbysource/${source.id}`} >{source.name}</Link>}
+                    description={source.description}
+                  />
+                </List.Item>
+              )}
+            />
+          </div>
         }
       </div>
     </div>
