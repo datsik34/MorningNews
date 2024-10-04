@@ -6,15 +6,12 @@ import { Redirect } from 'react-router-dom';
 
 function ScreenHome(props) {
   const [userExists, setUserExists] = useState(false);
-  const [errorSignIn, setErrorSignIn] = useState('');
-  const [errorSignUp, setErrorSignUp] = useState('');
+  const [messageSignIn, setMessageSignIn] = useState('');
+  const [messageSignUp, setMessageSignUp] = useState('');
 
   const [formSignIn] = Form.useForm();
   const [formSignUp] = Form.useForm();
 
-  const onFinish = (values) => {
-    console.log('Success:', values);
-  };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
@@ -28,9 +25,9 @@ function ScreenHome(props) {
     });
     const data = await response.json();
     if(data.result !== null) {
-      setErrorSignUp('all gud m8, registered')
+      setMessageSignUp('all good, account registered')
     } else {
-      setErrorSignUp('email already registered')
+      setMessageSignUp('email already registered')
     }
     
   }
@@ -52,11 +49,16 @@ function ScreenHome(props) {
       props.addEmail(data.user.email);
       props.addAPI(data.user.APIkey)
     }
-    else { setErrorSignIn('email or password invalid')}
+    else { setMessageSignIn('email or password invalid')}
     
   }
 
   if (userExists) { return <Redirect to='/screensource' /> }
+
+  var messageStyle
+  if(messageSignUp[0] === 'a'){
+    messageStyle = styles.successMessage
+  } else { messageStyle = styles.errorMessage }
 
   return (
     <div className='Login-page-background'>
@@ -73,7 +75,7 @@ function ScreenHome(props) {
             name="signin"
             initialValues={{ remember: true }}
             onFinish={signIn}
-            onFinishFailed={onFinishFailed}
+
             className="Sign"
           >
             <Form.Item
@@ -92,7 +94,7 @@ function ScreenHome(props) {
             >
               <Input.Password placeholder="password" autoComplete='current-password'/>
             </Form.Item>
-            <p style={styles.errorMessage}>{errorSignIn}</p>
+            <p style={styles.errorMessage}>{messageSignIn}</p>
             <Form.Item style={{marginBottom: 13}}>
               <Button type="primary" htmlType="submit"  > Sign-in </Button>
             </Form.Item>
@@ -104,7 +106,7 @@ function ScreenHome(props) {
             name="signup"
             initialValues={{ remember: true }}
             onFinish={signUp}
-            onFinishFailed={onFinishFailed}
+
             className="Sign"
           >
             <Form.Item
@@ -128,9 +130,9 @@ function ScreenHome(props) {
             >
               <Input.Password placeholder="password" autoComplete='current-password'/>
             </Form.Item>
-            <p style={styles.errorMessage}>{errorSignUp}</p>
+            <p style={messageStyle}>{messageSignUp}</p>
             <Form.Item style={{marginBottom: 13}}>
-              <Button type="primary" htmlType="submit"> Sign-in </Button>
+              <Button type="primary" htmlType="submit"> Sign-up </Button>
             </Form.Item>
           </Form>
       </div>
@@ -170,7 +172,14 @@ export default connect(mapStateToProps, mapDispatchToProps)(ScreenHome);
 const styles = {
   errorMessage: {
     margin: 0,
-    padding: 10,
+    height: 25,
+    fontWeight: 'bold',
     color: '#EA5354'
-    }
+    },
+  successMessage: {
+    margin: 0,
+    height: 25,
+    fontWeight: 'bold',
+    color: '#008c04'
+  }
 }
