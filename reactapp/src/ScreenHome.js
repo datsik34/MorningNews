@@ -12,10 +12,6 @@ function ScreenHome(props) {
   const [formSignIn] = Form.useForm();
   const [formSignUp] = Form.useForm();
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
-
   var signUp = async (values) => {
     formSignUp.resetFields();
     var response = await fetch('/sign-up', {
@@ -75,7 +71,6 @@ function ScreenHome(props) {
             name="signin"
             initialValues={{ remember: true }}
             onFinish={signIn}
-
             className="Sign"
           >
             <Form.Item
@@ -106,7 +101,6 @@ function ScreenHome(props) {
             name="signup"
             initialValues={{ remember: true }}
             onFinish={signUp}
-
             className="Sign"
           >
             <Form.Item
