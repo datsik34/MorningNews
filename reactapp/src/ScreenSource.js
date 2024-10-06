@@ -23,7 +23,7 @@ function ScreenSource(props) {
   var [categories, setCategories] = useState([])
   var [errorAPI, setErrorAPI] = useState(false)
   var [isTransitioning, setIsTransitioning] = useState(false)
-  const [selectedTags, setSelectedTags] = React.useState(['']);
+  const [selectedTags, setSelectedTags] = React.useState([]);
 
   const languages = {
     fr:{lang: 'fr', coun: 'fr'},
@@ -55,6 +55,7 @@ function ScreenSource(props) {
         let uniqueCategories = [...new Set(getCategories)];
 
         setCategories(uniqueCategories)
+        setSelectedTags(uniqueCategories)
       }
     }
     APIResultsLoading()
@@ -75,6 +76,13 @@ function ScreenSource(props) {
     }
   }
 
+  const handleChange = (tag, checked) => {
+    const nextSelectedTags = checked
+      ? [...selectedTags, tag]
+      : selectedTags.filter((t) => t !== tag);
+    setSelectedTags(nextSelectedTags);
+  };
+
   var errorApiScreen = (
   <div>
     <p>ERROR API. Number of limit requests reached or API key is invalid.</p>
@@ -94,13 +102,33 @@ function ScreenSource(props) {
     styleSources = "HomeThemes"
   }
   
-  const handleChange = (tag, checked) => {
-    const nextSelectedTags = checked
-      ? [...selectedTags, tag]
-      : selectedTags.filter((t) => t !== tag);
-    console.log('You are interested in: ', nextSelectedTags);
-    setSelectedTags(nextSelectedTags);
-  };
+  var filteredTagList = []
+  selectedTags.map((tag) => {
+    var list = sourceList.filter(source => source.category === tag)
+    filteredTagList.push(list)
+  })
+
+  var filteredList =  filteredTagList.map((taggedSourceList) => {
+    return (
+      <div>
+        <List
+          itemLayout="horizontal"
+          dataSource={taggedSourceList}
+          renderItem={source => (
+            <List.Item>
+              <List.Item.Meta
+                avatar={<Avatar src={`/images/${source.category}.png`} />}
+                title={<Link to={`/screenarticlesbysource/${source.id}`} >{source.name}</Link>}
+                description={source.description}
+              />
+            </List.Item>
+          )}
+        />
+      </div>
+
+    )
+  })
+
 
   return (
     <div>
@@ -124,20 +152,7 @@ function ScreenSource(props) {
                 </Tag.CheckableTag>
               ))}
             </Flex>
-
-            <List
-              itemLayout="horizontal"
-              dataSource={sourceList}
-              renderItem={source => (
-                <List.Item>
-                  <List.Item.Meta
-                    avatar={<Avatar src={`/images/${source.category}.png`} />}
-                    title={<Link to={`/screenarticlesbysource/${source.id}`} >{source.name}</Link>}
-                    description={source.description}
-                  />
-                </List.Item>
-              )}
-            />
+            {filteredList}
           </div>
         }
       </div>
