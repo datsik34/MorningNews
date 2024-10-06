@@ -34,26 +34,34 @@ function ArticleCard(props) {
     <div style={{ display: 'flex', justifyContent: 'center' }}>
         <Card
           style={styles}
-          cover={<Image alt={props.article.title} src={articleCover} />}
+          cover={<img alt={props.article.title} src={articleCover} onClick={() => showModal(props.article.title, props.article.content, props.article.description)}/>}
           actions={[
-            <ReadOutlined key="ellipsis2" onClick={() => showModal(props.article.title, props.article.content, props.article.description)} />,
+            <ReadOutlined key="ellipsis2" onClick={() => handleOk(props.article.url)} />,
             <DeleteOutlined key="ellipsis" onClick={() => props.delArticle(props.article.title)} />
           ]}
         >
           <Meta
+            style={{cursor: 'pointer'}}
             title={props.article.title}
             description={props.article.description}
+            onClick={() => showModal(props.article.title, props.article.content, props.article.description)}
           />
         </Card>
-        <Modal title={title} open={visible} onCancel={handleCancel} footer={(_, { CancelBtn }) => (
+        <Modal open={visible} onCancel={handleCancel} centered style={{minWidth: '60%'}} footer={(_, { CancelBtn }) => (
           <>
             <CancelBtn />
-            <Button type="primary" onClick={() => handleOk(props.article.url)} >Visit</Button>
+            <Button type="primary" onClick={() => handleOk(props.article.url)} >Continue reading</Button>
           </>
         )} 
         >
-          <p>{content}</p>
-        </Modal>
+            <p style={{fontWeight: 'bold', fontSize: 40, margin: 0}}>{title}</p>
+            <div style={{display: 'flex', justifyContent: 'center'}}>
+              <img alt={props.article.title} src={articleCover} style={{minWidth: '100%', minHeight: '100%'}}/>
+            </div>
+            <div style={{display: 'flex', justifyContent:'center'}}>
+              <p style={{maxWidth: '80%', display: 'flex', justifyContent:'center'}}>{content}</p>
+            </div>
+          </Modal>
       </div>
   )
 }
@@ -127,7 +135,8 @@ const styles = {
   margin: '15px',
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
+  cursor: 'pointer'
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ScreenMyArticles);
