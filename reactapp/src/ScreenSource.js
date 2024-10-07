@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -132,9 +133,20 @@ function ScreenSource(props) {
 
   return (
     <div>
+      <Helmet>
+        <script async src="https://app3.weatherwidget.org/js/?id=ww_0cb6a244bb4ec"></script>
+      </Helmet>
       <Nav />
       <div className="Banner">
+
           {flagLang}
+          <div
+            style={styles.weatherWidget}
+            id="ww_0cb6a244bb4ec"
+            v='1.3'
+            loc='auto'
+            a='{"t":"horizontal","lang":"en","sl_lpl":1,"ids":[],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'>Weather Data Source: <a style={{visibility: 'hidden'}} href="https://wetterlang.de/wetter_21_tage/" id="ww_0cb6a244bb4ec_u" target="_blank">Wetter fur die nächsten 21 tage</a>
+          </div>
       </div>
       <div className={styleSources}>
         {errorAPI
@@ -155,6 +167,7 @@ function ScreenSource(props) {
             {filteredList}
           </div>
         }
+        
       </div>
     </div>
   );
@@ -186,5 +199,10 @@ const styles = {
   flagSelected: {
     width: 50, opacity: 1, margin: 10, cursor: 'pointer',
     border: 'solid 3px', borderRadius: '50%', borderColor: 'green'
+  },
+  weatherWidget: {
+    right: 20,
+    top: 80,
+    position: 'fixed'
   }
 }
