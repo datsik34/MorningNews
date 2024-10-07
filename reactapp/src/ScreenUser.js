@@ -71,6 +71,8 @@ function ScreenUser(props) {
             setCurrentAPIkey(data.APIkey)
             formAPI.resetFields();
             popUp('success', 'API key successfully added')
+        } else {
+            popUp('error', `Can't add API key. Check your connection and try again`)
         }
     }
 
@@ -85,6 +87,8 @@ function ScreenUser(props) {
             props.addAPI(data.APIkey)
             setCurrentAPIkey(data.APIkey)
             popUp('success', 'API key successfully removed')
+        } else {
+            popUp('error', `Can't delete API key. Check your connection and try again`)
         }
     }
 
@@ -101,7 +105,7 @@ function ScreenUser(props) {
             popUp('success', 'Username successfully changed')
         } else {
             var time = convertMillisecondsToDaysHours(data.timing)
-            popUp('error', `Can't change Email now. Wait ${time} and try again`)
+            popUp('error', `Can't change Username now. Wait ${time} and try again`)
         }
     }
 
@@ -119,7 +123,7 @@ function ScreenUser(props) {
         }
         else {
             var time = convertMillisecondsToDaysHours(data.timing)
-            popUp('error', `Can't change Username now. Wait ${time} and try again`)
+            popUp('error', `Can't change Email now. Wait ${time} and try again`)
         }
     }
 
