@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import './App.css';
+import '../App.css';
 import { connect } from 'react-redux';
 import { Input, Button, Form } from 'antd';
 import { Redirect } from 'react-router-dom';

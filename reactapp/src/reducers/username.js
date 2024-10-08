@@ -1,8 +1,10 @@
 export default function (username = null, action) {
-    if (action.type == 'addUsername') {
+    if (action.type === 'addUsername') {
         return action.usernameAdded;
-    } else if (action.type == 'changeUsername') {
+    } else if (action.type === 'changeUsername') {
         return action.usernameAdded;
+    } else if (action.type === 'RESET') {
+        return null;
     } else {
         return username;
     }

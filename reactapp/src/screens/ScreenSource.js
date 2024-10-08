@@ -2,9 +2,9 @@ import { Helmet } from "react-helmet";
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import './App.css';
+import '../App.css';
 import { List, Avatar, Flex, Tag } from 'antd';
-import Nav from './Nav'
+import Nav from '../Nav'
 var API = '8d52780b5b85441cb744880fdd40412d';
 
 function Flag(props) {

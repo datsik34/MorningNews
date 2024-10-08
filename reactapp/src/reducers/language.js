@@ -1,4 +1,4 @@
-export default function (language = 'fr', action) {
+export default function (language = 'us', action) {
     if (action.type === 'uk') {
         return 'uk';
     } else if (action.type === 'fr'){
@@ -11,7 +11,9 @@ export default function (language = 'fr', action) {
         return 'it';
     }else if (action.type === 'ru'){
         return 'ru';
-    }else {
+    } else if (action.type === 'RESET') {
+        return 'us';
+    } else {
         return language;
     }
 }

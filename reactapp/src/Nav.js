@@ -16,7 +16,7 @@ function Nav(props) {
 
         <ul style={styles.rightGroup} >
         <Link to={`/user/${props.username}`} style={styles.item} ><SettingOutlined /> My account</Link>
-        <Link to="/" style={styles.item}><LogoutOutlined /> ({props.username})Logout</Link>
+        <Link to="/logout" style={styles.item}><LogoutOutlined /> ({props.username})Logout</Link>
         </ul>
       </nav>
     </header>

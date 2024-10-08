@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import { connect } from 'react-redux';
-import './App.css';
+import '../App.css';
 import { Card, message, Modal, Button, Image } from 'antd';
 import { ReadOutlined, DeleteOutlined } from '@ant-design/icons';
-import Nav from './Nav'
+import Nav from '../Nav'
 import {Link} from 'react-router-dom'
 
 const { Meta } = Card;

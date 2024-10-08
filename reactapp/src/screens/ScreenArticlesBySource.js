@@ -1,8 +1,8 @@
-import './App.css';
+import '../App.css';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {connect} from 'react-redux';
-import Nav from './Nav';
+import Nav from '../Nav';
 import { Card, Modal, Button, Image } from 'antd';
 import { LikeOutlined, ReadOutlined, CheckOutlined, DeleteOutlined } from '@ant-design/icons';
 import {  message } from 'antd';

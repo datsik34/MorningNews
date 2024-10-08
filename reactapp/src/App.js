@@ -13,12 +13,12 @@ import email from './reducers/email';
 import apiKey from './reducers/apikey';
 
 //Screens
-import ScreenHome from './ScreenHome';
-import ScreenArticlesBySource from './ScreenArticlesBySource';
-import ScreenMyArticles from './ScreenMyArticles';
-import ScreenSource from './ScreenSource';
-import ScreenUser from './ScreenUser';
-import ScreenAccDeleted from './ScreenAccDeleted';
+import ScreenHome from './screens/ScreenHome';
+import ScreenArticlesBySource from './screens/ScreenArticlesBySource';
+import ScreenMyArticles from './screens/ScreenMyArticles';
+import ScreenSource from './screens/ScreenSource';
+import ScreenUser from './screens/ScreenUser';
+import ScreenLogout from './screens/ScreenLogout';
 
 const store = createStore(combineReducers({
   wishList, userToken, language, userName, email, apiKey
@@ -34,7 +34,7 @@ export default function App() {
           <Route component={ScreenArticlesBySource} path="/screenarticlesbysource/:id" exact />
           <Route component={ScreenMyArticles} path="/screenmyarticles" exact />
           <Route component={ScreenUser} path="/user/:username" exact />
-          <Route component={ScreenAccDeleted} path="/accountdeleted" exact />
+          <Route component={ScreenLogout} path="/logout" exact />
         </Switch>
       </Router>
     </Provider>
