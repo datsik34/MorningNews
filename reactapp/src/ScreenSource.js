@@ -109,10 +109,11 @@ function ScreenSource(props) {
     filteredTagList.push(list)
   })
 
-  var filteredList =  filteredTagList.map((taggedSourceList) => {
+  var filteredList =  filteredTagList.map((taggedSourceList, i) => {
     return (
       <div>
         <List
+          key={i}
           itemLayout="horizontal"
           dataSource={taggedSourceList}
           renderItem={source => (
@@ -138,7 +139,6 @@ function ScreenSource(props) {
       </Helmet>
       <Nav />
       <div className="Banner">
-
           {flagLang}
           <div
             style={styles.weatherWidget}
