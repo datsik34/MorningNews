@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -27,6 +28,8 @@ const store = createStore(combineReducers({
 export default function App() {
   return (
     <Provider store={store}>
+      <Helmet><script src="https://static.elfsight.com/platform/platform.js" async></script></Helmet> {/*script radio*/}
+      <div class="elfsight-app-aed6fe8b-8cc9-46ed-b987-eb9a2ed74130" data-elfsight-app-lazy></div>    {/*widget radio*/}
       <Router>
         <Switch>
           <Route component={ScreenHome} path="/" exact />

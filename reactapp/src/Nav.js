@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import React from 'react';
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -10,13 +11,13 @@ function Nav(props) {
     <header style={styles.header}>
       <nav style={styles.nav} >
         <ul style={styles.leftGroup} >
-        <Link to="/screensource"style={styles.item} > <HomeOutlined /> Sources</Link>
-        <Link to="/screenmyarticles"style={styles.item} ><ReadFilled /> ({props.wishList.length})My Articles</Link>
+          <Link to="/screensource"style={styles.item} > <HomeOutlined /> Sources</Link>
+          <Link to="/screenmyarticles"style={styles.item} ><ReadFilled /> ({props.wishList.length})My Articles</Link>
         </ul>
 
         <ul style={styles.rightGroup} >
-        <Link to={`/user/${props.username}`} style={styles.item} ><SettingOutlined /> My account</Link>
-        <Link to="/logout" style={styles.item}><LogoutOutlined /> ({props.username})Logout</Link>
+          <Link to={`/user/${props.username}`} style={styles.item} ><SettingOutlined /> My account</Link>
+          <Link to="/logout" style={styles.item}><LogoutOutlined /> ({props.username})Logout</Link>
         </ul>
       </nav>
     </header>
