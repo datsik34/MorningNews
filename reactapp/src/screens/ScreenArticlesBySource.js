@@ -7,7 +7,7 @@ import { Card, Modal, Button, Image } from 'antd';
 import { LikeOutlined, ReadOutlined, CheckOutlined, DeleteOutlined } from '@ant-design/icons';
 import {  message } from 'antd';
 const { Meta } = Card;
-var API = '8d52780b5b85441cb744880fdd40412d';
+var API = process.env.REACT_APP_API_SECRET
 
 function ArticleCard(props) {
   const [buttonHover, setButtonHover] = useState(false)
@@ -100,8 +100,10 @@ function ScreenArticlesBySource(props) {
   };
 
   useEffect(() => {
-    if(props.APIkey.length !== 0){
+    if(props.APIkey.length !== 0){  
       API = props.APIkey
+    } else {
+      API = process.env.REACT_APP_API_SECRET
     }
     const findArticles = async () => {
       const data = await fetch(`https://newsapi.org/v2/top-headlines?sources=${id}&apiKey=${API}`)

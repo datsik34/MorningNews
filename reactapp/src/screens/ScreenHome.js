@@ -25,7 +25,6 @@ function ScreenHome(props) {
     } else {
       setMessageSignUp('email already registered')
     }
-    
   }
 
   var signIn = async (values) => {
@@ -46,7 +45,6 @@ function ScreenHome(props) {
       props.addAPI(data.user.APIkey)
     }
     else { setMessageSignIn('email or password invalid')}
-    
   }
 
   if (userExists) { return <Redirect to='/screensource' /> }
@@ -77,8 +75,6 @@ function ScreenHome(props) {
               name="email"
               className="Login-input"
               rules={[ { type:'email', required: true, message: 'Please input your email!' } ]}
-              
-              
             >
               <Input placeholder="arthur@lacapsule.com" autoComplete='current-email'/>
             </Form.Item>

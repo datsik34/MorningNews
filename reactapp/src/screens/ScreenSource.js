@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import '../App.css';
 import { List, Avatar, Flex, Tag } from 'antd';
 import Nav from '../Nav'
-var API = '8d52780b5b85441cb744880fdd40412d';
+var API = process.env.REACT_APP_API_SECRET
 
 function Flag(props) {
   var styleFlag = styles.flags
@@ -40,6 +40,8 @@ function ScreenSource(props) {
       var langSelected = languages[props.lang]
       if(props.APIkey.length !== 0){  
         API = props.APIkey
+      } else {
+        API = process.env.REACT_APP_API_SECRET
       }
       const data = await fetch(`https://newsapi.org/v2/sources?language=${langSelected.lang}&country=${langSelected.coun}&apiKey=${API}`)
       const body = await data.json()
@@ -127,10 +129,8 @@ function ScreenSource(props) {
           )}
         />
       </div>
-
     )
   })
-
 
   return (
     <div>
