@@ -134,19 +134,52 @@ function ScreenSource(props) {
 
   return (
     <div>
-      <Helmet>
-        <script async src="https://app3.weatherwidget.org/js/?id=ww_0cb6a244bb4ec"></script>
-      </Helmet>
       <Nav />
+
+
+      <div className="weatherWidget">
+        <div className='ww-name'><div>Chiang Mai</div> <img className='ww-name-change-icon' src={'icons/change.svg'}/> </div>
+        <div className='ww-current'>
+          <div className="ww-current-degrees">27°C</div>
+          <div className="ww-current-picto" > <img className='ww-current-picto' src={'icons/weather/thunderstorms-day-extreme-rain.svg'} /> </div>
+          <div className="ww-current-status" >Temperate rain</div>
+        </div>
+        <div className='ww-spacer'></div>
+        <div className='ww-forecast'>
+          <div className='ww-forecast-item'>
+            <div className='ww-forecast-item-timeOrdate'>18:00</div>
+            <img className='ww-forecast-item-picto' src={'icons/weather/overcast-sleet.svg'}/>
+            <div className='ww-forecast-item-degrees'>26°C</div>
+          </div>
+
+          <div className='ww-forecast-item'>
+            <div className='ww-forecast-item-timeOrdate'>18:00</div>
+            <img className='ww-forecast-item-picto' src={'icons/weather/overcast-sleet.svg'}/>
+            <div className='ww-forecast-item-degrees'>26°C</div>
+          </div>
+
+          <div className='ww-forecast-item'>
+            <div className='ww-forecast-item-timeOrdate'>18:00</div>
+            <img className='ww-forecast-item-picto' src={'icons/weather/overcast-sleet.svg'}/>
+            <div className='ww-forecast-item-degrees'>26°C</div>
+          </div>
+          <div className='ww-forecast-item'>
+            <div className='ww-forecast-item-timeOrdate'>18:00</div>
+            <img className='ww-forecast-item-picto' src={'icons/weather/overcast-sleet.svg'}/>
+            <div className='ww-forecast-item-degrees'>26°C</div>
+          </div>
+          <div className='ww-forecast-item'>
+            <div className='ww-forecast-item-timeOrdate'>18:00</div>
+            <img className='ww-forecast-item-picto' src={'icons/weather/overcast-sleet.svg'}/>
+            <div className='ww-forecast-item-degrees'>26°C</div>
+          </div>
+        </div>
+      </div>
+
+
+
       <div className="Banner">
           {flagLang}
-          <div
-            style={styles.weatherWidget}
-            id="ww_0cb6a244bb4ec"
-            v='1.3'
-            loc='auto'
-            a='{"t":"horizontal","lang":"en","sl_lpl":1,"ids":[],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'>Weather Data Source: <a style={{visibility: 'hidden'}} href="https://wetterlang.de/wetter_21_tage/" id="ww_0cb6a244bb4ec_u" target="_blank">Wetter fur die nächsten 21 tage</a>
-          </div>
       </div>
       <div className={styleSources}>
         {errorAPI
