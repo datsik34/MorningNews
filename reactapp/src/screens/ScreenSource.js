@@ -1,10 +1,11 @@
-import { Helmet } from "react-helmet";
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import '../App.css';
-import { List, Avatar, Flex, Tag } from 'antd';
-import Nav from '../Nav'
+import { List, Avatar, Flex, Tag, Form, Input } from 'antd';
+import Nav from '../Nav';
+import WeatherWidget from '../components/WeatherWidget';
+
 var API = process.env.REACT_APP_API_SECRET
 
 function Flag(props) {
@@ -15,7 +16,8 @@ function Flag(props) {
       style={styleFlag}
       alt={props.langs}
       src={`images/${props.langs}.png`}
-      onClick={() => props.updateLanguage(props.langs)}/>
+      onClick={() => props.updateLanguage(props.langs)}
+    />
   )
 }
 
@@ -135,49 +137,7 @@ function ScreenSource(props) {
   return (
     <div>
       <Nav />
-
-
-      <div className="weatherWidget">
-        <div className='ww-name'><div>Chiang Mai</div> <img className='ww-name-change-icon' src={'icons/change.svg'}/> </div>
-        <div className='ww-current'>
-          <div className="ww-current-degrees">27°C</div>
-          <div className="ww-current-picto" > <img className='ww-current-picto' src={'icons/weather/thunderstorms-day-extreme-rain.svg'} /> </div>
-          <div className="ww-current-status" >Temperate rain</div>
-        </div>
-        <div className='ww-spacer'></div>
-        <div className='ww-forecast'>
-          <div className='ww-forecast-item'>
-            <div className='ww-forecast-item-timeOrdate'>18:00</div>
-            <img className='ww-forecast-item-picto' src={'icons/weather/overcast-sleet.svg'}/>
-            <div className='ww-forecast-item-degrees'>26°C</div>
-          </div>
-
-          <div className='ww-forecast-item'>
-            <div className='ww-forecast-item-timeOrdate'>18:00</div>
-            <img className='ww-forecast-item-picto' src={'icons/weather/overcast-sleet.svg'}/>
-            <div className='ww-forecast-item-degrees'>26°C</div>
-          </div>
-
-          <div className='ww-forecast-item'>
-            <div className='ww-forecast-item-timeOrdate'>18:00</div>
-            <img className='ww-forecast-item-picto' src={'icons/weather/overcast-sleet.svg'}/>
-            <div className='ww-forecast-item-degrees'>26°C</div>
-          </div>
-          <div className='ww-forecast-item'>
-            <div className='ww-forecast-item-timeOrdate'>18:00</div>
-            <img className='ww-forecast-item-picto' src={'icons/weather/overcast-sleet.svg'}/>
-            <div className='ww-forecast-item-degrees'>26°C</div>
-          </div>
-          <div className='ww-forecast-item'>
-            <div className='ww-forecast-item-timeOrdate'>18:00</div>
-            <img className='ww-forecast-item-picto' src={'icons/weather/overcast-sleet.svg'}/>
-            <div className='ww-forecast-item-degrees'>26°C</div>
-          </div>
-        </div>
-      </div>
-
-
-
+      <WeatherWidget />
       <div className="Banner">
           {flagLang}
       </div>
@@ -200,7 +160,6 @@ function ScreenSource(props) {
             {filteredList}
           </div>
         }
-        
       </div>
     </div>
   );

@@ -202,9 +202,39 @@ h4 {
   justify-content: flex-center;
   align-items: center;
 }
+.ww-name-form { 
+  max-width: 160px; 
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.ww-name-form-input {
+  width: 120px; 
+  height: 30px;
+}
+.ww-name-form-opacity {
+  color: white;
+  margin: 0;
+  background-color: rgba(255, 255, 255, 0);
+}
+.ww-name-form-opacity:hover {
+  background-color: rgba(255, 255, 255, 0);
+}
+.ww-name-form-opacity:focus {
+  background-color: rgba(255, 255, 255, 0);
+}
+.ww-name-form-opacity:not(:hover) {
+  background-color: rgba(255, 255, 255, 0);
+}
+.ww-name-form-button {
+  border: 0px;
+  background-color: rgba(28, 34, 90, 0);
+}
 .ww-name-change-icon {
-  width: 13px;
+  width: 9px;
   margin-left: 10px;
+  margin-top: 2px;
   border: 2px solid white;
   padding: 3px;
   border-radius: 50%;
@@ -218,17 +248,22 @@ h4 {
   width: 100%;
 }
 .ww-current-degrees {
-  font-size: 50px;
+  font-size: 40px;
+  width: 80px;
+  text-align: center;
 }
 .ww-current-picto {
-  width: 70px;
+  width: 80px;
 }
 .ww-current-status {
-  font-size: 16px;
+  font-size: 18px;
+  width: 80px;
+  text-align: center;
 }
 .ww-spacer {
 width: 95%;
 border-top: solid 1px rgba(255, 255, 255, 0.3);
+margin-bottom: 8px;
 }
 .ww-forecast {
   display: flex;
