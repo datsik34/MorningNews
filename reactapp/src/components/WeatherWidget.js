@@ -23,10 +23,40 @@ function WeatherWidget(props) {
                 break;
             case '01n': return('clear-night');
                 break;
+            case '02d': return('partly-cloudy-day');
+                break;
+            case '02n': return('partly-cloudy-night');
+                break;
+            case '03d': return('cloudy');
+                break;
+            case '03n': return('cloudy');
+                break;
+            case '04d': return('overcast');
+                break;
+            case '04n': return('overcast');
+                break;
+            case '09d': return('extreme-rain');
+                break;
+            case '09n': return('extreme-rain');
+                break;
+            case '10d': return('overcast-day-rain');
+                break;
+            case '10n': return('overcast-night-rain');
+                break;
+            case '11d': return('thunderstorms-day');
+                break;
+            case '11n': return('thunderstorms-night');
+                break;
+            case '13d': return('partly-cloudy-day-snow');
+                break;
+            case '13n': return('partly-cloudy-night-snow');
+                break;
+            case '50d': return('partly-cloudy-day-fog');
+                break;
+            case '50n': return('partly-cloudy-night-fog');
+                break;
         }
     }
-
-
 
     const [formWeatherCity] = Form.useForm();
     
@@ -62,11 +92,11 @@ function WeatherWidget(props) {
         var itemsForecast = forecast.map((item, i) => {
             var dateformated = convertUTCDateToLocalDate(new Date(item.dt_txt));
             var degree = Math.round(item.main.temp)
-            var icon = item.weather[0].icon
+            var icon = convertIconWeather(item.weather[0].icon)
             return (
                 <div key={i} className='ww-forecast-item'>
                     <div className='ww-forecast-item-timeOrdate'>{dateformated}</div>
-                    <img className='ww-forecast-item-picto' src={'icons/weather/overcast-sleet.svg'}/>
+                    <img className='ww-forecast-item-picto' src={`icons/weather/${icon}.svg`}/>
                     <div className='ww-forecast-item-degrees'>{degree}°C</div>
                   </div>
             )
@@ -74,10 +104,6 @@ function WeatherWidget(props) {
     }
 
     var iconFormated = convertIconWeather(props.currentIcon)
-    console.log(iconFormated);
-    
-    
-    
 
     return (
         <div className="weatherWidget">
@@ -109,9 +135,7 @@ function WeatherWidget(props) {
               {props.currentStatus}
               </div>
             </div>
-
             <div className='ww-spacer'></div>
-
             <div className='ww-forecast'>
                 {itemsForecast}
             </div>
