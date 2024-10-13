@@ -1,21 +1,13 @@
 import { Form, Input } from 'antd';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import '../App.css';
 var WeatherAPI = process.env.REACT_APP_WEATHER_API_SECRET;
 
 function WeatherWidget(props) {
     var [showForm, setShowForm] = useState(false);
+    const forecastsRef = useRef(null);
     const [formWeatherCity] = Form.useForm();
-
-    function convertUTCDateToLocalDate(date) {
-        var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
-        var offset = date.getTimezoneOffset() / 60;
-        var hours = date.getHours();
-        newDate.setHours(hours - offset);
-        var hoursFormated = newDate.getHours() + ':00'
-        return hoursFormated;   
-    }
 
     useEffect( () => {
         const WeatherAPILoading = async () => {
@@ -42,6 +34,7 @@ function WeatherWidget(props) {
         }
         WeatherAPILoading()
       },[])
+
     
     const addCityWeather = async (values) => {
         formWeatherCity.resetFields();
@@ -83,6 +76,27 @@ function WeatherWidget(props) {
         }
     };
 
+    function convertUTCDateToLocalDate(date) {
+        var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+        var offset = date.getTimezoneOffset() / 60;
+        var hours = date.getHours();
+        newDate.setHours(hours - offset);
+        var hoursFormated = newDate.getHours() + ':00'
+        return hoursFormated;   
+    }
+
+    const handleScrollLeft = () => {
+        if (forecastsRef.current) {
+            forecastsRef.current.scrollBy({ left: -70, behavior: 'smooth' });
+        }
+    };
+  
+    const handleScrollRight = () => {
+        if (forecastsRef.current) {
+            forecastsRef.current.scrollBy({ left: 70, behavior: 'smooth' });
+        }
+    };
+
     if (props.forecastList.length !== 0 ) {
         var itemsForecast = props.forecastList[0].map((item, i) => {
             var dateformated = convertUTCDateToLocalDate(new Date(item.dt_txt));
@@ -99,8 +113,6 @@ function WeatherWidget(props) {
     }
 
     var iconFormated = convertIconWeather(props.currentIcon)
-    console.log(props.forecastList);
-    
 
     return (
         <div className="weatherWidget">
@@ -128,13 +140,19 @@ function WeatherWidget(props) {
               <div className="ww-current-picto" >
                 <img alt='icon' className='ww-current-picto' src={`icons/weather/${iconFormated}.svg`} />
                 </div>
-              <div className="ww-current-status" >
-              {props.currentStatus}
-              </div>
+              <div className="ww-current-status" >{props.currentStatus}</div>
             </div>
             <div className='ww-spacer'></div>
-            <div className='ww-forecast'>
-                {itemsForecast}
+            <div className='ww-forecast-container'>
+                <button onClick={handleScrollLeft} className='ww-forecast-button'>
+                    <img alt='icon' className='ww-forecast-icon' src={'icons/left-circle.svg'}/>
+                </button>
+                <div className="ww-forecasts" ref={forecastsRef}>
+                    {itemsForecast}
+                </div>
+                <button onClick={handleScrollRight} className='ww-forecast-button'>
+                    <img alt='icon' className='ww-forecast-icon' src={'icons/right-circle.svg'}/>
+                </button>
             </div>
         </div>
     )
