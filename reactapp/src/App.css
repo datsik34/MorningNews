@@ -206,7 +206,7 @@ h4 {
 }
 .ww-name-form { 
   max-width: 160px; 
-  height: 30px;
+  height: 25px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -232,6 +232,7 @@ h4 {
 .ww-name-form-button {
   border: 0px;
   background-color: rgba(28, 34, 90, 0);
+  cursor: pointer;
 }
 .ww-name-change-icon {
   width: 9px;
@@ -241,7 +242,6 @@ h4 {
   padding: 3px;
   border-radius: 50%;
   box-shadow: 0px 0px 5px 2px black;
-  cursor: pointer;
 }
 .ww-current {
   display: flex;

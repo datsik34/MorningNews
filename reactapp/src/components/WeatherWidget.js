@@ -7,6 +7,7 @@ var WeatherAPI = process.env.REACT_APP_WEATHER_API_SECRET;
 function WeatherWidget(props) {
     var [showForm, setShowForm] = useState(false);
     const forecastsRef = useRef(null);
+    const inputRef = useRef(null);
     const [formWeatherCity] = Form.useForm();
 
     useEffect( () => {
@@ -35,11 +36,17 @@ function WeatherWidget(props) {
         WeatherAPILoading()
       },[])
 
+    useEffect(() => {
+        if (showForm && inputRef.current) {
+          inputRef.current.focus();
+        }
+    }, [showForm]);
+
     
     const addCityWeather = async (values) => {
         formWeatherCity.resetFields();
         if(values.addWeatherCity !== undefined) {
-            console.log(values.addWeatherCity);
+            forecastsRef.current.scrollBy({ left: -2800});
             
             const dataCurrent = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${values.addWeatherCity}&appid=${WeatherAPI}&lang=en&units=metric`)
             const bodyCurrent = await dataCurrent.json()
@@ -124,9 +131,16 @@ function WeatherWidget(props) {
                 }
                 {
                     showForm
-                        ? <Form name="basic" className="ww-name-form ww-name-form-opacity" form={formWeatherCity} onFinish={addCityWeather} autoComplete="off">
+                        ? <Form
+                            name="basic"
+                            className="ww-name-form ww-name-form-opacity"
+                            form={formWeatherCity}
+                            onFinish={addCityWeather}
+                            autoComplete="off"
+                            onBlur={() => setShowForm(false)}
+                          >
                             <Form.Item name="addWeatherCity" className="ww-name-form-opacity">
-                                <Input className="ww-name-form-input ww-name-form-opacity" allowClear/>
+                                <Input ref={inputRef} className="ww-name-form-input ww-name-form-opacity" allowClear/>
                             </Form.Item>
                         </Form>
                         : <button onClick={() => setShowForm(true)} className="ww-name-form-button">
