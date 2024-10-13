@@ -16,10 +16,38 @@ function WeatherWidget(props) {
         var hoursFormated = newDate.getHours() + ':00'
         return hoursFormated;   
     }
+
+    useEffect( () => {
+        const WeatherAPILoading = async () => {
+            var response = await fetch('/weather-widget-getcity', {
+                method: 'POST',
+                headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                body: `token=${props.token}`
+            })
+            var data = await response.json();
+            if(data.city){
+                const dataCurrent = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${data.city}&appid=${WeatherAPI}&lang=en&units=metric`)
+                const dataForecast = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${data.city}&appid=${WeatherAPI}&lang=en&units=metric`)
+                const bodyCurrent = await dataCurrent.json()
+                const bodyForecast = await dataForecast.json()
+                var temp = Math.round(bodyCurrent.main.temp)
+                var icon = bodyCurrent.weather[0].icon
+
+                props.setCurrentTemp(temp)
+                props.setCurrentIcon(icon)
+                props.setCurrentStatus(bodyCurrent.weather[0].description)
+                props.setForecastList(bodyForecast.list)
+                props.setCurrentCity(bodyCurrent.name)
+            }
+        }
+        WeatherAPILoading()
+      },[])
     
     const addCityWeather = async (values) => {
         formWeatherCity.resetFields();
         if(values.addWeatherCity !== undefined) {
+            console.log(values.addWeatherCity);
+            
             const dataCurrent = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${values.addWeatherCity}&appid=${WeatherAPI}&lang=en&units=metric`)
             const bodyCurrent = await dataCurrent.json()
             if(bodyCurrent.cod === "400" || bodyCurrent.cod === "404" ){
@@ -39,6 +67,18 @@ function WeatherWidget(props) {
                 props.setCurrentStatus(bodyCurrent.weather[0].description)
                 props.setForecastList(bodyForecast.list)
                 props.setCurrentCity(bodyCurrent.name)
+
+                var response = await fetch('/weather-widget-addcity', {
+                    method: 'POST',
+                    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                    body: `token=${props.token}&currentCity=${bodyCurrent.name}`
+                })
+                var data = await response.json();
+                if(data.result){
+                    console.log('successfully added');
+                } else {
+                    console.log('something went wrong');
+                }
             }
         }
     };
@@ -104,7 +144,8 @@ function mapStateToProps(state) {
         currentTemp: state.weatherCurrent.currentTemp,
         currentStatus: state.weatherCurrent.currentStatus,
         currentIcon: state.weatherCurrent.currentIcon,
-        forecastList: state.weatherForecast.items
+        forecastList: state.weatherForecast.items,
+        token: state.userToken
     }
   }
   

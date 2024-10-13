@@ -20,6 +20,10 @@ var userSchema = mongoose.Schema({
       username: Date,
       email: Date,
       password: Date
+    },
+    WeatherWidget:{
+      currentCity: String,
+      cityChanged: Date
     }
   });
 

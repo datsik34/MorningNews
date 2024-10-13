@@ -31,6 +31,10 @@ router.post('/sign-up', async function(req, res, next) {
         username: null,
         email: null,
         password: null
+      },
+      WeatherWidget:{
+        currentCity: null,
+        cityChanged: null
       }
     })
     var user = await newUser.save();
@@ -219,6 +223,37 @@ router.delete('/delete-account', async function(req, res, next){
      var response = await userModel.deleteOne({ token: req.body.token });
      res.json({response})
   }
+})
+
+router.post('/weather-widget-addcity', async function(req, res, next){
+  var result
+  var findUser = await userModel.findOne({
+    token: req.body.token
+  })
+  if(findUser){
+    findUser.WeatherWidget.currentCity = req.body.currentCity
+    var user = await findUser.save()
+    result = true;
+  } else {
+    result = false;
+  }
+  res.json({result})
+})
+
+router.post('/weather-widget-getcity', async function(req, res, next){
+  var result
+  var city = null;
+  
+  var findUser = await userModel.findOne({
+    token: req.body.token
+  })
+  if(findUser.WeatherWidget.currentCity !== null){
+    city = findUser.WeatherWidget.currentCity
+    result = true
+  } else {
+    result= false
+  }
+  res.json({result, city})
 })
 
 console.log('L O C K E D  &  L O A D E D');
