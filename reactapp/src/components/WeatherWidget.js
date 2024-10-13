@@ -99,6 +99,8 @@ function WeatherWidget(props) {
     }
 
     var iconFormated = convertIconWeather(props.currentIcon)
+    console.log(props.forecastList);
+    
 
     return (
         <div className="weatherWidget">

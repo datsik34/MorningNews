@@ -6,7 +6,7 @@ export default function (state = initialState, action) {
       case 'SET_FORECAST':
         return {
           ...state,
-          items: [...state.items, action.payload],
+          items: [action.payload],
         };
       case 'RESET_FORECAST':
         return initialState
