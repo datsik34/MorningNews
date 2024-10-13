@@ -3,7 +3,7 @@ export default function (username = null, action) {
         return action.usernameAdded;
     } else if (action.type === 'changeUsername') {
         return action.usernameAdded;
-    } else if (action.type === 'RESET') {
+    } else if (action.type === 'RESET_USERNAME') {
         return null;
     } else {
         return username;

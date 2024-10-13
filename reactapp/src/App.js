@@ -13,11 +13,10 @@ import userName from './reducers/username';
 import email from './reducers/email';
 import apiKey from './reducers/apikey';
 
-import weatherCity from './reducers/weatherwidget/weathercity';
-import currentDegrees from './reducers/weatherwidget/currentdegrees';
-import currentStatus from './reducers/weatherwidget/currentstatus';
-import forecastList from './reducers/weatherwidget/forecastList';
-import currentIcon from './reducers/weatherwidget/currenticon';
+
+import weatherCurrent from './reducers/weatherwidget/weathercurrent';
+import weatherForecast from './reducers/weatherwidget/weatherforecast';
+
 
 //Screens
 import ScreenHome from './screens/ScreenHome';
@@ -28,8 +27,7 @@ import ScreenUser from './screens/ScreenUser';
 import ScreenLogout from './screens/ScreenLogout';
 
 const store = createStore(combineReducers({
-  wishList, userToken, language, userName, email, apiKey,
-  weatherCity, currentDegrees, currentStatus, forecastList, currentIcon
+  wishList, userToken, language, userName, email, apiKey, weatherCurrent, weatherForecast
 }));
 
 export default function App() {

@@ -253,6 +253,7 @@ h4 {
   text-align: center;
 }
 .ww-current-picto {
+  margin-top: -5px;
   width: 80px;
 }
 .ww-current-status {

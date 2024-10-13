@@ -25,7 +25,7 @@ export default function (wishList = [], action) {
     } else if (action.type === 'getArticles'){
         wishListCopy = action.articles
         return wishListCopy;
-    } else if (action.type === 'RESET') {
+    } else if (action.type === 'RESET_ARTICLES') {
         return [];
     } else {
         return wishList;

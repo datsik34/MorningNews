@@ -3,7 +3,7 @@ export default function (email = null, action) {
         return action.emailAdded;
     } else if (action.type === 'changeEmail') {
         return action.emailAdded;
-    } else if (action.type === 'RESET') {
+    } else if (action.type === 'RESET_EMAIL') {
         return null;
     } else {
         return email;

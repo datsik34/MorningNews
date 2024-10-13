@@ -11,7 +11,7 @@ export default function (language = 'us', action) {
         return 'it';
     }else if (action.type === 'ru'){
         return 'ru';
-    } else if (action.type === 'RESET') {
+    } else if (action.type === 'RESET_LANG') {
         return 'us';
     } else {
         return language;

@@ -6,7 +6,7 @@ var WeatherAPI = process.env.REACT_APP_WEATHER_API_SECRET;
 
 function WeatherWidget(props) {
     var [showForm, setShowForm] = useState(false);
-    var [forecast, setForecast] = useState([]);
+    const [formWeatherCity] = Form.useForm();
 
     function convertUTCDateToLocalDate(date) {
         var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
@@ -16,49 +16,6 @@ function WeatherWidget(props) {
         var hoursFormated = newDate.getHours() + ':00'
         return hoursFormated;   
     }
-
-    function convertIconWeather(icon) {
-        switch(icon){
-            case '01d': return('clear-day');
-                break;
-            case '01n': return('clear-night');
-                break;
-            case '02d': return('partly-cloudy-day');
-                break;
-            case '02n': return('partly-cloudy-night');
-                break;
-            case '03d': return('cloudy');
-                break;
-            case '03n': return('cloudy');
-                break;
-            case '04d': return('overcast');
-                break;
-            case '04n': return('overcast');
-                break;
-            case '09d': return('extreme-rain');
-                break;
-            case '09n': return('extreme-rain');
-                break;
-            case '10d': return('overcast-day-rain');
-                break;
-            case '10n': return('overcast-night-rain');
-                break;
-            case '11d': return('thunderstorms-day');
-                break;
-            case '11n': return('thunderstorms-night');
-                break;
-            case '13d': return('partly-cloudy-day-snow');
-                break;
-            case '13n': return('partly-cloudy-night-snow');
-                break;
-            case '50d': return('partly-cloudy-day-fog');
-                break;
-            case '50n': return('partly-cloudy-night-fog');
-                break;
-        }
-    }
-
-    const [formWeatherCity] = Form.useForm();
     
     const addCityWeather = async (values) => {
         formWeatherCity.resetFields();
@@ -73,30 +30,28 @@ function WeatherWidget(props) {
                 const dataForecast = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${values.addWeatherCity}&appid=${WeatherAPI}&lang=en&units=metric`)
                 const bodyForecast = await dataForecast.json()
                 setShowForm(false)
-                props.addWeatherCity(bodyCurrent.name)
 
                 var temp = Math.round(bodyCurrent.main.temp)
-                props.addTemperature(temp)
-
-                console.log(bodyCurrent);
-                
                 var icon = bodyCurrent.weather[0].icon
-                props.addIcon(icon)
-                props.addStatus(bodyCurrent.weather[0].description)
-                setForecast(bodyForecast.list)
+
+                props.setCurrentTemp(temp)
+                props.setCurrentIcon(icon)
+                props.setCurrentStatus(bodyCurrent.weather[0].description)
+                props.setForecastList(bodyForecast.list)
+                props.setCurrentCity(bodyCurrent.name)
             }
         }
     };
 
-    if (forecast.length !== 0 ) {
-        var itemsForecast = forecast.map((item, i) => {
+    if (props.forecastList.length !== 0 ) {
+        var itemsForecast = props.forecastList[0].map((item, i) => {
             var dateformated = convertUTCDateToLocalDate(new Date(item.dt_txt));
             var degree = Math.round(item.main.temp)
             var icon = convertIconWeather(item.weather[0].icon)
             return (
                 <div key={i} className='ww-forecast-item'>
                     <div className='ww-forecast-item-timeOrdate'>{dateformated}</div>
-                    <img className='ww-forecast-item-picto' src={`icons/weather/${icon}.svg`}/>
+                    <img alt='icon' className='ww-forecast-item-picto' src={`icons/weather/${icon}.svg`}/>
                     <div className='ww-forecast-item-degrees'>{degree}°C</div>
                   </div>
             )
@@ -109,8 +64,8 @@ function WeatherWidget(props) {
         <div className="weatherWidget">
             <div className="ww-name-form">
                 {
-                    props.weatherCity !== null && showForm === false
-                        ? <div className='ww-name'>{props.weatherCity}</div>
+                    props.currentCity !== null && showForm === false
+                        ? <div className='ww-name'>{props.currentCity}</div>
                         : undefined
                 }
                 {
@@ -121,15 +76,15 @@ function WeatherWidget(props) {
                             </Form.Item>
                         </Form>
                         : <button onClick={() => setShowForm(true)} className="ww-name-form-button">
-                            <img  className='ww-name-change-icon' src={'icons/add.svg'}/>
+                            <img alt='icon' className='ww-name-change-icon' src={'icons/add.svg'}/>
                         </button>
                 }
             </div>
             
             <div className='ww-current'>
-              <div className="ww-current-degrees">{props.currentDegrees}°C</div>
+              <div className="ww-current-degrees">{props.currentTemp}°C</div>
               <div className="ww-current-picto" >
-                <img className='ww-current-picto' src={`icons/weather/${iconFormated}.svg`} />
+                <img alt='icon' className='ww-current-picto' src={`icons/weather/${iconFormated}.svg`} />
                 </div>
               <div className="ww-current-status" >
               {props.currentStatus}
@@ -145,30 +100,76 @@ function WeatherWidget(props) {
 
 function mapStateToProps(state) { 
     return {
-        weatherCity: state.weatherCity,
-        currentDegrees: state.currentDegrees,
-        currentStatus: state.currentStatus,
-        currentIcon: state.currentIcon,
-
+        currentCity: state.weatherCurrent.currentCity,
+        currentTemp: state.weatherCurrent.currentTemp,
+        currentStatus: state.weatherCurrent.currentStatus,
+        currentIcon: state.weatherCurrent.currentIcon,
+        forecastList: state.weatherForecast.items
     }
   }
   
 function mapDispatchToProps(dispatch){
     return {
-        addWeatherCity: function(city){
-            dispatch({type: 'addWeatherCity', cityAdded: city})
+        setCurrentCity: function(city){
+            dispatch({type: 'SET_CURRENT_CITY', payload: city})
         },
-        addTemperature: function(degrees){
-            dispatch({type: 'addTemperature', tempAdded: degrees})
+        setCurrentTemp: function(degrees){
+            dispatch({type: 'SET_CURRENT_TEMP', payload: degrees})
         },
-        addStatus: function(status){
-            dispatch({type: 'addStatus', statusAdded: status})
+        setCurrentStatus: function(status){
+            dispatch({type: 'SET_CURRENT_STATUS', payload: status})
         },
-        addIcon: function(icon){
-            dispatch({type: 'addIcon', iconAdded: icon})
+        setCurrentIcon: function(icon){
+            dispatch({type: 'SET_CURRENT_ICON', payload: icon})
+        },
+        setForecastList: function(forecast){
+            dispatch({type: 'SET_FORECAST', payload: forecast})
         }
     }
 }
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(WeatherWidget)
+
+function convertIconWeather(icon) {
+    switch(icon){
+        case '01d': return('clear-day');
+            break;
+        case '01n': return('clear-night');
+            break;
+        case '02d': return('partly-cloudy-day');
+            break;
+        case '02n': return('partly-cloudy-night');
+            break;
+        case '03d': return('cloudy');
+            break;
+        case '03n': return('cloudy');
+            break;
+        case '04d': return('overcast');
+            break;
+        case '04n': return('overcast');
+            break;
+        case '09d': return('extreme-rain');
+            break;
+        case '09n': return('extreme-rain');
+            break;
+        case '10d': return('overcast-day-rain');
+            break;
+        case '10n': return('overcast-night-rain');
+            break;
+        case '11d': return('thunderstorms-day');
+            break;
+        case '11n': return('thunderstorms-night');
+            break;
+        case '13d': return('partly-cloudy-day-snow');
+            break;
+        case '13n': return('partly-cloudy-night-snow');
+            break;
+        case '50d': return('partly-cloudy-day-fog');
+            break;
+        case '50n': return('partly-cloudy-night-fog');
+            break;
+        default: return ('clear-day')
+
+    }
+}

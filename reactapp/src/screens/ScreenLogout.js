@@ -10,7 +10,9 @@ const ScreenLogout = (props) => {
     props.resetUsername();
     props.resetEmail();
     props.resetAPI();
-    
+    props.resetCurrentWeather();
+    props.resetForecast();
+
     return (
         <div style={styles}>
             <Result
@@ -32,22 +34,28 @@ const styles = {display: 'flex', justifyContent: 'center', alignItems: 'center',
 function mapDispatchToProps(dispatch){
     return {
       resetToken: function(){
-        dispatch({type: 'RESET'})
+        dispatch({type: 'RESET_TOKEN'})
       },
       resetLang: function(){
-        dispatch({type: 'RESET'})
+        dispatch({type: 'RESET_LANG'})
       },
       resetWishlist: function(){
-        dispatch({type: 'RESET'})
+        dispatch({type: 'RESET_ARTICLES'})
       },
       resetUsername: function(){
-        dispatch({type: 'RESET'})
+        dispatch({type: 'RESET_USERNAME'})
       },
       resetEmail: function(){
-        dispatch({type: 'RESET'})
+        dispatch({type: 'RESET_EMAIL'})
       },
       resetAPI: function(){
-        dispatch({type: 'RESET'})
+        dispatch({type: 'RESET_WEATHER_API'})
+      },
+      resetCurrentWeather: function(){
+        dispatch({type: 'RESET_CURRENTS'})
+      },
+      resetForecast: function(){
+        dispatch({type: 'RESET_FORECAST'})
       }
     }
   }
