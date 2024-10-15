@@ -120,6 +120,8 @@ function ScreenUser(props) {
         if(data.result){
             props.changeEmail(data.output)
             popUp('success', 'Email successfully changed')
+        } else if(data.result === false && data.timing === null) {
+            popUp('error', `The email ${data.output} is already registered in our system`)
         }
         else {
             var time = convertMillisecondsToDaysHours(data.timing)

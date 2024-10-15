@@ -169,16 +169,25 @@ router.put('/user-settings', async function (req, res, next) {
       }
 
       if(check === true){
-        findUser.email = req.body.email
-        findUser.dateSettingsChanged.email = date
-        var user = await findUser.save()
-        result = true
-        output = user.email
+        var findUserEmail = await userModel.findOne({
+          email: req.body.email
+        })
+      
+        if(findUserEmail != null){
+          result = false;
+          timing = null;
+          output = req.body.email;
+        } else {
+          findUser.email = req.body.email
+          findUser.dateSettingsChanged.email = date
+          var user = await findUser.save()
+          result = true
+          output = user.email
+        }
       } else {
         timing = check
         result = false
       }
-      
     }
 
     else if (req.body.currentPassword) {
@@ -206,7 +215,6 @@ router.put('/user-settings', async function (req, res, next) {
           result = false;
           timing = check
         }
-
       } else {
         result = false;
       }
