@@ -4,9 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+//Import routes
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var usersettingsRouter = require('./routes/user-settings');
+var articleRouter = require('./routes/article');
+var weatherwidgetRouter = require('./routes/weatherwidget');
 
+//Backend Connection
 require('./models/connection');
 
 var app = express();
@@ -21,8 +25,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'reactapp/build')));
 
+// Routes : index, user-settings, articles, weatherwidget
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/user-settings', usersettingsRouter);
+app.use('/article', articleRouter);
+app.use('/weatherwidget', weatherwidgetRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -40,4 +48,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+console.log('L O C K E D  &  L O A D E D');
 module.exports = app;

@@ -78,7 +78,7 @@ function ScreenMyArticles(props) {
 
   
   var delArticle = async (articleTitle) => {
-    var response = await fetch(`/del-article`, {
+    var response = await fetch(`/article/delete`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `token=${props.token}&title=${articleTitle}`

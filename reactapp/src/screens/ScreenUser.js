@@ -60,7 +60,7 @@ function ScreenUser(props) {
     };
 
     var  addingAPIkey =  async () => {
-        var response = await fetch('/addAPIkey', {
+        var response = await fetch('/user-settings/addAPIkey', {
             method: 'POST',
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
             body: `token=${props.token}&apikey=${APIkey}`
@@ -77,7 +77,7 @@ function ScreenUser(props) {
     }
 
     var  deleteAPIkey =  async () => {
-        var response = await fetch('/addAPIkey', {
+        var response = await fetch('/user-settings/addAPIkey', {
             method: 'POST',
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
             body: `token=${props.token}&apikey=`
@@ -152,7 +152,7 @@ function ScreenUser(props) {
     }
 
     var deleteAccount = async () => {
-        var response = await fetch('/delete-account', {
+        var response = await fetch('/user-settings/delete-account', {
             method: 'DELETE',
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
             body: `token=${props.token}`

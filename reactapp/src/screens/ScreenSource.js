@@ -70,7 +70,7 @@ function ScreenSource(props) {
   var updateLanguage = async (changeLang) => {
     setErrorAPI(false);
     setIsTransitioning(true);
-    var response = await fetch('/update-lang', {
+    var response = await fetch('/user-settings/update-lang', {
       method: 'PUT',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `token=${props.token}&lang=${changeLang}`

@@ -12,7 +12,7 @@ function WeatherWidget(props) {
 
     useEffect( () => {
         const WeatherAPILoading = async () => {
-            var response = await fetch('/weather-widget-getcity', {
+            var response = await fetch('/weatherwidget/getcity', {
                 method: 'POST',
                 headers: {'Content-Type':'application/x-www-form-urlencoded'},
                 body: `token=${props.token}`
@@ -68,7 +68,7 @@ function WeatherWidget(props) {
                 props.setForecastList(bodyForecast.list)
                 props.setCurrentCity(bodyCurrent.name)
 
-                var response = await fetch('/weather-widget-addcity', {
+                var response = await fetch('/weatherwidget/addcity', {
                     method: 'POST',
                     headers: {'Content-Type':'application/x-www-form-urlencoded'},
                     body: `token=${props.token}&currentCity=${bodyCurrent.name}`

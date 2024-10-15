@@ -114,7 +114,7 @@ function ScreenArticlesBySource(props) {
   }, [])
 
   var likedArticle = async (article) => {
-    var response = await fetch('/add-article', {
+    var response = await fetch('/article/add', {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `token=${props.token}&articleTitle=${article.title}&articleDescr=${article.description}&articleImg=${article.urlToImage}&articleContent=${article.content}&articleUrl=${article.url}`
@@ -127,7 +127,7 @@ function ScreenArticlesBySource(props) {
   }
 
   var delArticle = async (articleTitle) => {
-    var response = await fetch(`/del-article`, {
+    var response = await fetch(`/article/delete`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `token=${props.token}&title=${articleTitle}`
