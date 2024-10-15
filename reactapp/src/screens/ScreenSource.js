@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import '../App.css';
 import { List, Avatar, Flex, Tag, Form, Input } from 'antd';
 import Nav from '../Nav';
-import WeatherWidget from '../components/WeatherWidget';
+import WeatherWidget from '../components/weatherwidget/WeatherWidget';
 
 var API = process.env.REACT_APP_API_SECRET
 

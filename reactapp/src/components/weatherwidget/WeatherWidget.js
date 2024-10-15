@@ -1,7 +1,7 @@
 import { Form, Input } from 'antd';
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
-import '../App.css';
+import './weatherwidget.css';
 var WeatherAPI = process.env.REACT_APP_WEATHER_API_SECRET;
 
 function WeatherWidget(props) {
@@ -120,9 +120,11 @@ function WeatherWidget(props) {
     }
 
     var iconFormated = convertIconWeather(props.currentIcon)
+    var wwBackground = setBackgroundOnCurrent(props.currentIcon)
+    
 
     return (
-        <div className="weatherWidget">
+        <div className={`weatherWidget ww-background-${wwBackground}`}>
             <div className="ww-name-form">
                 {
                     props.currentCity !== null && showForm === false
@@ -246,5 +248,20 @@ function convertIconWeather(icon) {
             break;
         default: return ('clear-day')
 
+    }
+}
+
+function setBackgroundOnCurrent(icon) {
+    switch(icon){
+        case '01d': case '02d': case '03d': case '13d': case '50d':
+            return('clearday');
+            break;
+        case '04d': case '04n': case '09d': case '19n': case '10d': case '10n': case '11d': case '11n':
+            return('rainycloudy');
+            break;
+        case '01n': case '02n': case '03n': case '13n': case '50n':
+            return('clearnight');
+            break;
+        default: return('clearday');
     }
 }
