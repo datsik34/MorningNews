@@ -2,12 +2,12 @@ import '../App.css';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {connect} from 'react-redux';
-import Nav from '../Nav';
-import { Card, Modal, Button, Image } from 'antd';
+import Header from '../components/header/Header';
+import { Card, Modal, Button } from 'antd';
 import { LikeOutlined, ReadOutlined, CheckOutlined, DeleteOutlined } from '@ant-design/icons';
 import {  message } from 'antd';
 const { Meta } = Card;
-var API = process.env.REACT_APP_API_SECRET
+var API = process.env.REACT_APP_NEWS_API_SECRET
 
 function ArticleCard(props) {
   const [buttonHover, setButtonHover] = useState(false)
@@ -147,7 +147,7 @@ function ScreenArticlesBySource(props) {
   return (
     <div>
       {contextHolder}
-      <Nav />
+      <Header />
       <div className="Banner" />
       <div className="Card">
         {articles}

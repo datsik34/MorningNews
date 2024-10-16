@@ -4,7 +4,6 @@ var userModel = require('../models/users');
 
 var bcrypt = require('bcrypt');
 var uid2 = require('uid2');
-
 const cost = 10;
 
 router.put('/', async function (req, res, next) {
@@ -15,7 +14,6 @@ router.put('/', async function (req, res, next) {
       var result, output, timing, check
       var date = new Date();
       var oneWeek = 604800000;
-      var oneHour = 3600000
   
       var checkDates = (currentTime, lastTime, compareTime) => {
         var timePassed = currentTime - lastTime

@@ -21,13 +21,13 @@
     animation-duration: 0.5s;
   }
   .ww-background-rainycloudy {
-    background-image: url('/public/images/weatherwidget/rainycloudy.jpg');
+    background-image: url('/public/images/weatherwidget/background/rainycloudy.jpg');
   }
   .ww-background-clearday {
-    background-image: url('/public/images/weatherwidget/clearday.jpg');
+    background-image: url('/public/images/weatherwidget/background/clearday.jpg');
   }
   .ww-background-clearnight {
-    background-image: url('/public/images/weatherwidget/clearnight.jpg');
+    background-image: url('/public/images/weatherwidget/background/clearnight.jpg');
   }
   @keyframes weatherWidget {
     0%   {filter: blur(1200px); }

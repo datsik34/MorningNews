@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import { connect } from 'react-redux';
 import '../App.css';
-import { Card, message, Modal, Button, Image } from 'antd';
+import { Card, message, Modal, Button } from 'antd';
 import { ReadOutlined, DeleteOutlined } from '@ant-design/icons';
-import Nav from '../Nav'
-import {Link} from 'react-router-dom'
+import Header from '../components/header/Header';
+import {Link} from 'react-router-dom';
 
 const { Meta } = Card;
 
@@ -105,7 +105,7 @@ function ScreenMyArticles(props) {
   return (
     <div>
       {contextHolder}
-      <Nav />
+      <Header />
       <div className="Banner" />
       <div className="Card">
         {articles.length > 0 ? articles : noArticle}

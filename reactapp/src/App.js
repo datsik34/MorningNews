@@ -12,11 +12,8 @@ import language from './reducers/language';
 import userName from './reducers/username';
 import email from './reducers/email';
 import apiKey from './reducers/apikey';
-
-
 import weatherCurrent from './reducers/weatherwidget/weathercurrent';
 import weatherForecast from './reducers/weatherwidget/weatherforecast';
-
 
 //Screens
 import ScreenHome from './screens/ScreenHome';

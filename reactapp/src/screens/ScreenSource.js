@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import '../App.css';
-import { List, Avatar, Flex, Tag, Form, Input } from 'antd';
-import Nav from '../Nav';
+import { List, Avatar, Flex, Tag } from 'antd';
+import Header from '../components/header/Header';
 import WeatherWidget from '../components/weatherwidget/WeatherWidget';
 
-var API = process.env.REACT_APP_API_SECRET
+var API = process.env.REACT_APP_NEWS_API_SECRET
 
 function Flag(props) {
   var styleFlag = styles.flags
@@ -15,7 +15,7 @@ function Flag(props) {
     <img
       style={styleFlag}
       alt={props.langs}
-      src={`images/${props.langs}.png`}
+      src={`images/flags/${props.langs}.png`}
       onClick={() => props.updateLanguage(props.langs)}
     />
   )
@@ -123,7 +123,7 @@ function ScreenSource(props) {
           renderItem={source => (
             <List.Item>
               <List.Item.Meta
-                avatar={<Avatar src={`/images/${source.category}.png`} />}
+                avatar={<Avatar src={`/images/categories/${source.category}.png`} />}
                 title={<Link to={`/screenarticlesbysource/${source.id}`} >{source.name}</Link>}
                 description={source.description}
               />
@@ -136,7 +136,7 @@ function ScreenSource(props) {
 
   return (
     <div>
-      <Nav />
+      <Header />
       <WeatherWidget />
       <div className="Banner">
           {flagLang}

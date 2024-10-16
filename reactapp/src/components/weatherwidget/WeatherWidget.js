@@ -112,7 +112,7 @@ function WeatherWidget(props) {
             return (
                 <div key={i} className='ww-forecast-item'>
                     <div className='ww-forecast-item-timeOrdate'>{dateformated}</div>
-                    <img alt='icon' className='ww-forecast-item-picto' src={`icons/weather/${icon}.svg`}/>
+                    <img alt='icon' className='ww-forecast-item-picto' src={`images/weatherwidget/weather/${icon}.svg`}/>
                     <div className='ww-forecast-item-degrees'>{degree}°C</div>
                   </div>
             )
@@ -146,7 +146,7 @@ function WeatherWidget(props) {
                             </Form.Item>
                         </Form>
                         : <button onClick={() => setShowForm(true)} className="ww-name-form-button">
-                            <img alt='icon' className='ww-name-change-icon' src={'icons/add.svg'}/>
+                            <img alt='icon' className='ww-name-change-icon' src={'images/weatherwidget/icons/add.svg'}/>
                         </button>
                 }
             </div>
@@ -154,20 +154,20 @@ function WeatherWidget(props) {
             <div className='ww-current'>
               <div className="ww-current-degrees">{props.currentTemp}°C</div>
               <div className="ww-current-picto" >
-                <img alt='icon' className='ww-current-picto' src={`icons/weather/${iconFormated}.svg`} />
+                <img alt='icon' className='ww-current-picto' src={`images/weatherwidget/weather/${iconFormated}.svg`} />
                 </div>
               <div className="ww-current-status" >{props.currentStatus}</div>
             </div>
             <div className='ww-spacer'></div>
             <div className='ww-forecast-container'>
                 <button onClick={handleScrollLeft} className='ww-forecast-button'>
-                    <img alt='icon' className='ww-forecast-icon' src={'icons/left-circle.svg'}/>
+                    <img alt='icon' className='ww-forecast-icon' src={'images/weatherwidget/icons/left-circle.svg'}/>
                 </button>
                 <div className="ww-forecasts" ref={forecastsRef}>
                     {itemsForecast}
                 </div>
                 <button onClick={handleScrollRight} className='ww-forecast-button'>
-                    <img alt='icon' className='ww-forecast-icon' src={'icons/right-circle.svg'}/>
+                    <img alt='icon' className='ww-forecast-icon' src={'images/weatherwidget/icons/right-circle.svg'}/>
                 </button>
             </div>
         </div>
