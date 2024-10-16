@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import '../App.css';
 import { List, Avatar, Flex, Tag } from 'antd';
-import Header from '../components/header/Header';
+
 import WeatherWidget from '../components/weatherwidget/WeatherWidget';
 
 var API = process.env.REACT_APP_NEWS_API_SECRET
@@ -136,7 +136,6 @@ function ScreenSource(props) {
 
   return (
     <div>
-      <Header />
       <WeatherWidget />
       <div className="Banner">
           {flagLang}

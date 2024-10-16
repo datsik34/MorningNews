@@ -1,0 +1,71 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    bottom: 30px;
+    right: 30px;
+    position: fixed;
+    border-radius: 10px;
+    width: 200px;
+    height: 105px;
+    background-image: url('/public/images/radiowidget/background.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 10px;
+    z-index: 999;
+}
+.group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.volume-container {
+    position: relative;
+    display: inline-block;
+  }
+.icon-play-pause {
+    width: 32px;
+}
+.icon-volume {
+    width: 22px;
+    margin: 5px;
+}
+.icon-playlist {
+    width: 32px;
+}
+.button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+.div-volume-slider {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: -80px;
+    left: -53px;
+    background-color: black;
+    border-radius: 4px;
+    padding: 4px;
+    transform: rotate(-90deg); /* Rotate the slider */
+}
+
+.radio-name {
+    margin: 0;
+    padding: 0 0 0 10px;
+    font-size: 18px;
+    color: white;
+    font-weight: 600;
+}
+.cover {
+    width: 50px;
+    border-radius: 8%;
+}
+

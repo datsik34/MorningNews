@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import Header from '../components/header/Header';
 import { Input, Space, Button, Alert, message, Form, Modal } from 'antd';
 import { connect } from 'react-redux';
 import { CloseOutlined } from '@ant-design/icons';
@@ -175,7 +174,6 @@ function ScreenUser(props) {
     return (
         <div>
             {contextHolder}
-            <Header />
             <div className="Banner" />
             <div style={styles.mainCont} >
                 <div style={styles.titleCont} >

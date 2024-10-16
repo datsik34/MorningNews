@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet";
 import './App.css';
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, useLocation } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 
@@ -23,24 +23,43 @@ import ScreenSource from './screens/ScreenSource';
 import ScreenUser from './screens/ScreenUser';
 import ScreenLogout from './screens/ScreenLogout';
 
+//Components
+import Header from './components/header/Header';
+import RadioWidget from './components/radiowidget/RadioWidget';
+
+
 const store = createStore(combineReducers({
   wishList, userToken, language, userName, email, apiKey, weatherCurrent, weatherForecast
 }));
 
+
+// Create a new component to handle routing and useLocation
+function AppContent() {
+  const location = useLocation();
+  const hideHeaderRoutes = ['/', '/logout'];
+
+  return (
+    <>
+      {/* Conditionally render the Header if the path is not in hideHeaderRoutes */}
+      {!hideHeaderRoutes.includes(location.pathname) && <Header />}
+      {!hideHeaderRoutes.includes(location.pathname) && <RadioWidget />}
+      <Switch>
+        <Route component={ScreenHome} path="/" exact />
+        <Route component={ScreenSource} path="/screensource" exact />
+        <Route component={ScreenArticlesBySource} path="/screenarticlesbysource/:id" exact />
+        <Route component={ScreenMyArticles} path="/screenmyarticles" exact />
+        <Route component={ScreenUser} path="/user/:username" exact />
+        <Route component={ScreenLogout} path="/logout" exact />
+      </Switch>
+    </>
+  );
+}
+
 export default function App() {
   return (
     <Provider store={store}>
-      <Helmet><script src="https://static.elfsight.com/platform/platform.js" async></script></Helmet> {/*script radio*/}
-      <div class="elfsight-app-aed6fe8b-8cc9-46ed-b987-eb9a2ed74130" data-elfsight-app-lazy></div>    {/*widget radio*/}
       <Router>
-        <Switch>
-          <Route component={ScreenHome} path="/" exact />
-          <Route component={ScreenSource} path="/screensource" exact />
-          <Route component={ScreenArticlesBySource} path="/screenarticlesbysource/:id" exact />
-          <Route component={ScreenMyArticles} path="/screenmyarticles" exact />
-          <Route component={ScreenUser} path="/user/:username" exact />
-          <Route component={ScreenLogout} path="/logout" exact />
-        </Switch>
+        <AppContent />
       </Router>
     </Provider>
   );

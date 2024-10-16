@@ -1,4 +1,3 @@
-import React from 'react';
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 import '../../App.css';
@@ -8,12 +7,12 @@ function Header(props) {
   return (
     <header style={styles.header}>
       <nav style={styles.nav} >
-        <ul style={styles.leftGroup} >
+        <ul style={styles.group} >
           <Link to="/screensource"style={styles.item} > <HomeOutlined /> Sources</Link>
           <Link to="/screenmyarticles"style={styles.item} ><ReadFilled /> ({props.wishList.length})My Articles</Link>
         </ul>
 
-        <ul style={styles.rightGroup} >
+        <ul style={styles.group} >
           <Link to={`/user/${props.username}`} style={styles.item} ><SettingOutlined /> My account</Link>
           <Link to="/logout" style={styles.item}><LogoutOutlined /> ({props.username})Logout</Link>
         </ul>
@@ -43,14 +42,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between'
   },
-  leftGroup: {
-    listStyleType: 'none',
-    display: 'flex',
-    padding: 0,
-    margin: 0
-
-  },
-  rightGroup: {
+  group: {
     listStyleType: 'none',
     display: 'flex',
     padding: 0,

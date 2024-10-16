@@ -2,7 +2,6 @@ import '../App.css';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {connect} from 'react-redux';
-import Header from '../components/header/Header';
 import { Card, Modal, Button } from 'antd';
 import { LikeOutlined, ReadOutlined, CheckOutlined, DeleteOutlined } from '@ant-design/icons';
 import {  message } from 'antd';
@@ -147,7 +146,6 @@ function ScreenArticlesBySource(props) {
   return (
     <div>
       {contextHolder}
-      <Header />
       <div className="Banner" />
       <div className="Card">
         {articles}
