@@ -154,7 +154,7 @@ function WeatherWidget(props) {
             <div className='ww-current'>
               <div className="ww-current-degrees">{props.currentTemp}°C</div>
               <div className="ww-current-picto" >
-                <img alt='icon' className='ww-current-picto' src={`images/weatherwidget/weather/${iconFormated}.svg`} />
+                <img alt='icon' src={`images/weatherwidget/weather/${iconFormated}.svg`} />
                 </div>
               <div className="ww-current-status" >{props.currentStatus}</div>
             </div>

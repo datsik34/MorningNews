@@ -1,16 +1,43 @@
 import React, { useRef, useState, useEffect }  from 'react';
 import './radiowidget.css';
 
+const radioPlaylist = [
+  {
+    name: 'Old Deep House Radio',
+    url: 'http://deeperlink.com:8020/deep',
+    img: 'images/radiowidget/radio1.jpg'
+  },
+  {
+    name: 'VIBELYFE Soulful House',
+    url: 'http://kathy.torontocast.com:1800/stream',
+    img: 'images/radiowidget/radio2.jpg'
+  },
+  {
+    name: 'VL100 Classic Hits Collection',
+    url: 'http://kathy.torontocast.com:1690/stream',
+    img: 'images/radiowidget/radio3.jpg'
+  }
+]
+
 export default function RadioPlayer() {
     const audioRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [volume, setVolume] = useState(1);
+    const [previousVolume, setPreviousVolume] = useState(null);
     const [showSlider, setShowSlider] = useState(false);
-  
-    const streamUrl1 = 'http://deeperlink.com:8020/deep';
-    const streamUrl2 = 'http://kathy.torontocast.com:1800/stream';
-    const streamUrl3 = 'http://kathy.torontocast.com:1690/stream';
-    const stream = streamUrl1;
+    const [showPlaylist, setShowPlaylist] = useState(false);
+    const [radioPlaying, setRadioPlaying] = useState(radioPlaylist[0])
+
+    useEffect(() => {
+      audioRef.current.src = radioPlaying.url;
+      audioRef.current.volume = volume;
+
+      if(isPlaying){
+        audioRef.current.play();
+      } else {
+        togglePlay();
+      }
+    }, [radioPlaying]);
   
     const togglePlay = () => {
       if (isPlaying) {
@@ -21,24 +48,52 @@ export default function RadioPlayer() {
       setIsPlaying(!isPlaying);
     };
   
-    const handleVolumeChange = (event) => {
-      const newVolume = event.target.value;
+    const handleVolumeChange = (event, mute) => {
+      var newVolume;
+      if(mute){
+        if(volume == 0){
+          if(previousVolume === null){
+            newVolume = 1;
+          } else {
+            newVolume = previousVolume
+            setPreviousVolume(null)
+          }
+        } else {
+          setPreviousVolume(volume)
+          newVolume = 0
+        }
+      }else{
+        newVolume = event.target.value;
+      }
       setVolume(newVolume);
       if (audioRef.current) {
         audioRef.current.volume = newVolume;
       }
     };
-  
-    useEffect(() => {
-      audioRef.current.src = stream;
-      audioRef.current.volume = volume;
-    }, []);
-  
+
+     var volumeIcon;
+     if(volume == 0){
+      volumeIcon = 'volume-muted';
+     } else if(volume <= 0.5) {
+      volumeIcon = 'volume-low';
+     } else {
+      volumeIcon = 'volume-high';
+     }
+     
+    var wrappedPlaylist = radioPlaylist.map((radio, i) => {
+      return(
+        <div key={i} className='group pointer-effect' onClick={() => setRadioPlaying(radio)}>
+          <img className='cover' src={radio.img}/>
+          <p className='radio-name'>{radio.name}</p>
+        </div>
+      )
+    })
+
     return (
-      <div className='container'>
+      <div className={`container ${showPlaylist ? 'container-playlist' : ''}`}>
         <div className='group'>
-            <img className='cover' src='images/radiowidget/radio1.jpg'/>
-            <p className='radio-name'>Old Deep House Radio</p>
+            <img className='cover' src={radioPlaying.img}/>
+            <p className='radio-name'>{radioPlaying.name}</p>
         </div>
         <div className='group'>
             <button 
@@ -46,7 +101,7 @@ export default function RadioPlayer() {
                 onMouseEnter={() => setShowSlider(true)}
                 onMouseLeave={() => setShowSlider(false)}
             >
-                <img src='images/radiowidget/volume-high.svg' className='icon-volume'/>
+                <img onClick={() => handleVolumeChange(null, true)} src={`images/radiowidget/${volumeIcon}.svg`} className='icon-volume'/>
                 {
                     showSlider && (
                         <div className='div-volume-slider'>
@@ -58,6 +113,7 @@ export default function RadioPlayer() {
                                 step="0.01"
                                 value={volume}
                                 onChange={handleVolumeChange}
+                                className='input'
                             />
                         </div>
                     )
@@ -70,8 +126,9 @@ export default function RadioPlayer() {
                     :<img src='images/radiowidget/play.svg' className='icon-play-pause' /> 
                 }
             </button>
-            <button className='button' ><img src='images/radiowidget/playlist.svg' className='icon-playlist'/></button>
+            <button className='button' onClick={() => setShowPlaylist(!showPlaylist)} ><img src='images/radiowidget/playlist.svg' className='icon-playlist'/></button>
         </div>
+        {wrappedPlaylist}
         <audio ref={audioRef} controls style={{ display: 'none' }} />
       </div>
     );

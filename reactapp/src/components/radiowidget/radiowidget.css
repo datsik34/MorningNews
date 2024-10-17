@@ -15,17 +15,26 @@
     background-size: cover;
     padding: 10px;
     z-index: 999;
+    overflow: hidden;
+    transition: max-height 0.3s ease, height 0.3s ease;
+    max-height: 105px; /* Closed state */
+}
+.container-playlist {
+    height: auto;
+    max-height: 400px; /* Expanded state */
+    transition: max-height 0.3s ease; /* Smooth transition for both open and close */
 }
 .group {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    margin-bottom: 20px;
 }
 .volume-container {
     position: relative;
     display: inline-block;
-  }
+}
 .icon-play-pause {
     width: 32px;
 }
@@ -45,22 +54,26 @@
     cursor: pointer;
     outline: inherit;
 }
+.pointer-effect {
+    cursor: pointer;
+}
 .div-volume-slider {
     display: flex;
     align-items: center;
     position: absolute;
-    top: -80px;
-    left: -53px;
+    top: -25px;
+    left: 10px;
     background-color: black;
     border-radius: 4px;
     padding: 4px;
-    transform: rotate(-90deg); /* Rotate the slider */
 }
-
+.input {
+    width: 170px;
+}
 .radio-name {
     margin: 0;
     padding: 0 0 0 10px;
-    font-size: 18px;
+    font-size: 15px;
     color: white;
     font-weight: 600;
 }

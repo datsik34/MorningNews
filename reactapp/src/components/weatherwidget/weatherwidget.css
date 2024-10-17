@@ -81,22 +81,23 @@
   }
   .ww-current {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     width: 100%;
   }
   .ww-current-degrees {
     font-size: 40px;
-    width: 80px;
+    width: 100px;
     text-align: center;
   }
   .ww-current-picto {
     margin-top: -5px;
-    width: 80px;
+    width: 85px;
+    margin: 0px 15px 0px 15px;
   }
   .ww-current-status {
     font-size: 18px;
-    width: 80px;
+    width: 100px;
     text-align: center;
   }
   .ww-spacer {
