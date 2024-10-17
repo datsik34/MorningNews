@@ -94,6 +94,19 @@ h4 {
   justify-content: center;
   align-items: center;
 }
+.Banner-screensource {
+  height: 80px;
+  padding-top: 70px;
+  background-image: url('/public/images/flat01.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.8;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
 
 .Card {
   display: flex;
@@ -166,4 +179,12 @@ h4 {
 @keyframes square4 {
   0%   {background-color:yellow; left:-300px; top:800px;}
   100% {background-color:yellow; left:1600px; top:110px; width:0px; height:0px;}
+}
+
+
+@media only screen and (max-width: 950px) {
+  .Banner-screensource {
+    height: 80px;
+    padding-top: 130px;
+  }
 }

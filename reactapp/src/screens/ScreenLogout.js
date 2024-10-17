@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Result } from 'antd';
+import { Button } from 'antd';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -14,22 +14,19 @@ const ScreenLogout = (props) => {
     props.resetForecast();
 
     return (
-        <div style={styles}>
-            <Result
-                status="success"
-                title="Successfully disconnected"
-                extra={
-                    <Link to={"/"}>
-                        <Button type="primary" key="console">
-                            Go to SignIn/SignUp
-                        </Button>
-                    </Link>
-                }
-            />
+        <div style={styles.container}>
+          <div style={styles.column}>
+            <img src='images/logout.svg' style={styles.img}/>
+            <p>Successfully logged out</p>
+            <Link to={"/"}>
+              <Button type="primary" key="console">
+                  Go to SignIn/SignUp
+              </Button>
+            </Link>
+          </div>
         </div>
     )
 }
-const styles = {display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh'}
 
 function mapDispatchToProps(dispatch){
     return {
@@ -61,3 +58,22 @@ function mapDispatchToProps(dispatch){
   }
 
 export default connect( null, mapDispatchToProps)(ScreenLogout);
+
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh'
+  },
+  column: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  img: {
+    width: '300px',
+    marginBottom: '50px'
+  }
+  }

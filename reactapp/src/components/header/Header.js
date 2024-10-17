@@ -1,20 +1,20 @@
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
-import '../../App.css';
+import './header.css';
 import { HomeOutlined, ReadFilled, LogoutOutlined, SettingOutlined} from '@ant-design/icons';
 
 function Header(props) {
   return (
-    <header style={styles.header}>
-      <nav style={styles.nav} >
+    <header className='header'>
+      <nav className='nav' >
         <ul style={styles.group} >
-          <Link to="/screensource"style={styles.item} > <HomeOutlined /> Sources</Link>
-          <Link to="/screenmyarticles"style={styles.item} ><ReadFilled /> ({props.wishList.length})My Articles</Link>
+          <Link to="/screensource" className='item' > <HomeOutlined /> Sources</Link>
+          <Link to="/screenmyarticles" className='item' ><ReadFilled /> ({props.wishList.length})My Articles</Link>
         </ul>
 
         <ul style={styles.group} >
-          <Link to={`/user/${props.username}`} style={styles.item} ><SettingOutlined /> My account</Link>
-          <Link to="/logout" style={styles.item}><LogoutOutlined /> ({props.username})Logout</Link>
+          <Link to={`/user/${props.username}`} className='item' ><SettingOutlined /> My account</Link>
+          <Link to="/logout" className='item'><LogoutOutlined /> ({props.username})Logout</Link>
         </ul>
       </nav>
     </header>

@@ -17,6 +17,7 @@ function WeatherWidget(props) {
                 headers: {'Content-Type':'application/x-www-form-urlencoded'},
                 body: `token=${props.token}`
             })
+
             var data = await response.json();
             if(data.city){
                 const dataCurrent = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${data.city}&appid=${WeatherAPI}&lang=en&units=metric`)
@@ -34,6 +35,19 @@ function WeatherWidget(props) {
             }
         }
         WeatherAPILoading()
+
+        const handleResize = () => {
+            if (forecastsRef.current) {
+                // Reset scroll position on resize
+                forecastsRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+            }
+        };
+        // Attach resize event listener
+        window.addEventListener('resize', handleResize);
+        // Cleanup listener on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
       },[])
 
     useEffect(() => {
@@ -93,14 +107,15 @@ function WeatherWidget(props) {
     }
 
     const handleScrollLeft = () => {
+        const forecastItemWidth = forecastsRef.current.querySelector('.ww-forecast-item').getBoundingClientRect().width;
         if (forecastsRef.current) {
-            forecastsRef.current.scrollBy({ left: -70, behavior: 'smooth' });
+            forecastsRef.current.scrollBy({ left: -forecastItemWidth, behavior: 'smooth' });
         }
     };
-  
     const handleScrollRight = () => {
+        const forecastItemWidth = forecastsRef.current.querySelector('.ww-forecast-item').getBoundingClientRect().width;
         if (forecastsRef.current) {
-            forecastsRef.current.scrollBy({ left: 70, behavior: 'smooth' });
+            forecastsRef.current.scrollBy({ left: forecastItemWidth, behavior: 'smooth' });
         }
     };
 

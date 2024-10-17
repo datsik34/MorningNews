@@ -137,7 +137,7 @@ function ScreenSource(props) {
   return (
     <div>
       <WeatherWidget />
-      <div className="Banner">
+      <div className="Banner-screensource">
           {flagLang}
       </div>
       <div className={styleSources}>

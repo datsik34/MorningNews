@@ -1,3 +1,4 @@
+
 .container {
     display: flex;
     flex-direction: column;
@@ -82,3 +83,45 @@
     border-radius: 8%;
 }
 
+
+/******** RESPONSIVE 1200PX ********/
+@media only screen and (max-width: 1200px) {
+    .container {
+        bottom: 0px;
+        right: 0px;
+        width: 120px;
+        height: 73px;
+        max-height: 96px;
+        border-radius: 7px 7px 0px 7px;
+    }
+    .container-playlist {
+        height: auto;
+        max-height: 300px; /* Expanded state */
+    }
+    .icon-volume {
+        width: 15px;
+        margin: 3px;
+    }
+    .icon-playlist {
+        width: 25px;
+    }
+    .icon-play-pause {
+        width: 25px;
+    }
+    .input {
+        width: 100px;
+    }
+    .group {
+        margin-bottom: 12px;
+    }
+    .cover {
+        width: 32px;
+        border-radius: 4%;
+    }
+    .radio-name {
+        padding: 0 0 0 6px;
+        font-size: 13px;
+        color: white;
+        font-weight: 500;
+    }
+  }
