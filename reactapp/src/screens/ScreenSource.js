@@ -21,6 +21,17 @@ function Flag(props) {
   )
 }
 
+function ErrorApiScreen(props) {
+  return (
+    <div className='errordiv'>
+      <img src='images/disconnected.png' className='errorimg'/>
+      <p>ERROR API. Number of limit requests reached or API key is invalid.</p>
+      <p>Go to <Link to={`/user/${props.username}`}>user settings</Link> and add/modify your personnal free API</p>
+      <p>Register for free <Link to={{pathname: "https://newsapi.org/register"}} target="_blank">here</Link></p>
+    </div>
+  )
+}
+
 function ScreenSource(props) {
   var [sourceList, setSourceList] = useState([])
   var [categories, setCategories] = useState([])
@@ -88,14 +99,6 @@ function ScreenSource(props) {
     setSelectedTags(nextSelectedTags);
   };
 
-  var errorApiScreen = (
-  <div>
-    <p>ERROR API. Number of limit requests reached or API key is invalid.</p>
-    <p>Go to <Link to={`/user/${props.username}`}>user settings</Link> and add/modify your personnal free API</p>
-    <p>Register for free <Link to={{pathname: "https://newsapi.org/register"}} target="_blank">here</Link></p>
-  </div>)
-  
-
   var flagLang = Object.keys(languages).map((flag, i)=> {
     return (<Flag key={i} langs={flag} langSelected={props.lang} updateLanguage={(e) => updateLanguage(e)} ></Flag>)
   })
@@ -142,7 +145,7 @@ function ScreenSource(props) {
       </div>
       <div className={styleSources}>
         {errorAPI
-        ? errorApiScreen
+        ? <ErrorApiScreen/>
         : <div>
             <Flex gap={4} wrap align="center" style={{marginBottom: 20}}>
               <span>Categories:</span>

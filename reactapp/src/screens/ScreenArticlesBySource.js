@@ -53,7 +53,7 @@ function ArticleCard(props) {
     <div style={styles.article}>
       <Card
         style={styles.card}
-        cover={<img alt={props.article.title} src={articleCover} onClick={() => showModal(props.article.title, props.article.content, props.article.description)}/>}
+        cover={<img alt={props.article.title} src={articleCover} className='Card-image' onClick={() => showModal(props.article.title, props.article.content, props.article.description)}/>}
         actions={[
           <ReadOutlined key="ellipsis2" onClick={() => handleOk(props.article.url)} />,
           checkLike

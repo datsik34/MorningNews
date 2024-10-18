@@ -202,6 +202,19 @@ h4 {
   flex-wrap: wrap;
   justify-content: center;
 }
+.Card-image {
+  height: 170px;
+}
+
+.errordiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.errorimg {
+  width: 256px;
+}
 
 /************************* U S E R   S C R E E N ****************************/
 .mainCont {

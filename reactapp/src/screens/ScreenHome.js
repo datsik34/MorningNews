@@ -26,6 +26,7 @@ function ScreenHome(props) {
       setMessageSignUp('all good, account registered')
     } else {
       setMessageSignUp('email already registered')
+      onFinishFailed('signup')
     }
   }
 
@@ -46,7 +47,10 @@ function ScreenHome(props) {
       props.addEmail(data.user.email);
       props.addAPI(data.user.APIkey)
     }
-    else { setMessageSignIn('email or password invalid')}
+    else { 
+      setMessageSignIn('email or password invalid')
+      onFinishFailed('signin')
+    }
   }
 
   var onFinishFailed = (e) => {
@@ -104,7 +108,7 @@ function ScreenHome(props) {
             </Form.Item>
             <p style={styles.errorMessage}>{messageSignIn}</p>
             <Form.Item style={{marginBottom: 13}}>
-              <Button type="primary" htmlType="submit"  > Sign-in </Button>
+              <Button type="primary" htmlType="submit" className='testbutton'> Sign-in </Button>
             </Form.Item>
           </Form>
 

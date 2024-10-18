@@ -1,4 +1,4 @@
-import { Form, Input } from 'antd';
+import { Form, Input, message } from 'antd';
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import './weatherwidget.css';
@@ -9,6 +9,7 @@ function WeatherWidget(props) {
     const forecastsRef = useRef(null);
     const inputRef = useRef(null);
     const [formWeatherCity] = Form.useForm();
+    const [messageApi, contextHolder] = message.useMessage();
 
     useEffect( () => {
         const WeatherAPILoading = async () => {
@@ -38,14 +39,11 @@ function WeatherWidget(props) {
 
         const handleResize = () => {
             if (forecastsRef.current) {
-                // Reset scroll position on resize
-                forecastsRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+                forecastsRef.current.scrollTo({ left: 0, behavior: 'smooth' });// Reset scroll position on resize
             }
         };
-        // Attach resize event listener
-        window.addEventListener('resize', handleResize);
-        // Cleanup listener on component unmount
-        return () => {
+        window.addEventListener('resize', handleResize);// Attach resize event listener
+        return () => {// Cleanup listener on component unmount
             window.removeEventListener('resize', handleResize);
         };
       },[])
@@ -56,7 +54,13 @@ function WeatherWidget(props) {
         }
     }, [showForm]);
 
-    
+    const popUp = (type, message) => {
+        messageApi.open({
+          type: type,
+          content: message,
+        });
+      };
+
     const addCityWeather = async (values) => {
         formWeatherCity.resetFields();
         if(values.addWeatherCity !== undefined) {
@@ -64,11 +68,13 @@ function WeatherWidget(props) {
             
             const dataCurrent = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${values.addWeatherCity}&appid=${WeatherAPI}&lang=en&units=metric`)
             const bodyCurrent = await dataCurrent.json()
+            var name = values.addWeatherCity
+                var nameFormated = name[0].toUpperCase() + name.slice(1);
             if(bodyCurrent.cod === "400" || bodyCurrent.cod === "404" ){
-                console.log('error not found or bad query');
-                console.log(bodyCurrent);
+                popUp('error', `City name ${nameFormated} not found, try again`);
             
             } else if (bodyCurrent.cod === 200) {
+                popUp('success', `${nameFormated} added to forecast`);
                 const dataForecast = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${values.addWeatherCity}&appid=${WeatherAPI}&lang=en&units=metric`)
                 const bodyForecast = await dataForecast.json()
                 setShowForm(false)
@@ -140,6 +146,7 @@ function WeatherWidget(props) {
 
     return (
         <div className={`weatherWidget ww-background-${wwBackground}`}>
+            {contextHolder}
             <div className="ww-name-form">
                 {
                     props.currentCity !== null && showForm === false
