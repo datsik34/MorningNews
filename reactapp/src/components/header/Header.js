@@ -31,27 +31,10 @@ function mapStateToProps(state){
 export default connect(mapStateToProps, null)(Header)
 
 const styles = {
-  header: {
-    backgroundColor: 'rgba(0, 21, 41, 0.8)',
-    backdropFilter: 'blur(10px)',
-    position: 'fixed',
-    width: '100%',
-    zIndex: 1000
-  },
-  nav: {
-    display: 'flex',
-    justifyContent: 'space-between'
-  },
   group: {
     listStyleType: 'none',
     display: 'flex',
     padding: 0,
     margin: 0
-  },
-  item: {
-    padding: 20,
-    textDecoration: 'none',
-    color: '#c3c3c3',
-    fontSize: 15
   }
 }

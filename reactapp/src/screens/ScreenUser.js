@@ -3,6 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { Input, Space, Button, Alert, message, Form, Modal } from 'antd';
 import { connect } from 'react-redux';
 import { CloseOutlined } from '@ant-design/icons';
+import '../App.css';
 
 function ScreenUser(props) {
     const [messageApi, contextHolder] = message.useMessage();
@@ -175,18 +176,18 @@ function ScreenUser(props) {
         <div>
             {contextHolder}
             <div className="Banner" />
-            <div style={styles.mainCont} >
-                <div style={styles.titleCont} >
+            <div className='mainCont' >
+                <div className='titleCont' >
                     <h1>Settings({props.username})</h1>
 
-                    <div style={styles.Hspacer} />
+                    <div className='Hspacer' />
 
                 </div>
-                <div style={styles.cont} >
-                    <div style={styles.userCont} >
+                <div className='cont' >
+                    <div className='userCont' >
                         <h2>User</h2>
-                        <div style={styles.subCount} >
-                            <Alert style={styles.alert} message={text.alertUser} type="info"/>
+                        <div className='subCount' >
+                            <Alert className='alert' message={text.alertUser} type="info"/>
                         </div>
 
                         {/* C H A N G E    U S E R N A M E   &   E M A I L */}
@@ -224,7 +225,7 @@ function ScreenUser(props) {
                         </Form>
 
                         {/* P A S S W O R D    M O D A L */}
-                        <div style={styles.subCount} >
+                        <div className='subCount' >
                             <Button danger onClick={showPasswordModal}>Change password</Button>
                         </div>
                         <Modal
@@ -233,7 +234,7 @@ function ScreenUser(props) {
                             onCancel={passwordModalCancel}
                             footer={(_, { CancelBtn }) => (<><CancelBtn /></>)}
                         >
-                            <Alert style={styles.alert} message={text.changePassword} type="info"/>
+                            <Alert className='alert' message={text.changePassword} type="info"/>
                             <Form form={formPassword} layout="vertical" onFinish={() => changePassword()} style={{marginTop: 30}} >
                                 <input hidden type='text' name='username' autoComplete='username' />
                                 <Form.Item name="Current password" label="Current password" rules={[{required: true},{type: 'string',min: 8}]} style={{ width: '70%'}} >
@@ -259,7 +260,7 @@ function ScreenUser(props) {
                         </Modal>
 
                         {/* D E L E T E  A C C O U N T    M O D A L */}
-                        <div style={styles.subCount} >
+                        <div className='subCount' >
                             <Button type="primary" danger onClick={showDelAccModal1}>Delete Account</Button>
                         </div>
                         <Modal
@@ -269,7 +270,7 @@ function ScreenUser(props) {
                             footer={[]}
                         >
                             <Alert
-                                style={styles.alert} description={text.deleteAccount} type="error"
+                                className='alert' description={text.deleteAccount} type="error"
                                 action={
                                   <Space direction="vertical">
                                     <Button size="small" type="primary" danger onClick={showDelAccModal2}>
@@ -294,13 +295,13 @@ function ScreenUser(props) {
                         >
                         </Modal>
                     </div>
-                    <div style={styles.Vspacer} />
+                    <div className='Vspacer'/>
 
                     {/* A P I    S E T T I N G S  */}
-                    <div style={styles.userCont} >
+                    <div className='userCont' >
                         <h2>API</h2>
-                        <div style={styles.subCount} >
-                            <Alert style={styles.alert} message={text.alertAPI} type="info" action={
+                        <div className='subCount' >
+                            <Alert className='alert' message={text.alertAPI} type="info" action={
                                     <Space>
                                       <Button type="text" size="small">
                                       <Link to={{pathname: "https://newsapi.org/register"}} target="_blank">Get API</Link>
@@ -308,8 +309,8 @@ function ScreenUser(props) {
                                     </Space>
                                 }/>
                         </div>
-                        <p style={styles.APIset}>{textConfirmAPI}</p>
-                        <div style={styles.subCount} >
+                        <p className='APIset'>{textConfirmAPI}</p>
+                        <div className='subCount' >
                             <Space.Compact style={{ width: '80%'}} >
                                 <Input
                                     addonBefore="Current API"
@@ -368,62 +369,6 @@ function mapDispatchToProps(dispatch){
   }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ScreenUser)
-
-const styles = {
-    mainCont: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 50
-    },
-    titleCont: {
-        width: '65%',
-        display:'flex',
-        flexDirection: 'column',
-    },
-    cont: {
-        width: '65%',
-        height: 400,
-        display: 'flex',
-        flexDirection: 'center',
-    },
-    userCont: {
-        display: 'flex',
-        minWidth: '50%',
-        flexDirection: 'column',
-    },
-    subCount: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 30
-    },
-    colCont: {
-        display: 'flex',
-        flexDirection: 'column'
-    },
-    Hspacer: {
-        width: '100%',
-        borderTop: '1px solid #8f8f8f',
-    },
-    Vspacer: {
-        height: '80%',
-        borderLeft: '1px solid #8f8f8f',
-        marginLeft: 30,
-        marginTop: 30,
-        marginRight: 30
-    },
-    alert: {
-        width: '90%',
-        whiteSpace: 'pre-line'
-        },
-    APIset: {
-        marginTop: 0,
-        color: 'green',
-        fontSize: '13px'
-    }
-}
 
 const text = {
     alertAPI: 'You will need to visit NewsAPI to get yourself a free API key in case my personnal free API key has reached its limited number of requests.',

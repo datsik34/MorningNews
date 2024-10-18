@@ -18,12 +18,12 @@
     z-index: 999;
     overflow: hidden;
     transition: max-height 0.3s ease, height 0.3s ease;
-    max-height: 105px; /* Closed state */
+    max-height: 105px;
 }
 .container-playlist {
     height: auto;
-    max-height: 400px; /* Expanded state */
-    transition: max-height 0.3s ease; /* Smooth transition for both open and close */
+    max-height: 400px;
+    transition: max-height 0.3s ease;
 }
 .group {
     display: flex;

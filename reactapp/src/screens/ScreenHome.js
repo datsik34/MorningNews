@@ -8,6 +8,8 @@ function ScreenHome(props) {
   const [userExists, setUserExists] = useState(false);
   const [messageSignIn, setMessageSignIn] = useState('');
   const [messageSignUp, setMessageSignUp] = useState('');
+  const [errorSignUp, setErrorSignUp] = useState(false);
+  const [errorSignIn, setErrorSignIn] = useState(false);
 
   const [formSignIn] = Form.useForm();
   const [formSignUp] = Form.useForm();
@@ -47,6 +49,20 @@ function ScreenHome(props) {
     else { setMessageSignIn('email or password invalid')}
   }
 
+  var onFinishFailed = (e) => {
+    if(e === 'signin'){
+      setErrorSignIn(true)
+      setTimeout(() => {
+        setErrorSignIn(false);
+      }, 200);
+    } else if (e === 'signup'){
+      setErrorSignUp(true)
+      setTimeout(() => {
+        setErrorSignUp(false);
+      }, 200);
+    }
+  }
+
   if (userExists) { return <Redirect to='/screensource' /> }
 
   var messageStyle
@@ -69,7 +85,8 @@ function ScreenHome(props) {
             name="signin"
             initialValues={{ remember: true }}
             onFinish={signIn}
-            className="Sign"
+            className={`Sign ${errorSignIn ? 'errorAnimation' : ''}`}
+            onFinishFailed={() => onFinishFailed('signin')}
           >
             <Form.Item
               name="email"
@@ -97,7 +114,8 @@ function ScreenHome(props) {
             name="signup"
             initialValues={{ remember: true }}
             onFinish={signUp}
-            className="Sign"
+            onFinishFailed={() => onFinishFailed('signup')}
+            className={`Sign ${errorSignUp ? 'errorAnimation' : ''}`}
           >
             <Form.Item
               name="username"
