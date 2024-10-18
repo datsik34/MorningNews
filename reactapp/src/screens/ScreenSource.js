@@ -24,6 +24,7 @@ function Flag(props) {
 function ErrorApiScreen(props) {
   return (
     <div className='errordiv'>
+      <h1>Woops !</h1>
       <img src='images/disconnected.png' className='errorimg'/>
       <p>ERROR API. Number of limit requests reached or API key is invalid.</p>
       <p>Go to <Link to={`/user/${props.username}`}>user settings</Link> and add/modify your personnal free API</p>
@@ -56,18 +57,17 @@ function ScreenSource(props) {
       } else {
         API = process.env.REACT_APP_API_SECRET
       }
-      const data = await fetch(`https://newsapi.org/v2/sources?language=${langSelected.lang}&country=${langSelected.coun}&apiKey=${API}`)
-      const body = await data.json()
-
-      if(body.code === 'rateLimited' || body.code === 'apiKeyInvalid'){
+      const response = await fetch(`https://newsapi.org/v2/sources?language=${langSelected.lang}&country=${langSelected.coun}&apiKey=${API}`)
+      const data = await response.json()
+      if(data.code === 'rateLimited' || data.code === 'apiKeyInvalid'){
         setErrorAPI(true)
       } else {
         setErrorAPI(false);
         setIsTransitioning(false);
-        setSourceList(body.sources);
+        setSourceList(data.sources);
         
         let getCategories
-        getCategories = body.sources.map((item) => { return item.category }) 
+        getCategories = data.sources.map((item) => { return item.category }) 
         let uniqueCategories = [...new Set(getCategories)];
 
         setCategories(uniqueCategories)

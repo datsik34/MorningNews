@@ -371,7 +371,7 @@ function mapDispatchToProps(dispatch){
 export default connect(mapStateToProps, mapDispatchToProps)(ScreenUser)
 
 const text = {
-    alertAPI: 'You will need to visit NewsAPI to get yourself a free API key in case my personnal free API key has reached its limited number of requests.',
+    alertAPI: 'You will need to visit NewsAPI to get yourself a free API key in case my personal free API key has reached its limited number of requests.',
     alertUser: 'You can change your username, email or password only once a week.\nDouble check your choice(s) before submitting.',
     changePassword: 'Your password should be composed of at least 8 characters',
     deleteAccount: "You are about to delete your account definitely.\nYou cannot undo this action."

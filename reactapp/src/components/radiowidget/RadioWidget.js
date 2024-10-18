@@ -33,7 +33,13 @@ export default function RadioPlayer() {
       audioRef.current.volume = volume;
 
       if(isPlaying){
-        audioRef.current.play();
+        var playPromise = audioRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise.then(_ => {
+          }).then(_ => {
+          }).catch(error => {
+          });
+        }
       } else {
         togglePlay();
       }
@@ -43,10 +49,16 @@ export default function RadioPlayer() {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        audioRef.current.play();
+        var playPromise = audioRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise.then(_ => {
+          }).catch(error => {
+          });
+        }
       }
       setIsPlaying(!isPlaying);
     };
+    
   
     const handleVolumeChange = (event, mute) => {
       var newVolume;

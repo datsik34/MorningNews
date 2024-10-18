@@ -105,9 +105,14 @@ function ScreenArticlesBySource(props) {
       API = process.env.REACT_APP_API_SECRET
     }
     const findArticles = async () => {
-      const data = await fetch(`https://newsapi.org/v2/top-headlines?sources=${id}&apiKey=${API}`)
-      const body = await data.json()
-      setArticleList(body.articles)
+      const response = await fetch(`https://newsapi.org/v2/top-headlines?sources=${id}&apiKey=${API}`)
+      const data = await response.json()
+
+      if(data.code === 'rateLimited' || data.code === 'apiKeyInvalid'){
+        messageApi.open({type: 'error', content: 'API key is invalid or has reached its requests limits.'});
+      } else {
+        setArticleList(data.articles)
+      }
     }
     findArticles()
   }, [])
@@ -138,10 +143,11 @@ function ScreenArticlesBySource(props) {
     }
   }
 
-
+if(articleList) {
   var articles = articleList.map((article, i) => {
     return(<ArticleCard key={i} article={article} likedArticle={likedArticle} delArticle={delArticle} wishList={props.wishList} />)
   })
+}
 
   return (
     <div>
