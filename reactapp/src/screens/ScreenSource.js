@@ -5,6 +5,7 @@ import '../App.css';
 import { List, Avatar, Flex, Tag } from 'antd';
 import { StarFilled } from '@ant-design/icons';
 
+import ErrorApiFeedback from '../components/errorapifeedback/ErrorApiFeedback';
 import WeatherWidget from '../components/weatherwidget/WeatherWidget';
 
 var API = process.env.REACT_APP_NEWS_API_SECRET
@@ -19,18 +20,6 @@ function Flag(props) {
       src={`images/flags/${props.langs}.png`}
       onClick={() => props.updateLanguage(props.langs)}
     />
-  )
-}
-
-function ErrorApiScreen(props) {
-  return (
-    <div className='errordiv'>
-      <h1>Woops !</h1>
-      <img src='images/disconnected.png' className='errorimg'/>
-      <p>ERROR API. Number of limit requests reached or API key is invalid.</p>
-      <p>Go to <Link to={`/user/${props.username}`}>user settings</Link> and add/modify your personnal free API</p>
-      <p>Register for free <Link to={{pathname: "https://newsapi.org/register"}} target="_blank">here</Link></p>
-    </div>
   )
 }
 
@@ -231,7 +220,7 @@ function ScreenSource(props) {
       {favoritesList}
       <div className={styleSources}>
         {errorAPI
-        ? <ErrorApiScreen/>
+        ? <ErrorApiFeedback/>
         : <div>
             <Flex gap={4} wrap align="center" style={{marginBottom: 20}}>
             <h3 ref={targetRef} className='list-title'>Categories :</h3>

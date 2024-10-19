@@ -4,9 +4,11 @@ import { useParams } from 'react-router-dom';
 import {connect} from 'react-redux';
 import { Card, Modal, Button } from 'antd';
 import { LikeOutlined, ReadOutlined, CheckOutlined, DeleteOutlined } from '@ant-design/icons';
-import {  message } from 'antd';
+import { message } from 'antd';
+import ErrorApiFeedback from '../components/errorapifeedback/ErrorApiFeedback';
 const { Meta } = Card;
 var API = process.env.REACT_APP_NEWS_API_SECRET
+
 
 function ArticleCard(props) {
   const [buttonHover, setButtonHover] = useState(false)
@@ -143,7 +145,7 @@ function ScreenArticlesBySource(props) {
     }
   }
 
-if(articleList) {
+if(articleList.length) {
   var articles = articleList.map((article, i) => {
     return(<ArticleCard key={i} article={article} likedArticle={likedArticle} delArticle={delArticle} wishList={props.wishList} />)
   })
@@ -154,7 +156,7 @@ if(articleList) {
       {contextHolder}
       <div className="Banner" />
       <div className="Card">
-        {articles}
+        {articles ? articles : <ErrorApiFeedback/>}
       </div>
     </div>
   );
