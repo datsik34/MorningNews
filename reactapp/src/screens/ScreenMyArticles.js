@@ -23,6 +23,12 @@ function ArticleCard(props) {
   var handleOk = (url) => {window.open(url, '_blank')}
   var handleCancel = e => {setVisible(false)}
 
+
+
+  
+
+
+
   var articleCover = props.article.urlToImage
   if(props.article.urlToImage === null || props.article.urlToImage === 'null'){
     articleCover = process.env.PUBLIC_URL + '/images/generic.jpg'
@@ -68,6 +74,7 @@ function ArticleCard(props) {
 
 function ScreenMyArticles(props) {
   const [messageApi, contextHolder] = message.useMessage();
+
   const success = () => {
     messageApi.open({
       type: 'success',
@@ -89,6 +96,19 @@ function ScreenMyArticles(props) {
     }
   }
 
+  var flushArticles = async () => {
+    var response = await fetch(`/article/delete`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `token=${props.token}`
+    })
+    var data = await response.json();
+    if(data){
+      props.resetWishlist();
+      success();
+    }
+  }
+
   var articles = props.wishList.map((article, i) => {
     return (
       <ArticleCard key={i} article={article} delArticle={delArticle} />
@@ -105,13 +125,47 @@ function ScreenMyArticles(props) {
     <div>
       {contextHolder}
       <div className="Banner" />
-      <div className="Card">
-        {articles.length > 0 ? articles : noArticle}
-      </div>
+        {
+          articles.length > 0 
+          ? 
+          <div>
+            <FlushButton handleClickParent={flushArticles} />
+            <div className="Card">
+              {articles}
+            </div>
+            <FlushButton handleClickParent={flushArticles} />
+          </div>
+          : noArticle}
     </div>
   )
 }
 
+function FlushButton(props){
+  const [flushArticlesModal, setFlushArticlesModal] = useState(false);
+
+  const showModalFlush = () => {
+    setFlushArticlesModal(true);
+  };
+  const handleFlushOk = () => {
+    props.handleClickParent();
+    setFlushArticlesModal(false);
+  };
+  const handleFlushCancel = () => {
+    setFlushArticlesModal(false);
+  };
+
+  return (
+    <div className='remove-container'>
+    <Button type="primary" danger onClick={showModalFlush}>
+      Remove all articles
+    </Button>
+    <Modal title="Caution" open={flushArticlesModal} onOk={handleFlushOk} onCancel={handleFlushCancel}>
+      <p>You're about to delete all articles in your wishlist.</p>
+      <p>Do you wish to continue ?</p>
+    </Modal>
+  </div>
+  )
+}
 
 function mapStateToProps(state) {
   return { 
@@ -124,6 +178,9 @@ function mapDispatchToProps(dispatch){
   return {
     deleteArticle: function(article) {
       dispatch({type: 'suprArticle', articleDeleted: article})
+    },
+    resetWishlist: function(){
+      dispatch({type: 'RESET_ARTICLES'})
     }
   }
 }

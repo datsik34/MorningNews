@@ -264,6 +264,18 @@ h4 {
 } 
 
 
+/*************************  M Y   A R T I C L E S    S C R E E N ****************************/
+.remove-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0px 0px 0px;
+}
+.remove-title-icon {
+  width: 25px;
+}
+
 
 /************************* U S E R   S C R E E N ****************************/
 .mainCont {
