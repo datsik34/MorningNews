@@ -14,5 +14,5 @@ code {
 
 #root {
   background-color: #fffbf9;
-  height: 100vh;
+  min-height: 100vh;
 }

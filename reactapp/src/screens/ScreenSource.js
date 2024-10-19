@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import '../App.css';
@@ -40,6 +40,8 @@ function ScreenSource(props) {
   var [errorAPI, setErrorAPI] = useState(false)
   var [isTransitioning, setIsTransitioning] = useState(false)
   const [selectedTags, setSelectedTags] = React.useState([]);
+  const targetRef = useRef(null);
+  const headerHeight = 60;
 
   const languages = {
     fr:{lang: 'fr', coun: 'fr'},
@@ -67,11 +69,14 @@ function ScreenSource(props) {
         setErrorAPI(false);
         setIsTransitioning(false);
         setSourceList(data.sources);
+
+        setSourceList(prevSourceList => 
+          prevSourceList.filter(source => !props.favorites.some(fav => fav.id === source.id))
+        );
         
         let getCategories
         getCategories = data.sources.map((item) => { return item.category }) 
         let uniqueCategories = [...new Set(getCategories)];
-
         setCategories(uniqueCategories)
         setSelectedTags(uniqueCategories)
       }
@@ -89,7 +94,9 @@ function ScreenSource(props) {
      })
     var data = await response.json();
     if(data){
-      props.changeLang(changeLang)
+      props.changeLang(changeLang);
+      setTimeout(() => { scrollToDiv(); }, 500);
+      
     }
   }
 
@@ -99,7 +106,6 @@ function ScreenSource(props) {
       : selectedTags.filter((t) => t !== tag);
     setSelectedTags(nextSelectedTags);
   };
-
 
   const sourceFavorites = async (type, source) => {
     var method
@@ -115,16 +121,25 @@ function ScreenSource(props) {
      })
     var data = await response.json();
     if(data.status === 'ok'){
-      console.log('ok');
       if(type === 'add'){
+        setSourceList(prevSourceList => prevSourceList.filter(item => item.id !== source.id));
         props.addFavorites(source)
       } else if (type === 'delete'){
+        setSourceList(prevSourceList => [...prevSourceList, source]);
         props.suprFavorites(source.id)
       }
     } else {
       console.log('problem with backend connection');
     }
   }
+
+  const scrollToDiv = () => {
+    const target = targetRef.current;
+    if (target) {
+      const top = target.getBoundingClientRect().top + window.scrollY - headerHeight;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  };
 
   var flagLang = Object.keys(languages).map((flag, i)=> {
     return (<Flag key={i} langs={flag} langSelected={props.lang} updateLanguage={(e) => updateLanguage(e)} ></Flag>)
@@ -143,33 +158,39 @@ function ScreenSource(props) {
     filteredTagList.push(list)
   })
 
+
   var filteredList =  filteredTagList.map((taggedSourceList, i) => {
-    return (
-      <div>
-        <List
-          itemLayout="horizontal"
-          dataSource={taggedSourceList}
-          renderItem={source => (
-            <List.Item>
-              <List.Item.Meta
-                key={i}
-                className='list-item'
-                avatar={<Avatar src={`/images/categories/${source.category}.png`} />}
-                title={
-                  <div className='list-item-name' >
-                    <Link className='list-link' to={`/screenarticlesbysource/${source.id}`} >
-                      {source.name}
-                    </Link>
-                    <StarFilled className='icon-star' onClick={() => sourceFavorites('add', source) }/>
-                  </div>
-                }
-                description={source.description}
-              />
-            </List.Item>
-          )}
-        />
-      </div>
-    )
+    if(taggedSourceList.length){
+      return (
+        <div>
+          <List
+            itemLayout="horizontal"
+            dataSource={taggedSourceList}
+            renderItem={ source => (
+              <List.Item>
+                <List.Item.Meta
+                  key={i}
+                  className='list-item'
+                  avatar={<Avatar src={`/images/categories/${source.category}.png`} />}
+                  title={
+                    <div className='list-item-name' >
+                      <Link className='list-link' to={`/screenarticlesbysource/${source.id}`} >
+                        {source.name}
+                      </Link>
+                      <StarFilled className='icon-star' onClick={() => sourceFavorites('add', source) }/>
+                    </div>
+                  }
+                  description={source.description}
+                />
+              </List.Item>
+            )
+          }
+          />
+        </div>
+      )
+    } else {
+      return null;
+    }
   })
 
   var favoritesList
@@ -213,7 +234,7 @@ function ScreenSource(props) {
         ? <ErrorApiScreen/>
         : <div>
             <Flex gap={4} wrap align="center" style={{marginBottom: 20}}>
-            <h3 className='list-title'>Categories :</h3>
+            <h3 ref={targetRef} className='list-title'>Categories :</h3>
               {categories.map((tag) => (
                 <Tag.CheckableTag
                   key={tag}

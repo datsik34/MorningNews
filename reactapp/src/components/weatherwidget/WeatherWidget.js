@@ -95,9 +95,8 @@ function WeatherWidget(props) {
                 })
                 var data = await response.json();
                 if(data.result){
-                    console.log('successfully added');
                 } else {
-                    console.log('something went wrong');
+                    popUp('error', `Error. Check your internet connection`);
                 }
             }
         }
