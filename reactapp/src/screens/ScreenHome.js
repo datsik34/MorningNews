@@ -39,13 +39,14 @@ function ScreenHome(props) {
     });
     const data = await response.json()
     if(data.user) {
-      setUserExists(true)
       props.addToken(data.user.userToken);
       props.changeLang(data.user.prefLang);
       props.getWishlist(data.user.userWishlist);
+      props.getFavorites(data.user.userFavorites);
       props.addUsername(data.user.userName);
       props.addEmail(data.user.email);
-      props.addAPI(data.user.APIkey)
+      props.addAPI(data.user.APIkey);
+      setUserExists(true)
     }
     else { 
       setMessageSignIn('email or password invalid')
@@ -175,6 +176,9 @@ function mapDispatchToProps(dispatch){
     },
     addAPI: function(API){
       dispatch({type: 'addAPI', APIadded: API})
+    },
+    getFavorites: function(favorites){
+      dispatch({type: 'getFavorites', favorites: favorites})
     }
   }
 }

@@ -55,6 +55,7 @@ router.post('/sign-in', async function(req, res, next){
       var user = {
         userToken: findUser.token,
         userWishlist: findUser.wishlist,
+        userFavorites: findUser.favorites,
         prefLang: findUser.prefLang,
         userName: findUser.username,
         email: findUser.email,

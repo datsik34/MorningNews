@@ -7,6 +7,13 @@ var articleSchema = mongoose.Schema({
   content: String,
   url: String
 })
+var sourceSchema = mongoose.Schema({
+  category: String,
+  description: String,
+  id: String,
+  name: String,
+  url: String
+})
 
 var userSchema = mongoose.Schema({
     username: String,
@@ -15,6 +22,7 @@ var userSchema = mongoose.Schema({
     token: String,
     prefLang: String,
     wishlist: [articleSchema],
+    favorites: [sourceSchema],
     APIkey: String,
     dateSettingsChanged:{
       username: Date,

@@ -8,6 +8,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersettingsRouter = require('./routes/user-settings');
 var articleRouter = require('./routes/article');
+var favoritesRouter = require('./routes/favorites');
 var weatherwidgetRouter = require('./routes/weatherwidget');
 
 //Backend Connection
@@ -29,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'reactapp/build')));
 app.use('/', indexRouter);
 app.use('/user-settings', usersettingsRouter);
 app.use('/article', articleRouter);
+app.use('/favorites', favoritesRouter);
 app.use('/weatherwidget', weatherwidgetRouter);
 
 

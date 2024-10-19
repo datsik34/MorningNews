@@ -162,7 +162,7 @@ h4 {
   position: relative;
   animation-name: theme-anim;
   animation-duration: 1s;
-  animation-delay: -0.1;
+  animation-delay: 0;
   animation-iteration-count: 1;
 }
 @keyframes theme-anim {
@@ -215,6 +215,55 @@ h4 {
 .errorimg {
   width: 256px;
 }
+.list-favorites-container {
+  margin: 20px 50px 20px 50px;
+}
+.list-title {
+  margin: 0;
+  color: rgb(66, 66, 66);
+}
+.list-favorites-descr {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+.list-item-name {
+  display: flex;
+  align-items: center;
+}
+.list-link {
+  color: rgb(66, 66, 66);
+}
+
+.icon-star svg {
+  visibility: hidden;
+  margin-left: 5px;
+  font-size: 20px;
+  opacity: 0.20;
+}
+.icon-star-added svg {
+  margin-left: 5px;
+  font-size: 20px;
+  opacity: 1;
+  fill: rgb(255, 217, 0);
+  cursor: pointer;
+}
+
+.icon-star-added:hover svg {
+  fill: rgb(255, 102, 0);
+}
+
+.icon-star:hover svg {
+  opacity: 1;
+  fill: rgb(255, 217, 0);
+  cursor: pointer;
+}
+.list-item:hover .icon-star svg {
+  visibility: visible;
+} 
+
+
 
 /************************* U S E R   S C R E E N ****************************/
 .mainCont {

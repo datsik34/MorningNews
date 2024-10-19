@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import '../App.css';
 import { List, Avatar, Flex, Tag } from 'antd';
+import { StarFilled } from '@ant-design/icons';
 
 import WeatherWidget from '../components/weatherwidget/WeatherWidget';
 
@@ -59,6 +60,7 @@ function ScreenSource(props) {
       }
       const response = await fetch(`https://newsapi.org/v2/sources?language=${langSelected.lang}&country=${langSelected.coun}&apiKey=${API}`)
       const data = await response.json()
+      
       if(data.code === 'rateLimited' || data.code === 'apiKeyInvalid'){
         setErrorAPI(true)
       } else {
@@ -76,7 +78,6 @@ function ScreenSource(props) {
     }
     APIResultsLoading()
   },[props.lang, API])
-
 
   var updateLanguage = async (changeLang) => {
     setErrorAPI(false);
@@ -99,6 +100,32 @@ function ScreenSource(props) {
     setSelectedTags(nextSelectedTags);
   };
 
+
+  const sourceFavorites = async (type, source) => {
+    var method
+    if(type === 'add'){
+      method = 'POST'
+    } else if(type === 'delete') {
+      method = 'DELETE'
+    }
+    var response = await fetch(`/favorites/${type}`, {
+      method: method,
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: `token=${props.token}&category=${source.category}&description=${source.description}&id=${source.id}&name=${source.name}&url=${source.url}`
+     })
+    var data = await response.json();
+    if(data.status === 'ok'){
+      console.log('ok');
+      if(type === 'add'){
+        props.addFavorites(source)
+      } else if (type === 'delete'){
+        props.suprFavorites(source.id)
+      }
+    } else {
+      console.log('problem with backend connection');
+    }
+  }
+
   var flagLang = Object.keys(languages).map((flag, i)=> {
     return (<Flag key={i} langs={flag} langSelected={props.lang} updateLanguage={(e) => updateLanguage(e)} ></Flag>)
   })
@@ -120,14 +147,22 @@ function ScreenSource(props) {
     return (
       <div>
         <List
-          key={i}
           itemLayout="horizontal"
           dataSource={taggedSourceList}
           renderItem={source => (
             <List.Item>
               <List.Item.Meta
+                key={i}
+                className='list-item'
                 avatar={<Avatar src={`/images/categories/${source.category}.png`} />}
-                title={<Link to={`/screenarticlesbysource/${source.id}`} >{source.name}</Link>}
+                title={
+                  <div className='list-item-name' >
+                    <Link className='list-link' to={`/screenarticlesbysource/${source.id}`} >
+                      {source.name}
+                    </Link>
+                    <StarFilled className='icon-star' onClick={() => sourceFavorites('add', source) }/>
+                  </div>
+                }
                 description={source.description}
               />
             </List.Item>
@@ -137,18 +172,48 @@ function ScreenSource(props) {
     )
   })
 
+  var favoritesList
+  if(props.favorites.length > 0){
+    favoritesList = 
+    <div className='list-favorites-container'>
+      <h3 className='list-title'>Favorites :</h3>
+      <List
+        itemLayout="horizontal"
+        dataSource={props.favorites}
+        renderItem={source => (
+          <List.Item>
+            <List.Item.Meta
+              className='list-item'
+              avatar={<Avatar src={`/images/categories/${source.category}.png`} />}
+              title={
+                <div className='list-item-name' >
+                  <Link className='list-link' to={`/screenarticlesbysource/${source.id}`} >
+                    {source.name}
+                  </Link>
+                  <StarFilled className='icon-star-added' onClick={() => sourceFavorites('delete', source) }/>
+                </div>
+              }
+              description={<div className='list-favorites-descr'>{source.description} </div> }
+            />
+          </List.Item>
+        )}
+      />
+    </div>
+  }
+
   return (
     <div>
       <WeatherWidget />
       <div className="Banner-screensource">
           {flagLang}
       </div>
+      {favoritesList}
       <div className={styleSources}>
         {errorAPI
         ? <ErrorApiScreen/>
         : <div>
             <Flex gap={4} wrap align="center" style={{marginBottom: 20}}>
-              <span>Categories:</span>
+            <h3 className='list-title'>Categories :</h3>
               {categories.map((tag) => (
                 <Tag.CheckableTag
                   key={tag}
@@ -173,6 +238,7 @@ function mapStateToProps(state) {
     token: state.userToken,
     username: state.userName,
     APIkey: state.apiKey,
+    favorites: state.favorites
   }
 }
 
@@ -180,7 +246,17 @@ function mapDispatchToProps(dispatch){
   return {
     changeLang: function(lang){
       dispatch({type: lang})
+    },
+    addFavorites: function(source){
+      dispatch({type: 'addSource', source: source})
+    },
+    suprFavorites: function(id){
+      dispatch({type: 'suprSource', id: id})
+    },
+    resetFavorites: function(){
+      dispatch({type: 'RESET_FAVORITES'})
     }
+
   }
 }
 

@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, useLocation } from 'react-router-dom';
@@ -7,6 +6,7 @@ import { createStore, combineReducers } from 'redux';
 
 //Reducers
 import wishList from './reducers/articles';
+import favorites from './reducers/favorites';
 import userToken from './reducers/token';
 import language from './reducers/language';
 import userName from './reducers/username';
@@ -29,7 +29,7 @@ import RadioWidget from './components/radiowidget/RadioWidget';
 
 
 const store = createStore(combineReducers({
-  wishList, userToken, language, userName, email, apiKey, weatherCurrent, weatherForecast
+  wishList, favorites, userToken, language, userName, email, apiKey, weatherCurrent, weatherForecast
 }));
 
 
@@ -40,7 +40,6 @@ function AppContent() {
 
   return (
     <>
-      {/* Conditionally render the Header if the path is not in hideHeaderRoutes */}
       {!hideHeaderRoutes.includes(location.pathname) && <Header />}
       {!hideHeaderRoutes.includes(location.pathname) && <RadioWidget />}
       <Switch>
