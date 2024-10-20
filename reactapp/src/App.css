@@ -336,16 +336,6 @@ h4 {
   display: flex;
   justify-content: center;
 }
-.article-icon-check {
-  font-size: 16px;
-  color: #16d200; 
-}
-.article-icon-delete {
-  font-size: 16px;
-  color: #d22300;
-}
-
-
 
 /*******************  M Y   A R T I C L E S    S C R E E N **********************/
 .wishlist-container {

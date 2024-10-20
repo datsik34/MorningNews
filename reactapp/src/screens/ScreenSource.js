@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import '../App.css';
-import { List, Avatar, Flex, Tag } from 'antd';
+import { List, Avatar, Flex, Tag, Modal } from 'antd';
 import { StarFilled } from '@ant-design/icons';
 
 import ErrorApiFeedback from '../components/errorapifeedback/ErrorApiFeedback';
@@ -29,8 +29,10 @@ function ScreenSource(props) {
   var [errorAPI, setErrorAPI] = useState(false)
   var [isTransitioning, setIsTransitioning] = useState(false)
   const [selectedTags, setSelectedTags] = React.useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const targetRef = useRef(null);
-  const headerHeight = 60;
+  const headerHeight = 70;
 
   const languages = {
     fr:{lang: 'fr', coun: 'fr'},
@@ -55,8 +57,6 @@ function ScreenSource(props) {
       if(data.code === 'rateLimited' || data.code === 'apiKeyInvalid'){
         setErrorAPI(true)
       } else {
-        console.log(data);
-        
         setErrorAPI(false);
         setIsTransitioning(false);
         setSourceList(data.sources);
@@ -153,10 +153,6 @@ function ScreenSource(props) {
     var list = sourceList.filter(source => source.category === tag)
     filteredTagList.push(list)
   })
-
-  console.log(props.favorites);
-  
-
 
   var filteredList =  filteredTagList.map((taggedSourceList, i) => {
     if(taggedSourceList.length){

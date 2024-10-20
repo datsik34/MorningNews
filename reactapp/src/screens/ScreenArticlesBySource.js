@@ -37,12 +37,12 @@ function ArticleCard(props) {
     }
   })
 
-  var checkStyle = <CheckOutlined className='article-icon-check' onMouseEnter={()=> onHoverIn()} onMouseLeave={()=> onHoverOut()} />
+  var checkStyle = <CheckOutlined style={{fontSize: 16, color: '#16d200' }} onMouseEnter={()=> onHoverIn()} onMouseLeave={()=> onHoverOut()} />
   var buttonHovered = checkStyle
   if(!buttonHover){
     buttonHovered = checkStyle
   } else if(buttonHover) {
-    buttonHovered = <DeleteOutlined className='article-icon-delete' onMouseLeave={()=> onHoverOut()} onClick={() => props.delArticle(props.article.title)} />
+    buttonHovered = <DeleteOutlined style={{fontSize: 16, color: '#d22300' }} onMouseLeave={()=> onHoverOut()} onClick={() => props.delArticle(props.article.title)} />
   }
 
   var articleCover

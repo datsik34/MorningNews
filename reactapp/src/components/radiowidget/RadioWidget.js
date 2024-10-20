@@ -95,7 +95,12 @@ export default function RadioPlayer() {
     var wrappedPlaylist = radioPlaylist.map((radio, i) => {
       return(
         <div key={i} className='group pointer-effect' onClick={() => setRadioPlaying(radio)}>
-          <img className='cover' src={radio.img}/>
+          <div className='cover-container'>
+            <img className='cover' src={radio.img}/>
+            {radioPlaying.name === radio.name && (
+              <img src={`${process.env.PUBLIC_URL}/images/radiowidget/play-animation.gif`} alt="Playing..." className="playing-gif" />
+            )}
+          </div>
           <p className='radio-name'>{radio.name}</p>
         </div>
       )
@@ -112,8 +117,9 @@ export default function RadioPlayer() {
                 className='button volume-container'
                 onMouseEnter={() => setShowSlider(true)}
                 onMouseLeave={() => setShowSlider(false)}
+                onClick={() => handleVolumeChange(null, true)} 
             >
-                <img onClick={() => handleVolumeChange(null, true)} src={`images/radiowidget/${volumeIcon}.svg`} className='icon-volume'/>
+                <img src={`images/radiowidget/${volumeIcon}.svg`} className='icon-volume'/>
                 {
                     showSlider && (
                         <div className='div-volume-slider'>
