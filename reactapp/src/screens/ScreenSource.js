@@ -11,11 +11,11 @@ import WeatherWidget from '../components/weatherwidget/WeatherWidget';
 var API = process.env.REACT_APP_NEWS_API_SECRET
 
 function Flag(props) {
-  var styleFlag = styles.flags
-  if(props.langs === props.langSelected){styleFlag = styles.flagSelected}
+  var styleFlag = 'source-flags'
+  if(props.langs === props.langSelected){styleFlag = 'source-flag-selected'}
   return (
     <img
-      style={styleFlag}
+      className={styleFlag}
       alt={props.langs}
       src={`images/flags/${props.langs}.png`}
       onClick={() => props.updateLanguage(props.langs)}
@@ -222,7 +222,7 @@ function ScreenSource(props) {
         {errorAPI
         ? <ErrorApiFeedback/>
         : <div>
-            <Flex gap={4} wrap align="center" style={{marginBottom: 20}}>
+            <Flex gap={4} wrap align="center" className='source-tag-container'>
             <h3 ref={targetRef} className='list-title'>Categories :</h3>
               {categories.map((tag) => (
                 <Tag.CheckableTag
@@ -271,18 +271,3 @@ function mapDispatchToProps(dispatch){
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ScreenSource)
-
-const styles = {
-  flags: {
-    width: 50, opacity: 1, margin: 10, cursor: 'pointer'
-  },
-  flagSelected: {
-    width: 50, opacity: 1, margin: 10, cursor: 'pointer',
-    border: 'solid 3px', borderRadius: '50%', borderColor: 'green'
-  },
-  weatherWidget: {
-    right: 20,
-    top: 80,
-    position: 'fixed'
-  }
-}

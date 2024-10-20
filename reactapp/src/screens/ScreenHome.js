@@ -70,10 +70,10 @@ function ScreenHome(props) {
 
   if (userExists) { return <Redirect to='/screensource' /> }
 
-  var messageStyle
+  var messageStyle = 'sign-message-error';
   if(messageSignUp[0] === 'a'){
-    messageStyle = styles.successMessage
-  } else { messageStyle = styles.errorMessage }
+    messageStyle = 'sign-message-success'
+  } else { messageStyle = 'sign-message-error'}
 
   return (
     <div className='Login-page-background'>
@@ -107,8 +107,8 @@ function ScreenHome(props) {
             >
               <Input.Password placeholder="password" autoComplete='current-password'/>
             </Form.Item>
-            <p style={styles.errorMessage}>{messageSignIn}</p>
-            <Form.Item style={{marginBottom: 13}}>
+            <p className='sign-message-error'>{messageSignIn}</p>
+            <Form.Item className='signin-form-button'>
               <Button type="primary" htmlType="submit" className='testbutton'> Sign-in </Button>
             </Form.Item>
           </Form>
@@ -143,8 +143,8 @@ function ScreenHome(props) {
             >
               <Input.Password placeholder="password" autoComplete='current-password'/>
             </Form.Item>
-            <p style={messageStyle}>{messageSignUp}</p>
-            <Form.Item style={{marginBottom: 13}}>
+            <p className={messageStyle}>{messageSignUp}</p>
+            <Form.Item className='sign-form-button'>
               <Button type="primary" htmlType="submit"> Sign-up </Button>
             </Form.Item>
           </Form>
@@ -184,18 +184,3 @@ function mapDispatchToProps(dispatch){
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ScreenHome);
-
-const styles = {
-  errorMessage: {
-    margin: 0,
-    height: 25,
-    fontWeight: 'bold',
-    color: '#EA5354'
-    },
-  successMessage: {
-    margin: 0,
-    height: 25,
-    fontWeight: 'bold',
-    color: '#008c04'
-  }
-}

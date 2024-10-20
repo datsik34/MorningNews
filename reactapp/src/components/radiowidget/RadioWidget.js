@@ -141,7 +141,7 @@ export default function RadioPlayer() {
             <button className='button' onClick={() => setShowPlaylist(!showPlaylist)} ><img src='images/radiowidget/playlist.svg' className='icon-playlist'/></button>
         </div>
         {wrappedPlaylist}
-        <audio ref={audioRef} controls style={{ display: 'none' }} />
+        <audio ref={audioRef} controls/>
       </div>
     );
 }

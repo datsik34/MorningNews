@@ -30,7 +30,7 @@ function mapStateToProps(state){
 
 export default connect(mapStateToProps, null)(Header)
 
-const styles = {
+const styles = { // for some unknown reasons this style in .CSS file is bugged. Keeping inline style.
   group: {
     listStyleType: 'none',
     display: 'flex',

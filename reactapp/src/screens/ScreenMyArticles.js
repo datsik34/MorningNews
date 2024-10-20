@@ -23,54 +23,46 @@ function ArticleCard(props) {
   var handleOk = (url) => {window.open(url, '_blank')}
   var handleCancel = e => {setVisible(false)}
 
-
-
-  
-
-
-
   var articleCover = props.article.urlToImage
   if(props.article.urlToImage === null || props.article.urlToImage === 'null'){
     articleCover = process.env.PUBLIC_URL + '/images/generic.jpg'
   }
   
-  
   return (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <div className='wishlist-container'>
         <Card
-          style={styles}
-          cover={<img alt={props.article.title} src={articleCover} className='Card-image' onClick={() => showModal(props.article.title, props.article.content, props.article.description)}/>}
+          className='card-container'
+          cover={<img alt={props.article.title} src={articleCover} className='card-image' onClick={() => showModal(props.article.title, props.article.content, props.article.description)}/>}
           actions={[
             <ReadOutlined key="ellipsis2" onClick={() => handleOk(props.article.url)} />,
             <DeleteOutlined key="ellipsis" onClick={() => props.delArticle(props.article.title)} />
           ]}
         >
           <Meta
-            style={{cursor: 'pointer'}}
+            className='article-meta'
             title={props.article.title}
             description={props.article.description}
             onClick={() => showModal(props.article.title, props.article.content, props.article.description)}
           />
         </Card>
-        <Modal open={visible} onCancel={handleCancel} centered style={{minWidth: '60%'}} footer={(_, { CancelBtn }) => (
+        <Modal open={visible} onCancel={handleCancel} centered className='article-modal' footer={(_, { CancelBtn }) => (
           <>
             <CancelBtn />
             <Button type="primary" onClick={() => handleOk(props.article.url)} >Continue reading</Button>
           </>
         )} 
         >
-            <p style={{fontWeight: 'bold', fontSize: 40, margin: 0}}>{title}</p>
-            <div style={{display: 'flex', justifyContent: 'center'}}>
-              <img alt={props.article.title} src={articleCover} style={{minWidth: '100%', minHeight: '100%'}}/>
+            <p className='article-modal-title'>{title}</p>
+            <div className='article-modal-div-img'>
+              <img alt={props.article.title} src={articleCover} className='article-modal-img'/>
             </div>
-            <div style={{display: 'flex', justifyContent:'center'}}>
-              <p style={{maxWidth: '80%', display: 'flex', justifyContent:'center'}}>{content}</p>
+            <div className='article-modal-div-content'>
+              <p className='article-modal-content'>{content}</p>
             </div>
           </Modal>
       </div>
   )
 }
-
 
 function ScreenMyArticles(props) {
   const [messageApi, contextHolder] = message.useMessage();
@@ -81,7 +73,6 @@ function ScreenMyArticles(props) {
       content: 'article removed from favorites',
     });
   };
-
   
   var delArticle = async (articleTitle) => {
     var response = await fetch(`/article/delete`, {
@@ -116,8 +107,9 @@ function ScreenMyArticles(props) {
   })
 
   var noArticle =
-    <div style={{marginTop: 140, display: 'flex', flexDirection:'column', alignItems: 'center'}}>
-      <h2> no articles </h2>
+    <div className='empty-container'>
+      <h2>no articles</h2>
+      <img src={`${process.env.PUBLIC_URL}/images/empty.png`} className='empty-img' />
       <h2> <Link to="/screensource">dig some infos here</Link> </h2>
     </div>
     
@@ -130,7 +122,7 @@ function ScreenMyArticles(props) {
           ? 
           <div>
             <FlushButton handleClickParent={flushArticles} />
-            <div className="Card">
+            <div className="card">
               {articles}
             </div>
             <FlushButton handleClickParent={flushArticles} />
@@ -183,15 +175,6 @@ function mapDispatchToProps(dispatch){
       dispatch({type: 'RESET_ARTICLES'})
     }
   }
-}
-
-const styles = {
-  width: 300,
-  margin: '15px',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-  cursor: 'pointer'
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ScreenMyArticles);

@@ -82,9 +82,12 @@
     width: 50px;
     border-radius: 8%;
 }
+audio {
+    display: none;
+}
 
 
-/******** RESPONSIVE 1200PX ********/
+/************************** RESPONSIVE 1200PX **************************/
 @media only screen and (max-width: 1200px) {
     .container {
         bottom: 0px;

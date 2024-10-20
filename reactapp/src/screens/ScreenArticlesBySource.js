@@ -36,12 +36,13 @@ function ArticleCard(props) {
       checkLike = true
     }
   })
-  var checkStyle = <CheckOutlined style={{ fontSize: '16px', color: '#16d200' }} onMouseEnter={()=> onHoverIn()} onMouseLeave={()=> onHoverOut()} />
+
+  var checkStyle = <CheckOutlined className='article-icon-check' onMouseEnter={()=> onHoverIn()} onMouseLeave={()=> onHoverOut()} />
   var buttonHovered = checkStyle
   if(!buttonHover){
     buttonHovered = checkStyle
   } else if(buttonHover) {
-    buttonHovered = <DeleteOutlined style={{ fontSize: '16px', color: '#d22300' }} onMouseLeave={()=> onHoverOut()} onClick={() => props.delArticle(props.article.title)} />
+    buttonHovered = <DeleteOutlined className='article-icon-delete' onMouseLeave={()=> onHoverOut()} onClick={() => props.delArticle(props.article.title)} />
   }
 
   var articleCover
@@ -52,10 +53,10 @@ function ArticleCard(props) {
   }
 
   return (
-    <div style={styles.article}>
+    <div className='articles-by-source-container'>
       <Card
-        style={styles.card}
-        cover={<img alt={props.article.title} src={articleCover} className='Card-image' onClick={() => showModal(props.article.title, props.article.content, props.article.description)}/>}
+        className='card-container'
+        cover={<img alt={props.article.title} src={articleCover} className='card-image' onClick={() => showModal(props.article.title, props.article.content, props.article.description)}/>}
         actions={[
           <ReadOutlined key="ellipsis2" onClick={() => handleOk(props.article.url)} />,
           checkLike
@@ -63,26 +64,25 @@ function ArticleCard(props) {
           : <LikeOutlined key="ellipsis" onClick={() => props.likedArticle(props.article)} />
       ]}>
       <Meta
-        style={{cursor: 'pointer'}}
+        className='article-meta'
         title={props.article.title}
         description={props.article.description}
         onClick={() => showModal(props.article.title, props.article.content, props.article.description)}
       />
       </Card>
-      <Modal open={visible} onCancel={handleCancel} centered style={{minWidth: '60%'}} footer={(_, { CancelBtn }) => (
-          <>
-            <CancelBtn />
-            <Button type="primary" onClick={() => handleOk(props.article.url)} >Continue reading</Button>
-          </>
-        )} 
-      >
-        <p style={{fontWeight: 'bold', fontSize: 40, margin: 0}}>{title}</p>
-        <div style={{display: 'flex', justifyContent: 'center'}}>
-          <img alt={props.article.title} src={articleCover} style={{minWidth: '100%', minHeight: '100%'}}/>
+      <Modal open={visible} onCancel={handleCancel} centered className='article-modal' footer={(_, { CancelBtn }) => (
+        <>
+          <CancelBtn />
+          <Button type="primary" onClick={() => handleOk(props.article.url)} >Continue reading</Button>
+        </>
+      )}>
+        <p className='article-modal-title'>{title}</p>
+        <div className='article-modal-div-img'>
+          <img alt={props.article.title} src={articleCover} className='article-modal-img'/>
         </div>
-        <div style={{display: 'flex', justifyContent:'center'}}>
-          <p style={{maxWidth: '80%', display: 'flex', justifyContent:'center'}}>{content}</p>
-          </div>
+        <div className='article-modal-div-content'>
+          <p className='article-modal-content'>{content}</p>
+        </div>
       </Modal>
     </div>
   )
@@ -155,7 +155,7 @@ if(articleList.length) {
     <div>
       {contextHolder}
       <div className="Banner" />
-      <div className="Card">
+      <div className="card">
         {articles ? articles : <ErrorApiFeedback/>}
       </div>
     </div>
@@ -180,21 +180,6 @@ function mapDispatchToProps(dispatch) {
     deleteArticle: function(article) {
       dispatch({type: 'suprArticle', articleDeleted: article})
     }
-  }
-}
-
-const styles = {
-  card: {
-    width: 300,
-    margin: '15px',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    cursor: 'pointer'
-  },
-  article: {
-    display: 'flex',
-    justifyContent: 'center'
   }
 }
 
