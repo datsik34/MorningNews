@@ -55,6 +55,8 @@ function ScreenSource(props) {
       if(data.code === 'rateLimited' || data.code === 'apiKeyInvalid'){
         setErrorAPI(true)
       } else {
+        console.log(data);
+        
         setErrorAPI(false);
         setIsTransitioning(false);
         setSourceList(data.sources);
@@ -106,7 +108,7 @@ function ScreenSource(props) {
     var response = await fetch(`/favorites/${type}`, {
       method: method,
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body: `token=${props.token}&category=${source.category}&description=${source.description}&id=${source.id}&name=${source.name}&url=${source.url}`
+      body: `token=${props.token}&category=${source.category}&description=${source.description}&id=${source.id}&name=${source.name}&url=${source.url}&country=${source.country}`
      })
     var data = await response.json();
     if(data.status === 'ok'){
@@ -114,8 +116,13 @@ function ScreenSource(props) {
         setSourceList(prevSourceList => prevSourceList.filter(item => item.id !== source.id));
         props.addFavorites(source)
       } else if (type === 'delete'){
-        setSourceList(prevSourceList => [...prevSourceList, source]);
         props.suprFavorites(source.id)
+        if(source.country === sourceList[0].country){
+          setSourceList(prevSourceList => {
+            const updatedSourceList = [...prevSourceList, source];
+            return updatedSourceList.sort((a, b) => a.name.localeCompare(b.name));
+          });
+        }
       }
     } else {
       console.log('problem with backend connection');
@@ -146,6 +153,9 @@ function ScreenSource(props) {
     var list = sourceList.filter(source => source.category === tag)
     filteredTagList.push(list)
   })
+
+  console.log(props.favorites);
+  
 
 
   var filteredList =  filteredTagList.map((taggedSourceList, i) => {

@@ -13,7 +13,8 @@ router.post('/add', async function (req, res, next){
             description: req.body.description,
             id: req.body.id,
             name: req.body.name,
-            url: req.body.url
+            url: req.body.url,
+            country: req.body.country
         }
         findUser.favorites.push(source)
         var user = await findUser.save()

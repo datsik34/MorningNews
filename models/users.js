@@ -12,7 +12,8 @@ var sourceSchema = mongoose.Schema({
   description: String,
   id: String,
   name: String,
-  url: String
+  url: String,
+  country: String
 })
 
 var userSchema = mongoose.Schema({
