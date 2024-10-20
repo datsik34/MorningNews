@@ -93,8 +93,9 @@ function ScreenArticlesBySource(props) {
   const [articleList, setArticleList] = useState([])
   var { id } = useParams();
   const [messageApi, contextHolder] = message.useMessage();
+  const [error, setError] = useState(false)
 
-  var content
+  var content;
   const success = (action) => {
     action === 'add' ? content = 'article added to favorites' : action==='delete' ? content = 'article removed from favorites' : content = ''
     messageApi.open({type: 'success', content: content});
@@ -106,13 +107,15 @@ function ScreenArticlesBySource(props) {
     } else {
       API = process.env.REACT_APP_API_SECRET
     }
+    
     const findArticles = async () => {
       const response = await fetch(`https://newsapi.org/v2/top-headlines?sources=${id}&apiKey=${API}`)
       const data = await response.json()
-
       if(data.code === 'rateLimited' || data.code === 'apiKeyInvalid'){
+        setError(true);
         messageApi.open({type: 'error', content: 'API key is invalid or has reached its requests limits.'});
       } else {
+        setError(false);
         setArticleList(data.articles)
       }
     }
@@ -145,18 +148,18 @@ function ScreenArticlesBySource(props) {
     }
   }
 
-if(articleList.length) {
-  var articles = articleList.map((article, i) => {
-    return(<ArticleCard key={i} article={article} likedArticle={likedArticle} delArticle={delArticle} wishList={props.wishList} />)
-  })
-}
+  if(articleList.length) {
+    var articles = articleList.map((article, i) => {
+      return(<ArticleCard key={i} article={article} likedArticle={likedArticle} delArticle={delArticle} wishList={props.wishList} />)
+    })
+  }
 
   return (
     <div>
       {contextHolder}
       <div className="Banner" />
       <div className="card">
-        {articles ? articles : <ErrorApiFeedback/>}
+        {articles ? articles : error ? <ErrorApiFeedback/> : null}
       </div>
     </div>
   );
