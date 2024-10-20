@@ -269,13 +269,13 @@ h4 {
 }
 
 .source-flags {
-  width: 50;
+  width: 50px;
   opacity: 1;
   margin: 10px;
   cursor: pointer;
 }
 .source-flag-selected {
-  width: 50px;
+  width: 53px;
   opacity: 1;
   margin: 10;
   cursor: pointer;
