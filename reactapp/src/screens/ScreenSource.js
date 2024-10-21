@@ -172,7 +172,7 @@ function ScreenSource(props) {
                       <Link className='list-link' to={`/screenarticlesbysource/${source.id}`} >
                         {source.name}
                       </Link>
-                      <StarFilled className='icon-star' onClick={() => sourceFavorites('add', source) }/>
+                      <StarFilled className='list-icon-star' onClick={() => sourceFavorites('add', source) }/>
                     </div>
                   }
                   description={source.description}
@@ -199,6 +199,7 @@ function ScreenSource(props) {
         renderItem={source => (
           <List.Item>
             <List.Item.Meta
+              key={source.id}
               className='list-item'
               avatar={<Avatar src={`/images/categories/${source.category}.png`} />}
               title={
@@ -206,7 +207,7 @@ function ScreenSource(props) {
                   <Link className='list-link' to={`/screenarticlesbysource/${source.id}`} >
                     {source.name}
                   </Link>
-                  <StarFilled className='icon-star-added' onClick={() => sourceFavorites('delete', source) }/>
+                  <StarFilled className='list-icon-star-added' onClick={() => sourceFavorites('delete', source) }/>
                 </div>
               }
               description={<div className='list-favorites-descr'>{source.description} </div> }

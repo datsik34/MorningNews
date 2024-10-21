@@ -146,7 +146,7 @@ function WeatherWidget(props) {
     return (
         <div className={`weatherWidget ww-background-${wwBackground}`}>
             {contextHolder}
-            <div className="ww-name-form">
+            <div className="ww-name-form" onClick={() => setShowForm(true)}>
                 {
                     props.currentCity !== null && showForm === false
                         ? <div className='ww-name'>{props.currentCity}</div>
@@ -166,7 +166,7 @@ function WeatherWidget(props) {
                                 <Input ref={inputRef} className="ww-name-form-input ww-name-form-opacity" allowClear/>
                             </Form.Item>
                         </Form>
-                        : <button onClick={() => setShowForm(true)} className="ww-name-form-button">
+                        : <button className="ww-name-form-button">
                             <img alt='icon' className='ww-name-change-icon' src={'images/weatherwidget/icons/add.svg'}/>
                         </button>
                 }

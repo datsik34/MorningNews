@@ -6,16 +6,15 @@ const radioPlaylist = [
     name: 'Old Deep House Radio',
     url: 'http://deeperlink.com:8020/deep',
     img: 'images/radiowidget/radio1.jpg'
+  },  {
+    name: 'VL100 Classic Hits Collection',
+    url: 'http://kathy.torontocast.com:1690/stream',
+    img: 'images/radiowidget/radio3.jpg'
   },
   {
     name: 'VIBELYFE Soulful House',
     url: 'http://kathy.torontocast.com:1800/stream',
     img: 'images/radiowidget/radio2.jpg'
-  },
-  {
-    name: 'VL100 Classic Hits Collection',
-    url: 'http://kathy.torontocast.com:1690/stream',
-    img: 'images/radiowidget/radio3.jpg'
   }
 ]
 
@@ -117,9 +116,8 @@ export default function RadioPlayer() {
                 className='button volume-container'
                 onMouseEnter={() => setShowSlider(true)}
                 onMouseLeave={() => setShowSlider(false)}
-                onClick={() => handleVolumeChange(null, true)} 
             >
-                <img src={`images/radiowidget/${volumeIcon}.svg`} className='icon-volume'/>
+                <img onClick={() => handleVolumeChange(null, true)} src={`images/radiowidget/${volumeIcon}.svg`} className='icon-volume'/>
                 {
                     showSlider && (
                         <div className='div-volume-slider'>

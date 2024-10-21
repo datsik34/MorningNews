@@ -237,35 +237,37 @@ h4 {
   display: flex;
   align-items: center;
 }
+.list-item:hover .list-icon-star svg {
+  visibility: visible;
+}
 .list-link {
   color: rgb(66, 66, 66);
 }
 
-.icon-star svg {
+.list-icon-star svg {
   visibility: hidden;
   margin-left: 5px;
   font-size: 20px;
   opacity: 0.20;
 }
-.icon-star-added svg {
+.list-icon-star-added svg {
   margin-left: 5px;
   font-size: 20px;
   opacity: 1;
   fill: rgb(255, 217, 0);
   cursor: pointer;
 }
-
-.icon-star-added:hover svg {
+.list-icon-star-added:hover svg {
   fill: rgb(255, 102, 0);
 }
-
-.icon-star:hover svg {
+.list-icon-star:hover svg {
   opacity: 1;
   fill: rgb(255, 217, 0);
   cursor: pointer;
 }
-.list-item:hover .icon-star svg {
-  visibility: visible;
+.list-icon-url {
+  width: 20px;
+  height: 20px;
 }
 
 .source-flags {
