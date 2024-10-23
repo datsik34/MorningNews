@@ -46,13 +46,17 @@ function ScreenSource(props) {
   useEffect( () => {
     const APIResultsLoading = async () => {
       var langSelected = languages[props.lang]
-      if(props.APIkey.length !== 0){  
+
+      if(props.APIkey.length !== 0 || props.APIkey === undefined){
         API = props.APIkey
       } else {
-        API = process.env.REACT_APP_API_SECRET
+        API = process.env.REACT_APP_NEWS_API_SECRET
       }
+      
       const response = await fetch(`https://newsapi.org/v2/sources?language=${langSelected.lang}&country=${langSelected.coun}&apiKey=${API}`)
       const data = await response.json()
+      console.log(data);
+      
       
       if(data.code === 'rateLimited' || data.code === 'apiKeyInvalid'){
         setErrorAPI(true)

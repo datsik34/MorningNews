@@ -3,18 +3,18 @@ import './radiowidget.css';
 
 const radioPlaylist = [
   {
-    name: 'Old Deep House Radio',
-    url: 'http://deeperlink.com:8020/deep',
+    name: 'Hirschmilch Radio Prog-House',
+    url: 'https://hirschmilch.de:7001/prog-house.mp3',
     img: 'images/radiowidget/radio1.jpg'
   },  {
-    name: 'VL100 Classic Hits Collection',
-    url: 'http://kathy.torontocast.com:1690/stream',
-    img: 'images/radiowidget/radio3.jpg'
+    name: 'Virgin Radio Chilled Playlist',
+    url: 'https://radio.virginradio.co.uk/stream-chilled',
+    img: 'images/radiowidget/VirginRadio.png'
   },
   {
-    name: 'VIBELYFE Soulful House',
-    url: 'http://kathy.torontocast.com:1800/stream',
-    img: 'images/radiowidget/radio2.jpg'
+    name: 'BBC Words Service Radio',
+    url: 'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service',
+    img: 'images/radiowidget/BBCRadio.jpg'
   }
 ]
 

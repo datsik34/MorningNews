@@ -111,6 +111,8 @@ function ScreenArticlesBySource(props) {
     const findArticles = async () => {
       const response = await fetch(`https://newsapi.org/v2/top-headlines?sources=${id}&apiKey=${API}`)
       const data = await response.json()
+      console.log(data);
+      
       if(data.code === 'rateLimited' || data.code === 'apiKeyInvalid'){
         setError(true);
         messageApi.open({type: 'error', content: 'API key is invalid or has reached its requests limits.'});
